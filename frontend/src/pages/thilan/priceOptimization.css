@@ -1,0 +1,41 @@
+.priceOptimization-allContent{
+    display: flex;
+}
+
+.priceOptimization-sideNavBar{
+    flex: 0 0 200px; /* Set the width of the navbar */
+    background-color: #f0f0f0; /* Background color of the navbar */
+    padding: 20px; /* Add some padding for better appearance */
+    height: 100vh; /* Set the height to 100% of the viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Align items vertically */
+}
+
+.priceOptimization-pages{
+    flex: 1; /* Allow the content to take up the remaining space */
+    padding: 20px; /* Add padding for better appearance */
+}
+
+
+
+
+.priceOptimization-sideNavBar-nav-list{
+    list-style-type: none;
+    padding: 0;
+}
+
+.priceOptimization-sideNavBar-nav-item{
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #000;
+}
+
+.priceOptimization-sideNavBar-nav-item:hover{
+    background-color: #f0f0f0;
+}
+
+.priceOptimization-sideNavBar-nav-item.active{
+    background-color: #606060;
+}
