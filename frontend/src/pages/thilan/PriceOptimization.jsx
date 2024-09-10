@@ -8,10 +8,9 @@ import Predictions from './predictions/Predictions';
 import PriceUpdate from './priceUpdate/PriceUpdate';
 
 
-function PrizeOptimization() {
+function PriceOptimization() {
   return (
     <>
-        <div><h1>PrizeOptimization</h1></div>
         <div className="priceOptimization-allContent">
           <div className="priceOptimization-sideNavBar">
             <SideNavBar></SideNavBar>
@@ -29,4 +28,4 @@ function PrizeOptimization() {
   )
 }
 
-export default PrizeOptimization
+export default PriceOptimization

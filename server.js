@@ -9,6 +9,12 @@ const app = express();
 
 const PORT = process.env.PORT || 8070;
 // Allow requests from the specified origin
+
+
+// Import routes
+const demandAnalysisRoutes = require("./routes/thilan/demandAnalysis");
+
+
 const corsOptions = {
     origin: 'http://localhost:3000', // Change this to your frontend URL
     credentials: true, // Include credentials (cookies, authorization headers, etc.)
@@ -43,6 +49,10 @@ connection.once("open", ()=> {
     console.log("Mongodb Connection Success!");
 
 })
+
+
+// Use routes
+app.use("/api/demandAnalysis", demandAnalysisRoutes);
 
 
 app.listen(PORT,() =>{
