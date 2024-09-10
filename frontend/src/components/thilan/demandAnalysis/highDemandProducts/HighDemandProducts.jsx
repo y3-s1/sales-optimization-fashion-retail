@@ -15,18 +15,18 @@ function HighDemandProducts({ highDemandProducts }) {
             <div className="flex gap-5">
               <img
                 src={product.img}
-                alt={product.username}
+                alt={product.name}
                 className="w-11 h-11 rounded-full object-cover shadow-md"
               />
               <div className="flex flex-col gap-[5px]">
                 <span className="text-sm font-bold " style={{ color: "#666" }}>
-                  {product.username}
+                  {product.name}
                 </span>
-                <span className="text-xs text-gray-500">{product.email}</span>
+                <span className="text-xs text-gray-500">{product.category}</span>
               </div>
             </div>
             <span className="font-bold" style={{ color: "#000" }}>
-              {product.amount}
+              {product.demand}
             </span>
           </div>
         ))}

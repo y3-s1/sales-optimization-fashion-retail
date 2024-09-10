@@ -35,7 +35,7 @@ function DemandAnalysis() {
 
   return (
     <div className='demandAnalysis-all-content'>
-      <h3>DemandAnalysis</h3>
+      <h2>DemandAnalysis</h2>
       <div
         className="demandGrid"
         style={{
@@ -54,7 +54,7 @@ function DemandAnalysis() {
         </div>
         <div
           className="box2"
-          style={{ ...boxStyle, gridColumn: "span 3", gridRow: "span 3" }}
+          style={{ ...boxStyle, gridColumn: "span 3", gridRow: "span 3"}}
         >
           <HighDemandCategories 
             highDemandCategory1={highDemandData.highDemandCategory1}

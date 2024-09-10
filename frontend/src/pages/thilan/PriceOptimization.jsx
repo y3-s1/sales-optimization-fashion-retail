@@ -11,7 +11,6 @@ import PriceUpdate from './priceUpdate/PriceUpdate';
 function PriceOptimization() {
   return (
     <>
-        <div><h1>priceOptimization</h1></div>
         <div className="priceOptimization-allContent">
           <div className="priceOptimization-sideNavBar">
             <SideNavBar></SideNavBar>

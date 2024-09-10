@@ -9,7 +9,7 @@ function HighDemandCategories({ highDemandCategory1, highDemandCategory2, highDe
 
   const boxStyle = {
     padding: "20px",
-    backgroundColor: "#fff",
+    backgroundColor: "#f7f7f7",
     borderRadius: "6px",
     boxShadow: "0px 2px 10px 0px rgba(0, 0, 0, 0.10)",
   };
@@ -24,6 +24,7 @@ function HighDemandCategories({ highDemandCategory1, highDemandCategory2, highDe
           gridAutoRows: "minmax(180px, auto)",
           gap: "20px",
           padding: "20px",
+          rowGap: "50px"
         }}>
           <div style={boxStyle}>
             <HighDemandSingleCategory highDemandCategory={highDemandCategory1}></HighDemandSingleCategory>
