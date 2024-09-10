@@ -19,6 +19,8 @@ app.use(bodyParser.json());
 
 const CustomerRouter = require("./routes/sandeep/user/customer.js");
 
+const LoyaltyRouter = require("./routes/sandeep/loyalty/loyalty.js");
+
 
 const URL = process.env.MONGODB_URL;
 
@@ -31,6 +33,8 @@ mongoose.connect(URL, {
 
 
 app.use("/customer", CustomerRouter);
+
+app.use("/loyalty", LoyaltyRouter);
 
 
 
