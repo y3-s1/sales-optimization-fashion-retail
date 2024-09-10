@@ -18,10 +18,14 @@ const demandAnalysisRoutes = require("./routes/thilan/demandAnalysis");
 const corsOptions = {
     origin: 'http://localhost:3000', // Change this to your frontend URL
     credentials: true, // Include credentials (cookies, authorization headers, etc.)
-  };
+};
   
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
+
+const CustomerRouter = require("./routes/sandeep/user/customer.js");
+
+const LoyaltyRouter = require("./routes/sandeep/loyalty/loyalty.js");
 
 
 const URL = process.env.MONGODB_URL;
@@ -33,6 +37,10 @@ mongoose.connect(URL, {
     //useFindAndModify: false
 });
 
+
+app.use("/customer", CustomerRouter);
+
+app.use("/loyalty", LoyaltyRouter);
 
 
 
