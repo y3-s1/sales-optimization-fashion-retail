@@ -1,0 +1,27 @@
+.review-create-form {
+    background-color: #f8f9fa; /* Light gray background for the form */
+    border: 1px solid #dee2e6; /* Border for the form */
+    border-radius: 5px;
+    max-width: 500px;
+    margin: 0 auto; /* Center the form horizontally */
+  }
+  
+  .review-create-title {
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .review-create-label {
+    font-weight: 500;
+  }
+  
+  .review-create-select,
+  .review-create-textarea {
+    width: 100%; /* Ensure full-width for inputs */
+  }
+  
+  .review-create-btn {
+    width: 100%;
+    font-weight: 600;
+  }
+  
