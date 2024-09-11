@@ -4,7 +4,11 @@ const {
     highDemandCategory2,
     highDemandCategory3,
     highDemandCategory4
-  } = require("../../data/demandAnalysis/highDemandData");
+} = require("../../data/demandAnalysis/highDemandData");
+
+const allProducts = require("../../data/demandAnalysis/products");
+
+
 
 
 const sendHighDemandData = (req, res) => {
@@ -18,5 +22,15 @@ const sendHighDemandData = (req, res) => {
     res.status(200).json(highDemandData); 
 };
 
+const sendAllProductsData = (req, res) => {
+    res.status(200).json(allProducts); 
+};
 
-module.exports = sendHighDemandData;
+
+
+
+
+module.exports = {
+    sendHighDemandData,
+    sendAllProductsData
+};
