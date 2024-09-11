@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import AddLoyaltyPopup from './AddLoyaltyPopup';
 import demandAxios from "../../../../BaseURL";
+import UpdateLoyaltyConditionPopup from './UpdateLoyaltyConditionPopup';
 
 function AddPointConditions({ conditions }) {
     const [showPopup, setShowPopup] = useState(false);
     const [allConditions, setAllConditions] = useState(conditions);
+    const [isUpdatePopupOpen, setIsUpdatePopupOpen] = useState(false);
+  const [currentCondition, setCurrentCondition] = useState(null);
+
+
+  const handleEdit = (condition) => {
+    setCurrentCondition(condition);
+    setIsUpdatePopupOpen(true);
+  };
 
   // Function to handle adding a new condition
   const handleAddCondition = async (newCondition) => {
@@ -26,6 +35,14 @@ function AddPointConditions({ conditions }) {
         console.error('Error adding condition:', error);
       }
   };
+
+
+  const handleUpdateSubmit = (updatedConfig) => {
+    // Update state or refetch data as necessary with updatedConfig
+    console.log('Updated config:', updatedConfig);
+  };
+
+  
   return (
     <>
     <div className="container mt-5">
@@ -48,7 +65,7 @@ function AddPointConditions({ conditions }) {
               )}
               <td>{cond.points} Points</td>
               <td>${cond.amount}.00 off entire sale</td>
-              <td className="text-primary text-center">Edit</td>
+              <td className="text-primary text-center"><button onClick={() => handleEdit(cond)}>Edit</button></td>
             </tr>
           ))}
           
@@ -70,6 +87,13 @@ function AddPointConditions({ conditions }) {
 
       {/* Show the popup if showPopup is true */}
       {showPopup && <AddLoyaltyPopup onClose={() => setShowPopup(false)} onSubmit={handleAddCondition} />}
+      {isUpdatePopupOpen && currentCondition && (
+        <UpdateLoyaltyConditionPopup
+          onClose={() => setIsUpdatePopupOpen(false)}
+          onSubmit={handleUpdateSubmit}
+          initialData={currentCondition}
+        />
+      )}
     </div>
     </>
   )
