@@ -27,6 +27,7 @@ const CustomerRouter = require("./routes/sandeep/user/customer.js");
 
 const LoyaltyRouter = require("./routes/sandeep/loyalty/loyalty.js");
 const ReviewsRouter = require("./routes/sandeep/feedback/reviews.js");
+const OrderRouter = require("./routes/sandeep/order/orders.js");
 
 
 const URL = process.env.MONGODB_URL;
@@ -43,6 +44,7 @@ app.use("/customer", CustomerRouter);
 
 app.use("/loyalty", LoyaltyRouter);
 app.use("/reviews", ReviewsRouter);
+app.use("/order", OrderRouter);
 
 
 
