@@ -1,0 +1,201 @@
+/* Wrapper for top navbar and sidebar */
+.crm-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Top navbar spans the entire width */
+  .crm-top-navbar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    height: 56px;
+    box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1); /* Bottom shadow */
+  }
+  
+  /* Sidebar styling */
+  .crm-sidebar {
+    width: 240px;
+    position: fixed;
+    top: 56px; /* Align below the top navbar */
+    bottom: 0;
+    left: 0;
+    background-color: #f8f9fa;
+    padding-top: 10px;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+  }
+  
+  /* Hide sidebar by default on smaller screens (below 768px) */
+  @media (max-width: 767px) {
+    .crm-sidebar {
+      left: -240px; /* Sidebar hidden off-screen */
+    }
+  
+    .crm-sidebar.active {
+      left: 0; /* Sidebar slides in when active */
+    }
+  
+    /* When sidebar is active, move the content */
+    .show-sidebar .crm-content {
+      margin-left: 240px;
+    }
+  }
+  
+  /* Main content area shifts right to accommodate sidebar on desktop */
+  .crm-content {
+    margin-top: 56px; /* Adjust for the top navbar */
+    padding: 20px;
+    flex-grow: 1;
+    transition: margin-left 0.3s ease;
+  }
+  
+  /* Sidebar link styling */
+  .crm-sidebar-link {
+    padding: 10px 20px;
+    display: block;
+    color: #000;
+  }
+  
+  .crm-sidebar-link.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  /* Sidebar and content for desktop (larger than 768px) */
+  @media (min-width: 768px) {
+    .crm-sidebar {
+      left: 0; /* Sidebar always visible on larger screens */
+    }
+  
+    .crm-content {
+      margin-left: 240px; /* Ensure content is adjusted for sidebar */
+    }
+  }
+
+  /* Add these styles in your CSS file */
+.loyalty-add-c-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .loyalty-add-c-popup {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 700px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .loyalty-add-c-form-group {
+    margin-bottom: 15px;
+  }
+  
+  .loyalty-add-c-form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .loyalty-add-c-form-group input, .form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .loyalty-add-c-btn {
+    margin-right: 10px;
+  }
+
+  .loyal-popup-btn {
+    cursor: pointer;
+  }
+  
+  .loyalty-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+  }
+
+  .text-muted {
+    font-size: 0.9rem;
+  }
+
+  .review-create-form {
+    background-color: #f8f9fa; /* Light gray background for the form */
+    border: 1px solid #dee2e6; /* Border for the form */
+    border-radius: 5px;
+    max-width: 500px;
+    margin: 0 auto; /* Center the form horizontally */
+  }
+  
+  .review-create-title {
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .review-create-label {
+    font-weight: 500;
+  }
+  
+  .review-create-select,
+  .review-create-textarea {
+    width: 100%; /* Ensure full-width for inputs */
+  }
+  
+  .review-create-btn {
+    width: 100%;
+    font-weight: 600;
+  }
+  
+
+  .loyalty-set-up-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .loyalty-set-up-popup {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 700px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .loyalty-set-up-form-group {
+    margin-bottom: 15px;
+  }
+  
+  .loyalty-set-up-form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .loyalty-set-up-form-group input,
+  .loyalty-set-up-form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .loyalty-set-up-btn {
+    margin-right: 10px;
+  }
+  

@@ -87,6 +87,27 @@ router.route('/set-conditions').post(async (req, res) => {
     }
   });
 
+
+  router.route('/conditions/all').get(async (req, res) => {
+    try {
+      // Fetch both types of conditions from the database
+      const purchasingConfig = await LoyaltyConfig.findOne({ type: 'purchasing' });
+      const actionsConfig = await LoyaltyConfig.findOne({ type: 'actions' });
+  
+      // Prepare the response data
+      const conditions = {
+        purchasing: purchasingConfig ? purchasingConfig.conditions : [],
+        actions: actionsConfig ? actionsConfig.conditions : []
+      };
+  
+      // Send the combined data as a response
+      res.status(200).json({ message: 'All conditions fetched successfully', conditions });
+    } catch (error) {
+      console.error('Error fetching conditions:', error);
+      res.status(400).json({ error: 'Error fetching conditions', details: error.message });
+    }
+  });
+
   
   router.route('/add-reward').post(async (req, res) => {
     try {
@@ -109,6 +130,21 @@ router.route('/set-conditions').post(async (req, res) => {
       // Handle errors and send an error response
       console.error('Error adding reward:', error);
       res.status(400).json({ error: 'Error adding reward', details: error.message });
+    }
+  });
+
+
+  router.route('/rewards').get(async (req, res) => {
+    try {
+      // Fetch all rewards from the database
+      const rewards = await LoyaltyRewards.find();
+  
+      // Send a successful response with the retrieved rewards
+      res.status(200).json(rewards);
+    } catch (error) {
+      // Handle errors and send an error response
+      console.error('Error fetching rewards:', error);
+      res.status(400).json({ error: 'Error fetching rewards', details: error.message });
     }
   });
 

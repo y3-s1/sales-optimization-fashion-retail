@@ -1,0 +1,30 @@
+.review-product-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .review-product-title {
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  .review-product-item {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+  }
+  
+  .review-product-rating,
+  .review-product-comment,
+  .review-product-user {
+    font-size: 1rem;
+  }
+  
+  .review-product-no-reviews {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-top: 20px;
+  }
+  
