@@ -1,21 +1,28 @@
 .priceOptimization-allContent{
     display: flex;
+    height: 100vh; /* Ensure it takes the full viewport height */
     background-color: #f4f5f7;
 }
 
 .priceOptimization-sideNavBar{
-    flex: 0 0 200px; /* Set the width of the navbar */
-    background-color: #f4f5f7; /* Background color of the navbar */
-    padding: 20px; /* Add some padding for better appearance */
-    height: 100vh; /* Set the height to 100% of the viewport height */
+    width: 200px; /* Set a fixed width for the sidebar */
+    background-color: #f4f5f7;
+    padding: 20px;
+    height: 100vh; /* Full height of the viewport */
+    position: sticky; /* Makes the sidebar sticky */
+    top: 0; /* Ensures it stays at the top while scrolling */
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Align items vertically */
+    justify-content: space-between;
+    overflow-y: hidden; /* Disable scrolling */
 }
 
 .priceOptimization-pages{
-    flex: 1; /* Allow the content to take up the remaining space */
-    padding: 20px; /* Add padding for better appearance */
+    flex: 1; /* Takes up the remaining width */
+    padding: 20px;
+    height: 100vh; /* Full height of the viewport */
+    overflow-y: auto; /* Allow vertical scrolling */
+    background-color: #ffffff;
 }
 
 
@@ -48,3 +55,5 @@
     border-radius: 10px;
   }
   
+
+
