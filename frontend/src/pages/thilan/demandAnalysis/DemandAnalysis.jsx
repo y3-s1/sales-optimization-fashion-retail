@@ -126,7 +126,7 @@ function DemandAnalysis() {
 
         <div
           className="box1"
-          style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 3.5" }}
+          style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 6" }}
         >
           <SingleProduct currentProduct={currentProduct} />
         </div>

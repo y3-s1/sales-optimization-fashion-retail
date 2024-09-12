@@ -6,15 +6,17 @@ import PriceOptimization from './pages/thilan/PriceOptimization';
 import Home from './pages/common/Home';
 import CrmHome from './pages/sandeep/CrmHome';
 import Customer from './pages/common/Customer';
+import Admin from './pages/common/Admin';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}></Route>
-        <Route path="/priceOptimization/*" element={<PriceOptimization/>}></Route>
-        <Route path="/customerRelationship/*" element={<CrmHome/>}></Route>
+        {/* <Route path="/priceOptimization/*" element={<PriceOptimization/>}></Route>
+        <Route path="/customerRelationship/*" element={<CrmHome/>}></Route> */}
         <Route path="/customer/*" element={<Customer/>}></Route>
+        <Route path="/admin/*" element={<Admin/>}></Route>
       </Routes>
     </BrowserRouter>
   );

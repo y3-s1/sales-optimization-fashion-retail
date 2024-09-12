@@ -10,7 +10,7 @@ function SideNavBar() {
             exact
             activeClassName="active"
             className="priceOptimization-sideNavBar-nav-item"
-            to={"/priceOptimization/dashboard"}
+            to={"/admin/priceOptimization/dashboard"}
           >
             Dashboard
           </NavLink>
@@ -19,7 +19,7 @@ function SideNavBar() {
           <NavLink
             activeClassName="active"
             className="priceOptimization-sideNavBar-nav-item"
-            to={"/priceOptimization/demandAnalysis"}
+            to={"/admin/priceOptimization/demandAnalysis"}
           >
             Demand Analysis
           </NavLink>
@@ -28,7 +28,7 @@ function SideNavBar() {
           <NavLink
             activeClassName="active"
             className="priceOptimization-sideNavBar-nav-item"
-            to={"/priceOptimization/predictions"}
+            to={"/admin/priceOptimization/predictions"}
           >
             Predictions
           </NavLink>
@@ -37,7 +37,7 @@ function SideNavBar() {
           <NavLink
             activeClassName="active"
             className="priceOptimization-sideNavBar-nav-item"
-            to={"/priceOptimization/priceUpdate"}
+            to={"/admin/priceOptimization/priceUpdate"}
           >
             Price Update
           </NavLink>
