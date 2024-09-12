@@ -25,6 +25,8 @@ function AddReviewForm() {
         comment,
       });
       alert('Review submitted successfully!');
+      setRating(5);
+      setComment('');
     } catch (error) {
       console.error('Error submitting review', error);
     }

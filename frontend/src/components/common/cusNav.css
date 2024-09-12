@@ -16,9 +16,7 @@
 }
 
 /* Adjust spacing so the rest of the page content doesn't overlap the header */
-body {
-    padding-top: 80px; /* Adjust this based on your header height */
-}
+
 
 .cusNav-logo {
     margin: 0;
