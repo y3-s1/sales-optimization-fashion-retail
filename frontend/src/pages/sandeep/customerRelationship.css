@@ -45,7 +45,7 @@
   
   /* Main content area shifts right to accommodate sidebar on desktop */
   .crm-content {
-    margin-top: 56px; /* Adjust for the top navbar */
+    /* margin-top: 56px;  */
     padding: 20px;
     flex-grow: 1;
     transition: margin-left 0.3s ease;

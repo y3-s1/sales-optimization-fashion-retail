@@ -1,19 +1,23 @@
-
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './addReviewForm.css'
 import demandAxios from '../../../../BaseURL';
+import './addReviewForm.css'
 
-function AddReviewForm({ productId }) {
+function AddReviewForm() {
+  const [searchParams] = useSearchParams(); // Get the query params
+  const productId = searchParams.get('productId'); // Extract productId from the URL
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
 
+  console.log(productId)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await demandAxios.post('reviews/add', {
         userId: '65f7d71ac447f1c610d3b6c7', // Replace with actual logged-in user ID
-        productId,
+        productId, // Use the productId from query params
         rating,
         comment,
       });
@@ -25,7 +29,7 @@ function AddReviewForm({ productId }) {
 
   return (
     <form className="review-create-form p-4" onSubmit={handleSubmit}>
-      <h3 className="review-create-title mb-4">Write a Review</h3>
+      <h3 className="review-create-title mb-4">Write a Review for Product ID: {productId}</h3>
       
       {/* Rating Section */}
       <div className="form-group review-create-rating mb-3">
