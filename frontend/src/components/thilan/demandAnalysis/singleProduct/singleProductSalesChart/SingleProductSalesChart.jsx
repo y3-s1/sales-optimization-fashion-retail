@@ -35,8 +35,8 @@ function SingleProductSalesChart({ currentProduct }) {
         month,
         salesCount2023: 0,
         salesCount2024: 0,
-        avgPrice2023: 0,
-        avgPrice2024: 0,
+        avgPrice2023: null,
+        avgPrice2024: null,
       }));
 
       filteredSalesData.forEach((item) => {
