@@ -64,8 +64,20 @@ const addProduct = async (req, res) => {
     }
 };
 
+// Get product by ID
+const getProductById = async (req, res) => {
+    try {
+        const product = await FashionProduct.findById(req.params.id);
+        res.json(product);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Server Error" });
+      }
+};
+
 module.exports = {
     sendHighDemandData,
     sendAllProductsData,
-    addProduct
+    addProduct,
+    getProductById
 };
