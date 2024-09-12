@@ -99,46 +99,7 @@ function CustomPagination() {
 
 
 
-function AllProducts() {
-
-  const [allProducts, setAllProducts] = useState({});
-  
-  useEffect(() => {
-    const fetchAllProductsData = async () => {
-      try {
-        const response = await demandAxios.get("demandAnalysis/allProducts");
-        const processedData = response.data.map(product => {
-          // Get the sales data
-          const sales = product.sales;
-
-          // Get the last and current month sales
-          const now = new Date();
-          const currentMonth = now.toLocaleString('default', { month: 'long' });
-          const lastMonth = new Date(now.setMonth(now.getMonth() - 1)).toLocaleString('default', { month: 'long' });
-
-          // Find this month's sales
-          const thisMonthSalesData = sales.find(sale => sale.month === currentMonth && sale.year === String(now.getFullYear()));
-          const lastMonthSalesData = sales.find(sale => sale.month === lastMonth && sale.year === String(now.getFullYear()));
-
-          return {
-            ...product,
-            lastMonth: lastMonthSalesData ? lastMonthSalesData.count : 'N/A',
-            lastMonthAvgPrice: lastMonthSalesData ? lastMonthSalesData.avgPrice : 'N/A',
-            thisMonth: thisMonthSalesData ? thisMonthSalesData.count : 'N/A',
-            thisMonthAvgPrice: thisMonthSalesData ? thisMonthSalesData.avgPrice : 'N/A',
-          };
-        });
-
-        setAllProducts(processedData);
-      } catch (error) {
-        console.error("Error fetching all products", error);
-      }
-    };
-    fetchAllProductsData();
-  }, []);
-
-  console.log(allProducts)
-
+function AllProducts({allProducts, setCurrentProduct, currentProduct}) {
 
   return (
     <div className='highDemandCategories-all font-tinos'>
@@ -167,10 +128,13 @@ function AllProducts() {
                       },
                     }}
                     getRowId={(row) => row._id}
-                    // onRowClick={(row) => {
-                    //   console.log(row);
-                    //   method(row.row._id);
-                    // }}
+                    onRowClick={(row) => {
+                      console.log(row);
+                      setCurrentProduct(row.row._id);
+                    }}
+                    getRowClassName={(params) => 
+                      params.id === currentProduct ? "demand-analysis-current-product-row" : ""
+                    }
                     slots={{
                       toolbar: GridToolbar,
                       pagination: CustomPagination,
