@@ -1,9 +1,18 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function SideNavBar() {
+  const navigate = useNavigate();
+
+  const handleLogoButtonClick = () => {
+    navigate('/admin/dashboard'); // Correct use of the navigate function
+  }
+
   return (
     <div>
+      <div className="priceOptimization-sideNavBar-logo" onClick={handleLogoButtonClick}>
+        <img src={require("../../../image/logo.png")} alt="Logo" />
+      </div>
       <ul className="priceOptimization-sideNavBar-nav-list">
         <li>
           <NavLink
@@ -44,7 +53,7 @@ function SideNavBar() {
         </li>
       </ul>
     </div>
-  )
+  );
 }
 
-export default SideNavBar
+export default SideNavBar;

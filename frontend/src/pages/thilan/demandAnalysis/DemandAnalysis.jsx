@@ -79,7 +79,6 @@ function DemandAnalysis() {
     boxShadow: "0px 2px 10px 0px rgba(0, 0, 0, 0.10)",
   };
   
-  console.log("current product ; ", currentProduct);
 
   return (
     <div className='demandAnalysis-all-content'>
