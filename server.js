@@ -28,7 +28,9 @@ const CustomerRouter = require("./routes/sandeep/user/customer.js");
 const LoyaltyRouter = require("./routes/sandeep/loyalty/loyalty.js");
 const ReviewsRouter = require("./routes/sandeep/feedback/reviews.js");
 const OrderRouter = require("./routes/sandeep/order/orders.js");
+const authRouter = require('./routes/sandeep/user/auth.js')
 
+const cookieParser = require("cookie-parser");
 
 const URL = process.env.MONGODB_URL;
 
@@ -40,11 +42,14 @@ mongoose.connect(URL, {
 });
 
 
+app.use(cookieParser());
+
 app.use("/customer", CustomerRouter);
 
 app.use("/loyalty", LoyaltyRouter);
 app.use("/reviews", ReviewsRouter);
 app.use("/order", OrderRouter);
+app.use("/authenti", authRouter);
 
 
 

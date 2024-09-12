@@ -34,6 +34,22 @@ exports.getReviewsByProduct = async (req, res) => {
   }
 };
 
+
+// Get reviews by user ID
+exports.getReviewsByUser = async (req, res) => {
+  console.log('route')
+  const { userId } = req.params;
+
+  try {
+    console.log(userId)
+    const reviews = await Review.find({ userId });//.populate('userId', 'name'); 
+    res.status(200).json(reviews);
+    console.log(reviews)
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching reviews', error });
+  }
+};
+
 // Update a review
 exports.updateReview = async (req, res) => {
   const { reviewId } = req.params;

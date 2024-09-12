@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import './cusNav.css'; // Assuming you're importing your CSS file
+import { AuthContext } from '../../context/AuthContext';
 
 function CusNavBar() {
+
+  const { user } = useContext(AuthContext);
+
   return (
     <>
       <header className="cusNav-header">
@@ -20,16 +24,21 @@ function CusNavBar() {
               About
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/portfolio" activeClassName="cusNav-active">
-              contact
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/customer/profile" activeClassName="cusNav-active">
-              Profile
-            </NavLink>
-          </li>
+          {user ? (
+            // If user is logged in, show the Profile link
+            <li>
+              <NavLink to="/customer/profile" activeClassName="cusNav-active">
+                Profile
+              </NavLink>
+            </li>
+          ) : (
+            // If user is not logged in, show the Login link
+            <li>
+              <NavLink to="/customer/login" activeClassName="cusNav-active">
+                Login
+              </NavLink>
+            </li>
+          )}
         </ul>
       </header>
     </>

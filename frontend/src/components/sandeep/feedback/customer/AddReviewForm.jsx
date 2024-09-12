@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './addReviewForm.css'
 import demandAxios from '../../../../BaseURL';
 import './addReviewForm.css'
+import { AuthContext } from '../../../../context/AuthContext';
 
 function AddReviewForm() {
   const [searchParams] = useSearchParams(); // Get the query params
@@ -11,12 +12,14 @@ function AddReviewForm() {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
 
+  const { user } = useContext(AuthContext);
+
   console.log(productId)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await demandAxios.post('reviews/add', {
-        userId: '65f7d71ac447f1c610d3b6c7', // Replace with actual logged-in user ID
+        userId: user._id, // Replace with actual logged-in user ID
         productId, // Use the productId from query params
         rating,
         comment,
