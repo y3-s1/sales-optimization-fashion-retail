@@ -12,7 +12,7 @@ function AllfeedProducts() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await demandAxios.get('/api/allProducts'); // Fetching from your API route
+        const response = await demandAxios.get('/api/demandAnalysis/allProducts'); // Fetching from your API route
         setProducts(response.data); // Set products to the data received from the API
         setLoading(false);
       } catch (err) {
