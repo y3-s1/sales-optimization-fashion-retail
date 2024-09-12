@@ -5,6 +5,7 @@ const customerSchema = new mongoose.Schema(
     customer_name: {
       type: String,
       required: true,
+      unique: true,
     },
     email: {
       type: String,
@@ -24,9 +25,13 @@ const customerSchema = new mongoose.Schema(
       required: true,
     },
     points: { 
-        type: Number, 
-        default: 0 
+      type: Number, 
+      default: 0 
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    }
   },
   { timestamps: true }
 );

@@ -16,7 +16,7 @@ function DemandAnalysis() {
   useEffect(() => {
     const fetchHighDemandData = async () => {
       try {
-        const response = await demandAxios.get("demandAnalysis/highDemandData");
+        const response = await demandAxios.get("api/demandAnalysis/highDemandData");
         setHighDemandData(response.data); // Save the entire response object
       } catch (error) {
         console.error("Error fetching high-demand products", error);

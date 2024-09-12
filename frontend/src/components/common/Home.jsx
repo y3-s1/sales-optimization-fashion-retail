@@ -8,11 +8,21 @@ function Home() {
   const handlePriceOptimizationButtonClick = () => {
     navigate('/priceOptimization/dashboard')
   }
+  const handleCustomerRelationshipButtonClick = () => {
+    navigate('/customerRelationship/admin/crmDashboard')
+  }
+  const handleCustomerRelationshipReviewButtonClick = () => {
+    navigate('/customerRelationship/customer/profile/addreview')
+  }
 
   return (
     <>
       <div>Home Component</div>
       <button onClick={handlePriceOptimizationButtonClick}>Price Optimization</button>
+      <br />
+      <button onClick={handleCustomerRelationshipButtonClick}>Customer relationship</button>
+      <br />
+      <button onClick={handleCustomerRelationshipReviewButtonClick}>Customer relationship (Reviews)</button>
     </>
   )
 }
