@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import HighDemandProducts from '../../../components/thilan/demandAnalysis/highDemandProducts/HighDemandProducts';
 import demandAxios from "../../../BaseURL";
 import HighDemandCategories from '../../../components/thilan/demandAnalysis/highDemandCategories/HighDemandCategories';
+import AllProducts from '../../../components/thilan/demandAnalysis/allProducts/AllProducts';
 
 function DemandAnalysis() {
   const [highDemandData, setHighDemandData] = useState({ 
@@ -52,6 +53,7 @@ function DemandAnalysis() {
         >
           <HighDemandProducts highDemandProducts={highDemandData.highDemandProducts} />
         </div>
+
         <div
           className="box2"
           style={{ ...boxStyle, gridColumn: "span 3", gridRow: "span 3"}}
@@ -62,6 +64,13 @@ function DemandAnalysis() {
             highDemandCategory3={highDemandData.highDemandCategory3}
             highDemandCategory4={highDemandData.highDemandCategory4}
           ></HighDemandCategories>
+        </div>
+
+        <div
+          className="box1"
+          style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 3.5" }}
+        >
+          <AllProducts />
         </div>
         
       </div>
