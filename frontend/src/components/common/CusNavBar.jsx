@@ -21,13 +21,13 @@ function CusNavBar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/portfolio" activeClassName="cusNav-active">
-              contact
+            <NavLink to="/customer/profile" activeClassName="cusNav-active">
+              Profile
             </NavLink>
           </li>
           <li>
-            <NavLink to="/customer/profile" activeClassName="cusNav-active">
-              Profile
+            <NavLink to="/customer/login" activeClassName="cusNav-active">
+              Login
             </NavLink>
           </li>
         </ul>

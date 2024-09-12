@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   createReview,
   getReviewsByProduct,
+  getReviewsByUser,
   updateReview,
   deleteReview
 } = require('../../../controllers/sandeep/feedback/reviewsController');
@@ -13,10 +14,15 @@ router.post('/add', createReview);
 // GET: Fetch all reviews for a specific product
 router.get('/:productId', getReviewsByProduct);
 
+// GET: Fetch all reviews for a specific product
+router.get('/user/:userId', getReviewsByUser);
+
+
+
 // PUT: Update a review
-router.put('/:reviewId', updateReview);
+router.put('/update/:reviewId', updateReview);
 
 // DELETE: Delete a review
-router.delete('/:reviewId', deleteReview);
+router.delete('/delete/:reviewId', deleteReview);
 
 module.exports = router; 

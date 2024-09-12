@@ -1,12 +1,13 @@
 const LoyaltyConfig = require("../../../models/sandeep/loyalty/LoyaltyConfig");
 const LoyaltyRewards = require("../../../models/sandeep/loyalty/LoyaltyReward");
+// const { verifyToken } = require("../../../utils/veryfyToken.js");
 
 const router = require("express").Router();
 
 router.route('/set-conditions').post(async (req, res) => {
     try {
       const { type, conditions } = req.body;
-  
+      console.log("create")
       // Validate type field
       if (!['purchasing', 'actions'].includes(type)) {
         return res.status(400).json({ error: 'Invalid type. Must be "purchasing" or "actions".' });
