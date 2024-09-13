@@ -6,13 +6,13 @@ function Home() {
   const navigate = useNavigate()
 
   const handlePriceOptimizationButtonClick = () => {
-    navigate('/priceOptimization/dashboard')
+    navigate('/admin/priceOptimization/demandAnalysis')
   }
   const handleCustomerRelationshipButtonClick = () => {
-    navigate('/customerRelationship/admin/crmDashboard')
+    navigate('/admin/customerRelationship/admin/crmDashboard')
   }
   const handleCustomerRelationshipReviewButtonClick = () => {
-    navigate('/customerRelationship/customer/profile/addreview')
+    navigate('/admin/customerRelationship/customer/profile/addreview')
   }
 
   return (

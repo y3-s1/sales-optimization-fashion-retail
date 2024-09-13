@@ -79,7 +79,6 @@ function DemandAnalysis() {
     boxShadow: "0px 2px 10px 0px rgba(0, 0, 0, 0.10)",
   };
   
-  console.log("current product ; ", currentProduct);
 
   return (
     <div className='demandAnalysis-all-content'>
@@ -126,7 +125,7 @@ function DemandAnalysis() {
 
         <div
           className="box1"
-          style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 3.5" }}
+          style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 6" }}
         >
           <SingleProduct currentProduct={currentProduct} />
         </div>

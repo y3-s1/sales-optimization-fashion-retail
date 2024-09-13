@@ -38,7 +38,7 @@ function CrmNavBar() {
           <ul className="nav flex-column">
             <li className="nav-item">
               <NavLink
-                to="/customerRelationship/admin/crmDashboard"
+                to="/admin/customerRelationship/admin/crmDashboard"
                 className="nav-link crm-sidebar-link"
                 activeClassName="active"
               >
@@ -47,7 +47,7 @@ function CrmNavBar() {
             </li>
             <li className="nav-item">
               <NavLink
-                to="/customerRelationship/admin/crmSettings"
+                to="/admin/customerRelationship/admin/crmSettings"
                 className="nav-link crm-sidebar-link"
                 activeClassName="active"
               >
@@ -56,7 +56,7 @@ function CrmNavBar() {
             </li>
             <li className="nav-item">
               <NavLink
-                to="/dashboard"
+                to="/admin/dashboard"
                 className="nav-link crm-sidebar-link"
                 activeClassName="active"
               >
@@ -65,7 +65,7 @@ function CrmNavBar() {
             </li>
             <li className="nav-item">
               <NavLink
-                to="/content"
+                to="/admin/content"
                 className="nav-link crm-sidebar-link"
                 activeClassName="active"
               >
@@ -74,7 +74,7 @@ function CrmNavBar() {
             </li>
             <li className="nav-item">
               <NavLink
-                to="/analytics"
+                to="/admin/analytics"
                 className="nav-link crm-sidebar-link"
                 activeClassName="active"
               >
@@ -83,7 +83,7 @@ function CrmNavBar() {
             </li>
             <li className="nav-item">
               <NavLink
-                to="/settings"
+                to="/admin/settings"
                 className="nav-link crm-sidebar-link"
                 activeClassName="active"
               >

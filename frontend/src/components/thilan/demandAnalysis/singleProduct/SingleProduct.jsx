@@ -25,7 +25,7 @@ function SingleProduct({currentProduct}) {
   return (
     <div>
       <SingleProductHeader currentProduct={product}></SingleProductHeader>
-      <SingleProductSalesChart></SingleProductSalesChart>
+      <SingleProductSalesChart currentProduct={product}></SingleProductSalesChart>
     </div>
   )
 }
