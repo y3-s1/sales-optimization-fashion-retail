@@ -89,12 +89,6 @@ function Predictions() {
         >
           <h4>Demand Analysis for predicted prices</h4>
         </div>
-        <div
-          className="box1"
-          style={{...boxStyle, gridColumn: "span 4", gridRow: "span 2" }}
-        >
-          <h4>Demand Analysis for predicted prices</h4>
-        </div>
       </div>
     </div>
   )
