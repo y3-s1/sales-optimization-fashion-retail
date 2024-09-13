@@ -1,0 +1,134 @@
+
+
+.profile-container {
+    min-height: 100vh;
+  }
+  
+  .profile-sidebar {
+    position: fixed;
+    top: 80px; /* Adjust this value based on the height of your top navigation bar */
+    left: 0;
+    width: 250px; /* Set the width of the sidebar */
+    height: calc(100vh - 80px); /* Make the sidebar take the full height minus the navbar */
+    background-color: #f4f4f4;
+    border-right: 1px solid #707070;
+    z-index: 999; /* Ensure it stays on top */
+    padding-top: 1rem; /* Add padding for better spacing */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+}
+  
+  .profile-sidebar-title {
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .profile-sidebar-menu .list-group-item {
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+}
+
+.profile-sidebar-menu .list-group-item a {
+    text-decoration: none;
+    color: #707070; /* Text color */
+    background-color: #ffffff; /* Background color */
+    border: 1px solid #707070; /* Border to match button style */
+    padding: 0.5rem 3rem; /* Padding to make it button-like */
+    display: inline-block; /* Makes the anchor behave like a button */
+    border-radius: 0.25rem; /* Rounded corners like a button */
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center; /* Center the text */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+.profile-sidebar-menu .list-group-item a:hover {
+    color: #ffffff; /* Text color on hover */
+    background-color: #707070; /* Background color on hover */
+    border-color: #ffffff; /* Keep border color on hover */
+}
+
+  
+  .profile-content {
+    margin-left: 260px;
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  
+  .profile-title {
+    font-weight: 700;
+  }
+  
+  .profile-section {
+    border-top: 2px solid #707070;
+    padding-top: 20px;
+  }
+  
+
+  .profile-page-container {
+    display: flex;
+    justify-content: center; /* Center the profile card horizontally */
+    align-items: center; /* Center the profile card vertically */
+    height: 90vh; /* Full viewport height */
+    background-color: #f0f2f5; /* Light background color */
+}
+
+.profile-page-card {
+    background-color: #fff; /* White background for the card */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 30px; /* Padding inside the card */
+    max-width: 400px; /* Limit the width of the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    text-align: center; /* Center-align text */
+}
+
+.profile-page-picture img {
+    border-radius: 50%; /* Make the profile picture circular */
+    width: 150px; /* Set fixed width */
+    height: 150px; /* Set fixed height */
+    object-fit: cover; /* Ensure the image fits within the circle */
+    margin-bottom: 20px; /* Space below the picture */
+}
+
+.profile-page-name {
+    font-size: 1.5rem; /* Larger font for name */
+    font-weight: 600; /* Bold font for name */
+    color: #333; /* Dark text for better readability */
+    margin-bottom: 10px; /* Space below the name */
+}
+
+.profile-page-bio {
+    font-size: 1rem; /* Regular font size for bio */
+    color: #666; /* Slightly lighter color for bio */
+    margin-bottom: 20px; /* Space below the bio */
+}
+
+.profile-page-details {
+    margin-bottom: 20px; /* Space below the details section */
+}
+
+.profile-page-detail-item {
+    margin-bottom: 10px; /* Space between detail items */
+}
+
+.profile-page-detail-label {
+    font-weight: 600; /* Bold text for detail labels */
+    color: #555; /* Darker color for labels */
+}
+
+.profile-page-detail-value {
+    color: #777; /* Lighter color for the detail values */
+}
+
+.profile-page-actions {
+    display: flex;
+    justify-content: space-between; /* Space between buttons */
+    margin-top: 20px; /* Space above the buttons */
+}
+
+.profile-page-btn {
+    padding: 10px 20px; /* Add padding to buttons */
+    font-weight: 600; /* Bold text for buttons */
+    width: 48%; /* Equal width for both buttons */
+}
