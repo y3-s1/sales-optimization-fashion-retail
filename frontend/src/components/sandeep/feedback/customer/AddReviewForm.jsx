@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './addReviewForm.css'
 import demandAxios from '../../../../BaseURL';
-import './addReviewForm.css'
 import { AuthContext } from '../../../../context/AuthContext';
 
 function AddReviewForm() {
@@ -11,10 +10,10 @@ function AddReviewForm() {
   const productId = searchParams.get('productId'); // Extract productId from the URL
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
+  const [title, setTitle] = useState(''); // New state for the title
 
   const { user } = useContext(AuthContext);
 
-  console.log(productId)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -22,11 +21,13 @@ function AddReviewForm() {
         userId: user._id, // Replace with actual logged-in user ID
         productId, // Use the productId from query params
         rating,
+        title, // Include the title in the post request
         comment,
       });
       alert('Review submitted successfully!');
       setRating(5);
       setComment('');
+      setTitle(''); // Reset the title after submission
     } catch (error) {
       console.error('Error submitting review', error);
     }
@@ -52,6 +53,19 @@ function AddReviewForm() {
         </select>
       </div>
       
+      {/* Title Section */}
+      <div className="form-group review-create-title-input mb-3">
+        <label className="review-create-label">Title:</label>
+        <input 
+          type="text" 
+          className="form-control review-create-input" 
+          value={title} 
+          onChange={(e) => setTitle(e.target.value)} 
+          placeholder="Enter a title for your review"
+          required
+        />
+      </div>
+      
       {/* Comment Section */}
       <div className="form-group review-create-comment mb-3">
         <label className="review-create-label">Comment:</label>
@@ -60,6 +74,7 @@ function AddReviewForm() {
           rows="4" 
           value={comment} 
           onChange={(e) => setComment(e.target.value)} 
+          placeholder="Write your review here..."
         />
       </div>
       

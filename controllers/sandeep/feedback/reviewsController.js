@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 
 // Create a new review
 exports.createReview = async (req, res) => {
-  const { userId, productId, rating, comment } = req.body;
+  const { userId, productId, rating, title, comment } = req.body;
 
   try {
     const newReview = new Review({
       userId,
       productId,
       rating,
+      title,
       comment
     });
 
@@ -25,9 +26,11 @@ exports.createReview = async (req, res) => {
 // Get reviews by product ID
 exports.getReviewsByProduct = async (req, res) => {
   const { productId } = req.params;
-
+  
   try {
-    const reviews = await Review.find({ productId });//.populate('userId', 'name'); 
+    // Populate the 'userId' field with the 'name' field from the 'Customer' collection
+    const reviews = await Review.find({ productId });
+    console.log(reviews)
     res.status(200).json(reviews);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching reviews', error });
@@ -53,7 +56,7 @@ exports.getReviewsByUser = async (req, res) => {
 // Update a review
 exports.updateReview = async (req, res) => {
   const { reviewId } = req.params;
-  const { rating, comment } = req.body;
+  const { rating, title, comment } = req.body;
 
   try {
     const review = await Review.findById(reviewId);
@@ -62,6 +65,7 @@ exports.updateReview = async (req, res) => {
     }
 
     review.rating = rating;
+    review.title = title;
     review.comment = comment;
 
     // Optionally perform sentiment analysis again if the comment changes
