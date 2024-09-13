@@ -1,0 +1,51 @@
+.inventory-container {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    width: 100%; /* Full viewport width */
+  }
+  
+  .inventory-dashboard-nav-bar {
+    
+    width: 15%; /* Sidebar width */
+    background-color: #f4f4f4; /* Sidebar background color */
+    padding: 0px; /* Padding inside the sidebar */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Slight shadow for a clean separation */
+  }
+  
+  .dashboard-pages {
+    width: 85%; /* Remaining space for content */
+    padding: 20px;
+    overflow-y: auto; /* Allows scrolling if content overflows */
+    background-color: #fff; /* Background color for content */
+  }
+  
+  /* Optional styling for sidebar navigation */
+  .sidebar-nav {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar-item {
+    margin-bottom: 15px;
+  }
+  
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+  }
+  
+  .sidebar-link:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .sidebar-icon {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  

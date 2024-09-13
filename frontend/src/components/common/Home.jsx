@@ -14,6 +14,9 @@ function Home() {
   const handleCustomerRelationshipReviewButtonClick = () => {
     navigate('/admin/customerRelationship/customer/profile/addreview')
   }
+  const handleInventoryButtonClick = () => {
+    navigate('/admin/inventory')
+  }
 
   return (
     <>
@@ -23,6 +26,9 @@ function Home() {
       <button onClick={handleCustomerRelationshipButtonClick}>Customer relationship</button>
       <br />
       <button onClick={handleCustomerRelationshipReviewButtonClick}>Customer relationship (Reviews)</button>
+      <br />
+      <button onClick={handleInventoryButtonClick}>Inventory</button>
+      <br />
     </>
   )
 }

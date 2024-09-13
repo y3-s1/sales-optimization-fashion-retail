@@ -1,0 +1,72 @@
+.update-item-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .update-item-heading {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .update-item-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .update-item-form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-label {
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  
+  .form-input, .form-textarea, .form-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .form-textarea {
+    height: 100px;
+    resize: vertical;
+  }
+  
+  .form-checkbox {
+    margin-top: 5px;
+  }
+  
+  .form-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  
+  .update-item-button {
+    background-color: #375e96;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    align-self: flex-end;
+  }
+  
+  .update-item-button:hover {
+  background-color: #254066;
+  
+  }
+  

@@ -8,6 +8,8 @@ import CrmHome from './pages/sandeep/CrmHome';
 import Customer from './pages/common/Customer';
 import Admin from './pages/common/Admin';
 
+import InventoryDashboard from "./pages/inventory/InventoryDashboard";
+
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +19,7 @@ function App() {
         <Route path="/customerRelationship/*" element={<CrmHome/>}></Route> */}
         <Route path="/customer/*" element={<Customer/>}></Route>
         <Route path="/admin/*" element={<Admin/>}></Route>
+        <Route path="/InventoryDashboard/*" element={<InventoryDashboard />} />
       </Routes>
     </BrowserRouter>
   );
