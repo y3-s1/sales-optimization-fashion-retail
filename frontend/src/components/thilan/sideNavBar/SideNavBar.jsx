@@ -16,16 +16,6 @@ function SideNavBar() {
       <ul className="priceOptimization-sideNavBar-nav-list">
         <li>
           <NavLink
-            exact
-            activeClassName="active"
-            className="priceOptimization-sideNavBar-nav-item"
-            to={"/admin/priceOptimization/dashboard"}
-          >
-            Dashboard
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
             activeClassName="active"
             className="priceOptimization-sideNavBar-nav-item"
             to={"/admin/priceOptimization/demandAnalysis"}
