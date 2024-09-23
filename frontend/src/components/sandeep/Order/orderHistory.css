@@ -1,0 +1,56 @@
+.cus-order-his-container {
+    width: 90%;
+    margin: 0 auto;
+  }
+  
+  .cus-order-his-list-group-item {
+    border: 1px solid #c2c2c2;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  .cus-order-his-list-group-item h5 {
+    margin-bottom: 10px;
+  }
+  
+  .cus-order-his-list-group-item p {
+    margin: 5px 0;
+  }
+  
+  .cus-order-his-item-list {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .cus-order-his-item-list li {
+    margin: 5px 0;
+  }
+  
+  .cus-order-his-btn {
+    display: inline-block;
+  }
+  
+
+  .cus-order-his-review-btn {
+    background-color: #999999; /* Bootstrap primary blue color */
+    color: white; /* White text color */
+    font-weight: 600; /* Bold text */
+    padding: 10px 20px; /* Add padding to make the button more clickable */
+    border: none; /* Remove default button border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Show pointer cursor on hover */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.cus-order-his-review-btn:hover {
+    background-color: #ffffff; /* Darken button on hover */
+  color: #4a4a4a;
+  border: 2px solid #545454;
+  cursor: pointer;  /* Keep Bootstrap primary button color */
+}
+
+.cus-order-his-review-btn:focus {
+    outline: none; /* Remove the outline */
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5); /* Add focus shadow */
+}

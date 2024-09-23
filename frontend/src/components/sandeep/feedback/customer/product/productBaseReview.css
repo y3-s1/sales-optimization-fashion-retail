@@ -1,0 +1,143 @@
+/* .review-product-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .review-product-title {
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  .review-product-item {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+  }
+  
+  .review-product-rating,
+  .review-product-comment,
+  .review-product-user {
+    font-size: 1rem;
+  }
+  
+  .review-product-no-reviews {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-top: 20px;
+  }
+   */
+
+
+   .review-signal-product-container {
+    width: 60%;
+    max-width: 1200px; /* Prevent it from getting too wide on very large screens */
+    margin: 0 auto;
+    background: #fff;
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  
+  .review-signal-product-summary {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 15px; /* Adjust gap between summary sections */
+  }
+  
+  .review-signal-product-rating-overview {
+    background: #fff; /* Make sure the background is set */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add box-shadow */
+    margin-bottom: 20px; /* Add margin to give spacing after the box */
+    text-align: center;
+  }
+  
+  .review-signal-product-rating {
+    font-size: 40px;
+    font-weight: bold;
+    color: #333;
+    margin: 0; /* Remove margin */
+  }
+  
+  .review-signal-product-stars {
+    color: #ffc107;
+    font-size: 24px;
+    margin: 5px 0; /* Adjust vertical spacing */
+  }
+  
+  .review-signal-product-total-reviews {
+    font-size: 14px;
+    color: #666;
+    margin: 0; /* Remove extra margin */
+  }
+  
+  .review-signal-product-rating-distribution {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px; /* Bring the distribution rows closer */
+  }
+  
+  .review-signal-product-distribution-row {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Reduce the gap between stars and the bars */
+  }
+  
+  .review-signal-product-bar-background {
+    background-color: #eee;
+    width: 270px; /* Adjust width if needed */
+    height: 12px; /* Reduce height to bring bars closer */
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .review-signal-product-bar-fill {
+    height: 100%;
+    background-color: #ffc107;
+    border-radius: 4px;
+  }
+  
+  .review-signal-product-reviews {
+    margin-top: 15px; /* Adjust margin to bring reviews section closer */
+  }
+  
+  .review-signal-product-review-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px; /* Reduce gap between avatar and content */
+    border-top: 1px solid #eee;
+    padding-top: 15px; /* Reduce padding to bring reviews closer */
+  }
+  
+  .review-signal-product-avatar {
+    width: 45px; /* Adjust avatar size */
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .review-signal-product-review-content {
+    flex: 1;
+    margin: 0; /* Remove extra margins */
+  }
+  
+  .review-signal-product-title {
+    font-size: 16px; /* Slightly smaller to reduce spacing */
+    font-weight: 500;
+    margin: 5px 0;
+  }
+  
+  .review-signal-product-description {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+  }
+  
