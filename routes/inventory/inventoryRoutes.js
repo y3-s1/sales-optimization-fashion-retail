@@ -24,21 +24,33 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-
 // Multer upload instance
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 // Route to add a new item
 router.post('/add', upload.single('image'), async (req, res) => {
   try {
-    const { name, category, description, price, discount, stock, size, color, material, careInstructions, availability,  SKU } = req.body;
+    const { name, category, description, price, stock, size, color, material, careInstructions, availability, SKU } = req.body;
     
     // File path of the uploaded image
-    const image = req.file.filename;
+    const image = req.file ? req.file.filename : null;
 
-    // Create a new item instance
+    // Create a new item instance with default values for isOnSale and discountedPrice
     const newItem = new Item({
-      name, category, description, price, discount, stock, size, color, material, careInstructions, availability,  SKU, image
+      name, 
+      category, 
+      description, 
+      price, 
+      stock, 
+      size, 
+      color, 
+      material, 
+      careInstructions, 
+      availability, 
+      SKU, 
+      image, 
+      isOnSale: false,  // Default isOnSale to false
+      discountedPrice: null  // Default discountedPrice to null
     });
 
     // Save the new item to the database
@@ -53,12 +65,12 @@ router.post('/add', upload.single('image'), async (req, res) => {
   }
 });
 
-
+// Route to update an existing item
 router.put('/update/:id', upload.single('image'), async (req, res) => {
   try {
     const itemId = req.params.id;
     const updateData = req.body;
-    const image = req.file ? req.file.filename: undefined; // Update image if a new file is uploaded
+    const image = req.file ? req.file.filename : undefined; // Update image if a new file is uploaded
 
     // Include image in updateData if it's provided
     if (image) {
@@ -77,12 +89,9 @@ router.put('/update/:id', upload.single('image'), async (req, res) => {
     console.error('Error updating item:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-
 });
 
-
-
-
+// Route to fetch all items
 router.get('/', async (req, res) => {
   try {
     const items = await Item.find();
@@ -93,8 +102,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-
-
+// Route to fetch a specific item by ID
 router.get('/:id', async (req, res) => {
   try {
     const itemId = req.params.id;
@@ -111,7 +119,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-
+// Route to delete an item by ID
 router.delete('/delete/:id', async (req, res) => {
   try {
     const itemId = req.params.id;
@@ -132,6 +140,35 @@ router.delete('/delete/:id', async (req, res) => {
 
 
 
+
+//for salecampaign use
+// Route to get items by an array of ObjectIds
+router.route("/getitemsbyids").post(async (req, res) => {
+  const { itemIds } = req.body; // Expect an array of item ObjectIds
+
+  try {
+    const items = await Item.find({ _id: { $in: itemIds } }); // Fetch the items
+    res.json(items);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json("Error fetching items by IDs");
+  }
+});
+
+
+
+
+// Route to get all items
+router.route("/getitems").get((req, res) => {
+  Item.find()
+      .then((items) => {
+          res.json(items);  // Return all items in JSON format
+      })
+      .catch((err) => {
+          console.log(err);
+          res.status(500).json("Error fetching items");
+      });
+});
+
+
 module.exports = router;
-
-

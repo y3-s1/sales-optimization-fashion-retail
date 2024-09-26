@@ -69,6 +69,12 @@ connection.once("open", ()=> {
 app.use("/api/demandAnalysis", demandAnalysisRoutes);
 
 
+
+//ishara
+salescampaignRouter = require("./routes/Salescampaign/salescampaigns.js");
+app.use("/salescampaigns",salescampaignRouter);
+
+
 app.listen(PORT,() =>{
 
     console.log(`Server is up and running on port number: ${PORT}`);
