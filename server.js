@@ -30,6 +30,11 @@ const ReviewsRouter = require("./routes/sandeep/feedback/reviews.js");
 const OrderRouter = require("./routes/sandeep/order/orders.js");
 const authRouter = require('./routes/sandeep/user/auth.js')
 
+
+// Import and use routes
+const inventoryRouter = require("./routes/inventory/inventoryRoutes.js");
+
+
 const cookieParser = require("cookie-parser");
 
 const URL = process.env.MONGODB_URL;
@@ -51,7 +56,7 @@ app.use("/reviews", ReviewsRouter);
 app.use("/order", OrderRouter);
 app.use("/authenti", authRouter);
 
-
+app.use("/Item", inventoryRouter);
 
 const connection = mongoose.connection;
 connection.once("open", ()=> {
