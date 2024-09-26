@@ -2,6 +2,7 @@ const router = require('express').Router();
 const bcrypt = require ('bcryptjs');
 const jwt  = require("jsonwebtoken");
 const Customer = require('../../../models/sandeep/user/Customer.js');
+const Manager = require('../../../models/sandeep/user/Manager.js');
 
 /*
 //Seller Login
@@ -41,6 +42,7 @@ router.route('/login').post(async (req, res) => {
     try {
       // Find the user based on the username (assuming unique usernames across different user types)
       const customer = await Customer.findOne({ email: req.body.username });
+      const manager = await Manager.findOne({ email: req.body.username });
 
       // Determine the user type
       let userType = null;
@@ -49,10 +51,10 @@ router.route('/login').post(async (req, res) => {
         userType = 'customer';
         userDetails = customer;
       } 
-      // else if (manager) {
-      //   userType = 'manager';
-      //   userDetails = manager;
-      // } 
+      else if (manager) {
+        userType = 'manager';
+        userDetails = manager;
+      } 
 
       if (!userType) {
         return res.status(401).json({ message: 'No user found' });
@@ -81,7 +83,7 @@ router.route('/login').post(async (req, res) => {
           redirectURL = '/';
           break;
         case 'manager':
-          redirectURL = '/manager/Inventory_Dashboard';
+          redirectURL = '/admin/dashboard';
           break;
       }
   
