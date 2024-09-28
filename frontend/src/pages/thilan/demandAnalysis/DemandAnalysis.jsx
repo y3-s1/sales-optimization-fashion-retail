@@ -4,6 +4,8 @@ import demandAxios from "../../../BaseURL";
 import HighDemandCategories from '../../../components/thilan/demandAnalysis/highDemandCategories/HighDemandCategories';
 import AllProducts from '../../../components/thilan/demandAnalysis/allProducts/AllProducts';
 import SingleProduct from '../../../components/thilan/demandAnalysis/singleProduct/SingleProduct';
+import Predictions from '../predictions/Predictions';
+import PriceUpdate from '../priceUpdate/PriceUpdate';
 
 function DemandAnalysis() {
 
@@ -129,6 +131,23 @@ function DemandAnalysis() {
         >
           <SingleProduct currentProduct={currentProduct} />
         </div>
+
+
+        <div
+          className="box1"
+          style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 6" }}
+        >
+          <Predictions currentProduct={currentProduct} />
+        </div>
+
+
+        <div
+          className="box1"
+          style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 6" }}
+        >
+          <PriceUpdate currentProduct={currentProduct} />
+        </div>
+
         
       </div>
     </div>
