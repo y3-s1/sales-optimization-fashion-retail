@@ -7,7 +7,7 @@ import SingleProduct from '../../../components/thilan/demandAnalysis/singleProdu
 import Predictions from '../predictions/Predictions';
 import PriceUpdate from '../priceUpdate/PriceUpdate';
 
-function DemandAnalysis() {
+function DemandAnalysis({currentProduct, setCurrentProduct}) {
 
   const [highDemandData, setHighDemandData] = useState({ 
     highDemandProducts:[],  
@@ -17,7 +17,6 @@ function DemandAnalysis() {
     highDemandCategory4:null
   });
   const [allProducts, setAllProducts] = useState({});
-  const [currentProduct, setCurrentProduct] = useState("");
 
   useEffect(() => {
     const fetchHighDemandData = async () => {
@@ -130,22 +129,6 @@ function DemandAnalysis() {
           style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 6" }}
         >
           <SingleProduct currentProduct={currentProduct} />
-        </div>
-
-
-        <div
-          className="box1"
-          style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 6" }}
-        >
-          <Predictions currentProduct={currentProduct} />
-        </div>
-
-
-        <div
-          className="box1"
-          style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 6" }}
-        >
-          <PriceUpdate currentProduct={currentProduct} />
         </div>
 
         
