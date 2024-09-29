@@ -2,7 +2,9 @@ import React from 'react'
 
 function PriceUpdate() {
   return (
-    <div>PriceUpdate</div>
+    <div className='priceUpdate-all-content'>
+      <h2>Price Update</h2>
+    </div>
   )
 }
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import demandAxios from '../../../BaseURL';
 import AllProducts from '../../../components/thilan/demandAnalysis/allProducts/AllProducts';
+import PriceEnterForm from '../../../components/thilan/demandAnalysis/predictions/PriceEnterForm';
+import AnalysisChartForPrices from '../../../components/thilan/demandAnalysis/predictions/AnalysisChartForPrices';
 
 function Predictions({currentProduct}) {
 
@@ -64,7 +66,7 @@ function Predictions({currentProduct}) {
   };
 
   return (
-    <div className='demandAnalysis-all-content'>
+    <div className='predictions-all-content'>
       <h2>Predictions</h2>
       <div
         className="demandGrid"
@@ -76,16 +78,6 @@ function Predictions({currentProduct}) {
           padding: "20px",
         }}
       >
-        {/* <div
-          className="box1"
-          style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 3.5" }}
-        >
-          <AllProducts 
-            allProducts={allProducts} 
-            setCurrentProduct={setCurrentProduct}
-            currentProduct={currentProduct}
-          />
-        </div> */}
         <div
           className="box1"
           style={{...boxStyle, gridColumn: "span 2", gridRow: "span 2" }}
@@ -107,7 +99,20 @@ function Predictions({currentProduct}) {
           style={{...boxStyle, gridColumn: "span 4", gridRow: "span 2" }}
         >
           <h4>Demand Analysis for predicted prices</h4>
-          <p>current product is <span>{product.name}</span></p>
+          
+          
+          <div
+            className="box1"
+            style={{...boxStyle, gridColumn: "span 4", gridRow: "span 1" }}
+          >
+            <PriceEnterForm product={product}></PriceEnterForm>
+          </div>
+          <div
+            className="box1"
+            style={{...boxStyle, gridColumn: "span 4", gridRow: "span 1" }}
+          >
+            <AnalysisChartForPrices currentProduct={product}></AnalysisChartForPrices>
+          </div>
         </div>
       </div>
     </div>
