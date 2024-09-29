@@ -7,6 +7,7 @@ import AnalysisChartForPrices from '../../../components/thilan/demandAnalysis/pr
 function Predictions({currentProduct}) {
 
   const [product, setProduct] = useState({});
+  const [predictedPrice, setPredictedPrice] = useState("5490");
 
 
   useEffect(() => {
@@ -65,6 +66,15 @@ function Predictions({currentProduct}) {
     boxShadow: "0px 2px 10px 0px rgba(0, 0, 0, 0.10)",
   };
 
+  const centeredTextStyle = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",  // Make the div take up the full height of the box
+    fontSize: "4rem",
+    fontWeight: "bold"
+  };
+
   return (
     <div className='predictions-all-content'>
       <h2>Predictions</h2>
@@ -80,18 +90,26 @@ function Predictions({currentProduct}) {
       >
         <div
           className="box1"
-          style={{...boxStyle, gridColumn: "span 2", gridRow: "span 2" }}
+          style={{...boxStyle, gridColumn: "span 2", gridRow: "span 1" }}
         >
           <h4>Stock Predictions</h4>
-          <p>current product is <span>{product.name}</span></p>
+          <div className='m-10'>
+            <div className='m-10' style={centeredTextStyle}>
+              <span>2499</span>
+            </div>
+          </div>
         </div>
 
         <div
           className="box1"
-          style={{...boxStyle, gridColumn: "span 2", gridRow: "span 2" }}
+          style={{...boxStyle, gridColumn: "span 2", gridRow: "span 1" }}
         >
           <h4>Price Predictions</h4>
-          <p>current product is <span>{product.name}</span></p>
+            <div className='m-10'>
+              <div className='m-10' style={centeredTextStyle}>
+                <span>Rs. </span><span>{predictedPrice}</span>
+              </div>
+            </div>
         </div>
 
         <div
@@ -105,7 +123,7 @@ function Predictions({currentProduct}) {
             className="box1"
             style={{...boxStyle, gridColumn: "span 4", gridRow: "span 1" }}
           >
-            <PriceEnterForm product={product}></PriceEnterForm>
+            <PriceEnterForm product={product} predictedPrice={predictedPrice}></PriceEnterForm>
           </div>
           <div
             className="box1"

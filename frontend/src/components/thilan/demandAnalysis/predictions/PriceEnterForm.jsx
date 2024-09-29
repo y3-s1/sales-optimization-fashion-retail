@@ -1,6 +1,6 @@
 import React from 'react';
 
-function PriceEnterForm({product}) {
+function PriceEnterForm({product, predictedPrice}) {
   return (
     <div>
       <div className="dDox1 flex gap-3">
@@ -12,6 +12,7 @@ function PriceEnterForm({product}) {
             type="text"
             name="price"
             id="price"
+            value={predictedPrice}
             className="border-4 p-3 w-[100%]"
             style={{
               border: "2px #D9D9D9 solid",
