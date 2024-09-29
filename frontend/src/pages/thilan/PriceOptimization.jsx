@@ -46,13 +46,17 @@ function PriceOptimization() {
 
   return (
     <>
-        <div className="priceOptimization-allContent" ref={page1}>
+        <div className="priceOptimization-allContent">
           <div className="priceOptimization-sideNavBar">
-            <SideNavBar></SideNavBar>
+            <SideNavBar
+             activeButton={activeButton}
+             setActiveButton={setActiveButton} 
+            >
+            </SideNavBar>
           </div>
           <div className="priceOptimization-pages">
 
-            <div>
+            <div  ref={page1}>
               <DemandAnalysis 
                 currentProduct={currentProduct}
                 setCurrentProduct={setCurrentProduct}>
@@ -70,6 +74,7 @@ function PriceOptimization() {
               }}
             >
               <div
+                ref={page2}
                 className="box1"
                 style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 6" }}
               >
@@ -77,6 +82,7 @@ function PriceOptimization() {
               </div>
 
               <div
+                ref={page3}
                 className="box1"
                 style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 6" }}
               >

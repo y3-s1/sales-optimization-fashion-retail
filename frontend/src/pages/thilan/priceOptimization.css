@@ -42,7 +42,8 @@
 }
 
 .priceOptimization-sideNavBar-nav-item:hover{
-    background-color: #f0f0f0;
+    background-color: #e9e7e7;
+    border-radius: 10px;
 }
 
 .priceOptimization-sideNavBar-nav-item.active{
