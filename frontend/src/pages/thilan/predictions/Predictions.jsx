@@ -4,24 +4,8 @@ import AllProducts from '../../../components/thilan/demandAnalysis/allProducts/A
 import PriceEnterForm from '../../../components/thilan/demandAnalysis/predictions/PriceEnterForm';
 import AnalysisChartForPrices from '../../../components/thilan/demandAnalysis/predictions/AnalysisChartForPrices';
 
-function Predictions({currentProduct}) {
+function Predictions({currentProduct, predictedPrice}) {
 
-  const [product, setProduct] = useState({});
-  const [predictedPrice, setPredictedPrice] = useState("5490");
-
-
-  useEffect(() => {
-    fetchData();
-  }, [currentProduct]);
-
-  const fetchData = async () => {
-    try {
-      const res = await demandAxios.get(`api/demandAnalysis/product/${currentProduct}`);
-      setProduct(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   // const [allProducts, setAllProducts] = useState({});
 
@@ -123,13 +107,13 @@ function Predictions({currentProduct}) {
             className="box1"
             style={{...boxStyle, gridColumn: "span 4", gridRow: "span 1" }}
           >
-            <PriceEnterForm product={product} predictedPrice={predictedPrice}></PriceEnterForm>
+            <PriceEnterForm currentProduct={currentProduct} predictedPrice={predictedPrice}></PriceEnterForm>
           </div>
           <div
             className="box1"
             style={{...boxStyle, gridColumn: "span 4", gridRow: "span 1" }}
           >
-            <AnalysisChartForPrices currentProduct={product}></AnalysisChartForPrices>
+            <AnalysisChartForPrices currentProduct={currentProduct}></AnalysisChartForPrices>
           </div>
         </div>
       </div>

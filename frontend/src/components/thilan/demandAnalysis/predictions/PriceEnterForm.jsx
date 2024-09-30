@@ -1,6 +1,6 @@
 import React from 'react';
 
-function PriceEnterForm({product, predictedPrice}) {
+function PriceEnterForm({currentProduct, predictedPrice}) {
   return (
     <div>
       <div className="dDox1 flex gap-3">
@@ -35,11 +35,11 @@ function PriceEnterForm({product, predictedPrice}) {
 
         <div className="grid grid-cols-2 gap-2 ml-auto w-[50%]">
           <div className="flex flex-col w-[60%]">
-            <span className="text-gray-500">product Id - {product.productId}</span>
-            <span className="text-base">{product.name}</span>
+            <span className="text-gray-500">product Id - {currentProduct.productId}</span>
+            <span className="text-base">{currentProduct.name}</span>
           </div>
           <div className="flex flex-col w-[30%]">
-            <img src={product.imageUrl} alt="" className="w-[70px]" />
+            <img src={currentProduct.imageUrl} alt="" className="w-[70px]" />
           </div>
         </div>
 

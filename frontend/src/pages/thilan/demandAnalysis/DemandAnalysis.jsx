@@ -7,7 +7,7 @@ import SingleProduct from '../../../components/thilan/demandAnalysis/singleProdu
 import Predictions from '../predictions/Predictions';
 import PriceUpdate from '../priceUpdate/PriceUpdate';
 
-function DemandAnalysis({currentProduct, setCurrentProduct}) {
+function DemandAnalysis({currentProduct, setCurrentProduct, currentProductId, setCurrentProductId}) {
 
   const [highDemandData, setHighDemandData] = useState({ 
     highDemandProducts:[],  
@@ -119,8 +119,8 @@ function DemandAnalysis({currentProduct, setCurrentProduct}) {
         >
           <AllProducts 
             allProducts={allProducts} 
-            setCurrentProduct={setCurrentProduct}
-            currentProduct={currentProduct}
+            setCurrentProductId={setCurrentProductId}
+            currentProductId={currentProductId}
           />
         </div>
 

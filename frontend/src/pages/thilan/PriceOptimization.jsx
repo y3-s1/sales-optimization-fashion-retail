@@ -4,6 +4,7 @@ import SideNavBar from '../../components/thilan/sideNavBar/SideNavBar';
 import DemandAnalysis from './demandAnalysis/DemandAnalysis';
 import Predictions from './predictions/Predictions';
 import PriceUpdate from './priceUpdate/PriceUpdate';
+import demandAxios from '../../BaseURL';
 
 function PriceOptimization() {
 
@@ -11,7 +12,9 @@ function PriceOptimization() {
   const page2 = useRef(null);
   const page3 = useRef(null);
   const [activeButton, setActiveButton] = useState(1);
-  const [currentProduct, setCurrentProduct] = useState("");
+  const [currentProduct, setCurrentProduct] = useState({});
+  const [currentProductId, setCurrentProductId] = useState("");
+  const [predictedPrice, setPredictedPrice] = useState("5490");
 
   const handleTabChange = () => {
     switch (activeButton) {
@@ -26,6 +29,19 @@ function PriceOptimization() {
         break;
       default:
         break;
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [currentProductId]);
+
+  const fetchData = async () => {
+    try {
+      const res = await demandAxios.get(`api/demandAnalysis/product/${currentProductId}`);
+      setCurrentProduct(res.data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -89,6 +105,8 @@ function PriceOptimization() {
             <DemandAnalysis
               currentProduct={currentProduct}
               setCurrentProduct={setCurrentProduct}
+              currentProductId={currentProductId}
+              setCurrentProductId={setCurrentProductId}
             />
           </div>
 
@@ -108,16 +126,16 @@ function PriceOptimization() {
               className="box1"
               style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 6" }}
             >
-              <Predictions currentProduct={currentProduct} />
+              <Predictions currentProduct={currentProduct} predictedPrice={predictedPrice} />
             </div>
 
             <div
               ref={page3}
               id="priceUpdate"
               className="box1"
-              style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 6" }}
+              style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 2" }}
             >
-              <PriceUpdate currentProduct={currentProduct} />
+              <PriceUpdate currentProduct={currentProduct} predictedPrice={predictedPrice} />
             </div>
           </div>
         </div>
