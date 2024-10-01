@@ -1,19 +1,35 @@
 const express = require("express");
 const router = express.Router();
 
-const {sendHighDemandData, sendAllProductsData, addProduct, getProductById} = require("../../controllers/thilan/demandAnalysisController");
+const {
+    sendHighDemandData,
+    sendAllProductsData,
+    addProduct,
+    getProductById,
+    calculateProductDemand
+} = require("../../controllers/thilan/demandAnalysisController");
 
-//Get High Demand data
+// Get High Demand data
 router.get("/highDemandData", sendHighDemandData);
 
-//Get all products data
+// Get all products data
 router.get("/allProducts", sendAllProductsData);
 
-//Add Product
+// Add Product
 router.post("/addProduct", addProduct);
 
-//get a product by id
+// Get a product by id
 router.get("/product/:id", getProductById);
 
+// Calculate demand for a product by id
+router.get("/product/demand/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const demandData = await calculateProductDemand(id);
+        res.status(200).json(demandData);
+    } catch (error) {
+        res.status(500).json({ message: "Error calculating demand", error: error.message });
+    }
+});
 
 module.exports = router;

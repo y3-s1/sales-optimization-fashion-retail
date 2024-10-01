@@ -1,4 +1,6 @@
 const FashionProduct = require("../../models/thilan/FashionProduct");
+const natural = require('natural');
+const sentimentAnalyzer = new natural.SentimentAnalyzer('English', natural.PorterStemmer, 'afinn');
 
 const {
     highDemandProducts,
@@ -75,9 +77,104 @@ const getProductById = async (req, res) => {
       }
 };
 
+
+
+
+// Function to calculate product demand
+const calculateProductDemand = async (productId) => {
+    try {
+      // Find the product by its ID
+      const product = await FashionProduct.findById(productId);
+      
+      if (!product) {
+        throw new Error('Product not found');
+      }
+  
+      // Calculate sales-based demand (same logic as before)
+      const productSales = product.sales;
+      const totalSales = productSales.reduce((total, sale) => total + sale.count, 0);
+      const averageDemand = totalSales / productSales.length;
+  
+      // Find related products in the same category
+      const query = { 
+        category: product.category, 
+        productId: { $ne: productId }
+      };
+  
+      if (product.material) query.material = product.material;
+      if (product.season) query.season = product.season;
+      if (product.gender) query.gender = product.gender;
+      if (product.ageGroup) query.ageGroup = product.ageGroup;
+      if (product.brand) query.brand = product.brand;
+  
+      const relatedProducts = await FashionProduct.find(query);
+      let relatedTotalSales = 0;
+      let relatedTotalMonths = 0;
+  
+      relatedProducts.forEach((relatedProduct) => {
+        relatedProduct.sales.forEach((sale) => {
+          relatedTotalSales += sale.count;
+        });
+        relatedTotalMonths += relatedProduct.sales.length;
+      });
+  
+      const relatedAverageDemand = relatedTotalSales / (relatedTotalMonths || 1);
+  
+      // Final demand: a weighted average of the product's demand and related products' demand
+      const demand = (0.7 * averageDemand) + (0.3 * relatedAverageDemand);
+  
+      // Sentiment Analysis of Customer Reviews
+      let totalSentiment = 0;
+      let reviewCount = 0;
+  
+      if (product.reviews && product.reviews.length > 0) {
+        product.reviews.forEach((review) => {
+          const tokens = review.reviewText.split(' ');  // Tokenize the review text
+          const sentiment = sentimentAnalyzer.getSentiment(tokens);  // Analyze sentiment
+          totalSentiment += sentiment;
+          reviewCount++;
+        });
+      }
+  
+      const averageSentiment = reviewCount ? totalSentiment / reviewCount : 0;
+      let demandAdjustment = 1 + (averageSentiment / 10);  // Adjust demand based on sentiment (scaled)
+  
+      // Adjust demand based on seasonality, trends, and reviews
+      if (product.season === 'Winter' && new Date().getMonth() >= 10) {
+        demandAdjustment *= 1.2;
+      } else if (product.season === 'Summer' && new Date().getMonth() <= 5) {
+        demandAdjustment *= 1.2;
+      }
+  
+      if (product.isTrending) {
+        demandAdjustment *= 1.3;
+      }
+  
+      const finalDemand = demand * demandAdjustment;
+  
+      return {
+        productId: productId,
+        productName: product.name,
+        demand: finalDemand.toFixed(2),
+        demandDetails: {
+          averageProductDemand: averageDemand.toFixed(2),
+          relatedProductDemand: relatedAverageDemand.toFixed(2),
+          averageSentiment: averageSentiment.toFixed(2),
+          demandAdjustment: demandAdjustment.toFixed(2)
+        }
+      };
+    } catch (error) {
+      console.error(error);
+      throw new Error('Error calculating product demand');
+    }
+  };
+
+
+
 module.exports = {
     sendHighDemandData,
     sendAllProductsData,
     addProduct,
-    getProductById
+    getProductById,
+    calculateProductDemand
 };
