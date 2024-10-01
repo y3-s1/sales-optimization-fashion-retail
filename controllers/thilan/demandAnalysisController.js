@@ -190,6 +190,7 @@ const calculateProductDemand = async (productId) => {
           productId: product._id,
           name: product.name,
           img: product.imageUrl,
+          category:product.category,
           demand: parseFloat(demandData.demand),  // Convert demand to a number for sorting
           details: demandData.demandDetails
         };
@@ -216,11 +217,110 @@ const calculateProductDemand = async (productId) => {
 
 
 
+
+// Helper function to calculate percentage growth
+const calculateGrowthPercentage = (currentMonthSales, previousMonthSales) => {
+  if (previousMonthSales === 0) {
+    return currentMonthSales > 0 ? 100 : 0;
+  }
+  return ((currentMonthSales - previousMonthSales) / previousMonthSales) * 100;
+};
+
+// Helper function to get month names for the past 7 months
+const getLast7Months = () => {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const result = [];
+  const currentMonth = new Date().getMonth();
+
+  for (let i = 0; i < 7; i++) {
+    const monthIndex = (currentMonth - i + 12) % 12;
+    result.unshift(months[monthIndex]);
+  }
+  return result;
+};
+
+// Function to get top 4 high-demand categories
+const getTopHighDemandCategories = async (req, res) => {
+  try {
+    // Fetch all products
+    const products = await FashionProduct.find({});
+    if (!products || products.length === 0) {
+      return res.status(404).json({ message: "No products found" });
+    }
+
+    // Get month names for the past 7 months
+    const last7Months = getLast7Months();
+
+    // Group products by category and calculate demand
+    const categoryDemand = {};
+
+    products.forEach((product) => {
+      const { category, sales } = product;
+
+      // Ensure the category exists in categoryDemand
+      if (!categoryDemand[category]) {
+        categoryDemand[category] = {
+          demand: 0,
+          salesCounts: [],
+          lastMonthSales: 0,
+          previousMonthSales: 0,
+        };
+      }
+
+      // Get sales for the last 7 months (sales array may have fewer than 7 entries)
+      const last7MonthsSales = sales.slice(-7).map((sale, index) => ({
+        name: last7Months[index],  // Get the corresponding month name
+        sales: sale.count
+      }));
+
+      // Calculate total demand for the last 7 months
+      const totalDemand = last7MonthsSales.reduce((acc, sale) => acc + sale.sales, 0);
+
+      // Calculate sales for the last month and previous month
+      const lastMonthSales = sales.length > 0 ? sales[sales.length - 1].count : 0;
+      const previousMonthSales = sales.length > 1 ? sales[sales.length - 2].count : 0;
+
+      categoryDemand[category].demand += totalDemand;  // Sum demand for the category
+      categoryDemand[category].salesCounts = last7MonthsSales;  // Set sales counts for the last 7 months
+      categoryDemand[category].lastMonthSales += lastMonthSales;  // Sum sales of the last month
+      categoryDemand[category].previousMonthSales += previousMonthSales;  // Sum sales of the previous month
+    });
+
+    // Convert the object into an array and calculate growth percentages
+    const categoriesArray = Object.keys(categoryDemand).map((category) => {
+      const { demand, salesCounts, lastMonthSales, previousMonthSales } = categoryDemand[category];
+      const salesGrowth = calculateGrowthPercentage(lastMonthSales, previousMonthSales);
+
+      return {
+        category,
+        demand,
+        salesGrowth: salesGrowth.toFixed(2),  // Percentage growth of sales
+        salesCounts: salesCounts  // Last 7 months' sales counts with month names
+      };
+    });
+
+    // Sort categories by demand in descending order and get the top 4
+    const top4Categories = categoriesArray
+      .sort((a, b) => b.demand - a.demand)
+      .slice(0, 4);  // Get top 4 categories
+
+    res.status(200).json(top4Categories);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching top high-demand categories", error: error.message });
+  }
+};
+
+
+
+
 module.exports = {
     sendHighDemandData,
     sendAllProductsData,
     addProduct,
     getProductById,
     calculateProductDemand,
-    getTopHighDemandProducts  
+    getTopHighDemandProducts,
+    getTopHighDemandCategories
 };
