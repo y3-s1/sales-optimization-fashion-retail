@@ -171,10 +171,53 @@ const calculateProductDemand = async (productId) => {
 
 
 
+
+  // Function to calculate demand for each product and find top 7 high demand products
+  const getTopHighDemandProducts = async (req, res) => {
+    try {
+      // Fetch all products from the database
+      const products = await FashionProduct.find({});
+      if (!products || products.length === 0) {
+        return res.status(404).json({ message: "No products found" });
+      }
+
+      // Calculate demand for each product
+      const demandPromises = products.map(async (product) => {
+        const demandData = await calculateProductDemand(product._id);
+        return {
+          productId: product._id,
+          name: product.name,
+          demand: parseFloat(demandData.demand),  // Convert demand to a number for sorting
+          details: demandData.demandDetails
+        };
+      });
+
+      // Resolve all demand calculations
+      const demandResults = await Promise.all(demandPromises);
+
+      // Sort products by demand in descending order
+      const sortedProducts = demandResults.sort((a, b) => b.demand - a.demand);
+
+      // Get the top 7 high-demand products
+      const top7Products = sortedProducts.slice(0, 7);
+
+      // Return the top 7 products
+      res.status(200).json(top7Products);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error fetching high-demand products", error: error.message });
+    }
+  };
+
+
+
+
+
 module.exports = {
     sendHighDemandData,
     sendAllProductsData,
     addProduct,
     getProductById,
-    calculateProductDemand
+    calculateProductDemand,
+    getTopHighDemandProducts  
 };

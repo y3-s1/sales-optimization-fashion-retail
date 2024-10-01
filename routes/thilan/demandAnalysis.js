@@ -6,7 +6,8 @@ const {
     sendAllProductsData,
     addProduct,
     getProductById,
-    calculateProductDemand
+    calculateProductDemand,
+    getTopHighDemandProducts  // Add the new function here
 } = require("../../controllers/thilan/demandAnalysisController");
 
 // Get High Demand data
@@ -31,5 +32,8 @@ router.get("/product/demand/:id", async (req, res) => {
         res.status(500).json({ message: "Error calculating demand", error: error.message });
     }
 });
+
+// Get top 7 high-demand products
+router.get("/topHighDemandProducts", getTopHighDemandProducts);
 
 module.exports = router;
