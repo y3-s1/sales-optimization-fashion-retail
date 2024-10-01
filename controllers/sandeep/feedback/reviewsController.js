@@ -1,4 +1,5 @@
 const Review = require('../../../models/sandeep/feedback/Review');
+const { awardPoints } = require('../../../utils/loyalty');
 const mongoose = require('mongoose');
 
 // Create a new review
@@ -14,9 +15,11 @@ exports.createReview = async (req, res) => {
       comment
     });
 
+    console.log(newReview)
     // Optionally perform sentiment analysis here and set `sentimentScore`
 
     await newReview.save();
+    await awardPoints(userId, 'review');
     res.status(201).json({ message: 'Review created successfully', review: newReview });
   } catch (error) {
     res.status(500).json({ message: 'Error creating review', error });

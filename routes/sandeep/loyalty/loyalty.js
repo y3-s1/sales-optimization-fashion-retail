@@ -1,8 +1,41 @@
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const LoyaltyRewards = require('../../../models/sandeep/loyalty/LoyaltyReward');
 const LoyaltyConfig = require("../../../models/sandeep/loyalty/LoyaltyConfig");
-const LoyaltyRewards = require("../../../models/sandeep/loyalty/LoyaltyReward");
-// const { verifyToken } = require("../../../utils/veryfyToken.js");
+const { applyLoyaltyPoints } = require('../../../utils/loyalty');
 
 const router = require("express").Router();
+
+// Multer configuration for image uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const dir = 'uploads/rewards/';
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    cb(null, dir);
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    const fileTypes = /jpeg|jpg|png/;
+    const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = fileTypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb('Error: Images only!');
+    }
+  }
+}).single('image');
 
 router.route('/set-conditions').post(async (req, res) => {
     try {
@@ -110,29 +143,31 @@ router.route('/set-conditions').post(async (req, res) => {
   });
 
   
-  router.route('/add-reward').post(async (req, res) => {
+  router.post('/add-reward', upload, async (req, res) => {
     try {
       const { name, pointsRequired, category, minPoints, maxPoints } = req.body;
       
-      // Create a new reward document
+      const imageUrl = req.file ? `/loyalty/uploads/rewards/${req.file.filename}` : null;
+  
       const newReward = new LoyaltyRewards({
         name,
         pointsRequired,
         category,
-        availabilityRange: { minPoints, maxPoints }
+        availabilityRange: { minPoints, maxPoints },
+        imageUrl
       });
   
-      // Save the new reward to the database
       const reward = await newReward.save();
-  
-      // Send success response with the saved reward
       res.status(201).json({ message: 'Reward added successfully', reward });
     } catch (error) {
-      // Handle errors and send an error response
       console.error('Error adding reward:', error);
       res.status(400).json({ error: 'Error adding reward', details: error.message });
     }
   });
+
+  
+// Serve static files from uploads folder
+  router.use('/uploads', express.static(path.join(__dirname, '../../../uploads')));
 
 
   router.route('/rewards').get(async (req, res) => {
@@ -148,6 +183,70 @@ router.route('/set-conditions').post(async (req, res) => {
       res.status(400).json({ error: 'Error fetching rewards', details: error.message });
     }
   });
+
+
+
+
+  router.get('/analytics', async (req, res) => {
+    try {
+      // Fetch total loyalty customers
+      const loyaltyCustomers = await LoyaltyConfig.countDocuments({});
+  
+      // Fetch all user activity data
+      const activities = await UserActivity.find({}).populate('userId', 'name'); // Assuming User model has 'name'
+  
+      // Calculate average visits and average spend
+      const totalVisits = activities.reduce((sum, activity) => sum + activity.visitCount, 0);
+      const averageVisits = totalVisits / activities.length;
+  
+      const totalSpend = activities.reduce((sum, activity) => sum + activity.totalSpent, 0);
+      const averageSpend = totalSpend / activities.length;
+  
+      // Fetch points redemption rates
+      const rewards = await LoyaltyRewards.find({});
+      const redemptions = await RewardRedemption.find({});
+      
+      const pointsRedemptionRates = rewards.map(reward => {
+        const redemptionsForReward = redemptions.filter(r => r.rewardId.toString() === reward._id.toString()).length;
+        return {
+          reward: reward.name,
+          redemptions: redemptionsForReward
+        };
+      });
+  
+      const popularRewards = pointsRedemptionRates
+        .sort((a, b) => b.redemptions - a.redemptions)
+        .slice(0, 5)
+        .map(rate => rate.reward);
+  
+      // User engagement data from UserActivity logs
+      const userEngagement = activities.map(activity => {
+        const loginCount = activity.engagementLogs.filter(log => log.type === 'login').length;
+        const purchaseCount = activity.engagementLogs.filter(log => log.type === 'purchase').length;
+        const redemptionCount = activity.engagementLogs.filter(log => log.type === 'redemption').length;
+  
+        return {
+          user: activity.userId.name, // Assuming 'name' field in User model
+          logins: loginCount,
+          purchases: purchaseCount,
+          redemptions: redemptionCount
+        };
+      });
+  
+      res.status(200).json({
+        loyaltyCustomers,
+        averageVisits,
+        averageSpend,
+        pointsRedemptionRates,
+        popularRewards,
+        userEngagement, // Real engagement data
+      });
+    } catch (error) {
+      console.error('Error fetching analytics data:', error);
+      res.status(500).json({ error: 'Error fetching analytics data' });
+    }
+  });
+  
 
 
 

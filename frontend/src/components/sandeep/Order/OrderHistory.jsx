@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import demandAxios from '../../../BaseURL';
 import './orderHistory.css'
+import { AuthContext } from '../../../context/AuthContext';
 
 function OrderHistory() {
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate(); // Use navigate to handle redirection
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     // Fetch customer orders (this would be an API call in a real app)
     const fetchOrders = async () => {
       try {
-        const response = await demandAxios.get('/order/getCompleteOrdersForUser/65f7d71ac447f1c610d3b6c7'); 
+        const response = await demandAxios.get(`/order/getCompleteOrdersForUser/${user._id}`); 
         setOrders(response.data); 
-        console.log(response.data)
+        console.log('ORDERHISTORY',response.data)
       } catch (error) {
         console.error('Error fetching orders:', error);
       }

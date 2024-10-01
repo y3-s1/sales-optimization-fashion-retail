@@ -1,4 +1,3 @@
-// models/Reward.js
 const mongoose = require('mongoose');
 
 const LoyaltyRewardSchema = new mongoose.Schema(
@@ -25,9 +24,13 @@ const LoyaltyRewardSchema = new mongoose.Schema(
                 required: true 
             }
         },
+        imageUrl: { 
+            type: String, // URL of the uploaded image
+            required: false 
+        },
         createdAt: { type: Date, default: Date.now }
-});
+    }
+);
 
-
-const LoyaltyRewards = mongoose.model("loyaltyRewards", LoyaltyRewardSchema)
+const LoyaltyRewards = mongoose.model("loyaltyRewards", LoyaltyRewardSchema);
 module.exports = LoyaltyRewards;

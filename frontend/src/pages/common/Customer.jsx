@@ -6,6 +6,9 @@ import LoginPage from './LoginPage'
 import AllProductsForFeed from './AllProductsForFeed'
 import '../../pages/sandeep/customerRelationship.css'
 import SingleFashionProduct from './SingleFashionProduct'
+import CustomerLoyaltyHomePage from '../sandeep/loyalty/rewards/CustomerLoyaltyHomePage'
+import CartPage from './CartPage'
+import CheckoutPage from './CheckoutPage'
 
 function Customer() {
   return (
@@ -14,6 +17,9 @@ function Customer() {
     <div className='customerHome'>
     <Routes>
         <Route path="/profile/*" element={<Profile />}></Route>
+        <Route path="/cart/*" element={<CartPage />}></Route>
+        <Route path="/checkout/*" element={<CheckoutPage />}></Route>
+        <Route path="/rewards/*" element={<CustomerLoyaltyHomePage />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/AllFProducts/*" element={<AllProductsForFeed />}></Route>
         <Route path="/product/:id" element={<SingleFashionProduct />}></Route>

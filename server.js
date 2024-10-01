@@ -28,7 +28,10 @@ const CustomerRouter = require("./routes/sandeep/user/customer.js");
 const LoyaltyRouter = require("./routes/sandeep/loyalty/loyalty.js");
 const ReviewsRouter = require("./routes/sandeep/feedback/reviews.js");
 const OrderRouter = require("./routes/sandeep/order/orders.js");
-const authRouter = require('./routes/sandeep/user/auth.js')
+const authRouter = require('./routes/sandeep/user/auth.js');
+
+const ProductRouter = require('./routes/sandeep/products/products.js')
+const CartRouter = require('./routes/sandeep/order/cart.js')
 
 
 // Import and use routes
@@ -57,6 +60,9 @@ app.use("/order", OrderRouter);
 app.use("/authenti", authRouter);
 
 app.use("/Item", inventoryRouter);
+
+app.use("/product", ProductRouter);
+app.use("/cart", CartRouter);
 
 const connection = mongoose.connection;
 connection.once("open", ()=> {

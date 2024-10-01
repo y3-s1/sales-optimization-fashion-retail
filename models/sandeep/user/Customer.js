@@ -20,6 +20,10 @@ const customerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    dob: {
+      type: Date,
+      required: false,
+    },
     contact_num: {
       type: String,
       required: true,

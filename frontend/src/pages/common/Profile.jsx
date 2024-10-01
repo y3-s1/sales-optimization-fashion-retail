@@ -5,6 +5,8 @@ import AddReviewForm from '../../components/sandeep/feedback/customer/AddReviewF
 import OrderHistory from '../../components/sandeep/Order/OrderHistory'
 import './profile.css'
 import CustomerReviews from '../../components/sandeep/feedback/customer/CustomerReviews'
+import CustomerLoyaltyDHome from '../../components/sandeep/loyalty/customer/CustomerLoyaltyDHome'
+import CustomerLoyaltyTiers from '../../components/sandeep/loyalty/customer/CustomerLoyaltyTîers'
 
 function Profile() {
   return (
@@ -42,6 +44,7 @@ function Profile() {
             <Route path="/" element={<ProfileComponet />} />
             <Route path="/orderHistory" element={<OrderHistory />} />
             <Route path="/reviews" element={<CustomerReviews />} />
+            <Route path="/loyalty" element={<CustomerLoyaltyTiers />} />
           </Routes>
         </div>
       </div>
