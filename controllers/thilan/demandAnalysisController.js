@@ -13,6 +13,7 @@ const {
 const allProducts = require("../../data/demandAnalysis/products");
 
 
+
 // Send high demand data
 const sendHighDemandData = (req, res) => {
     const highDemandData = {
@@ -25,6 +26,7 @@ const sendHighDemandData = (req, res) => {
     res.status(200).json(highDemandData); 
 };
 
+
 // Send all products data
 const sendAllProductsData = async (req, res) => {
     try {
@@ -35,6 +37,7 @@ const sendAllProductsData = async (req, res) => {
       res.status(500).json({ message: "Server Error" });
     }
 };
+
 
 // Add a new product
 const addProduct = async (req, res) => {
@@ -76,6 +79,8 @@ const getProductById = async (req, res) => {
         res.status(500).json({ message: "Server Error" });
       }
 };
+
+
 
 
 
@@ -174,6 +179,8 @@ const calculateProductDemand = async (productId) => {
 
 
 
+
+
   // Function to calculate demand for each product and find top 7 high demand products
   const getTopHighDemandProducts = async (req, res) => {
     try {
@@ -218,6 +225,10 @@ const calculateProductDemand = async (productId) => {
 
 
 
+
+
+
+
 // Helper function to calculate percentage growth
 const calculateGrowthPercentage = (currentMonthSales, previousMonthSales) => {
   if (previousMonthSales === 0) {
@@ -237,6 +248,30 @@ const getLast7Months = () => {
     result.unshift(months[monthIndex]);
   }
   return result;
+};
+
+// Helper function to assign icons based on category
+const getCategoryIcon = (category) => {
+  switch (category) {
+    case "Jacket":
+      return "https://img.icons8.com/raincoat.png";
+    case "Shirt":
+      return "https://img.icons8.com/shirt.png";
+    case "Shoe":
+      return "https://img.icons8.com/windows/32/boots.png";
+    case "Denim":
+      return "https://img.icons8.com/jeans.png";
+    case "Crop Top":
+      return "https://img.icons8.com/?size=100&id=HNSBGf1FPM3T&format=png&color=000000";
+    case "Frock":
+      return "https://img.icons8.com/?size=100&id=6891&format=png&color=000000";
+    case "T-Shirt":
+      return "https://img.icons8.com/?size=100&id=105819&format=png&color=000000";
+    case "Blouse":
+      return "https://img.icons8.com/?size=100&id=dcUObP2Tpicl&format=png&color=000000";
+    default:
+      return "https://img.icons8.com/?size=100&id=25109&format=png&color=000000";  // Default icon
+  }
 };
 
 // Function to get top 4 high-demand categories
@@ -295,7 +330,8 @@ const getTopHighDemandCategories = async (req, res) => {
         category,
         demand,
         salesGrowth: salesGrowth.toFixed(2),  // Percentage growth of sales
-        salesCounts: salesCounts  // Last 7 months' sales counts with month names
+        salesCounts: salesCounts,  // Last 7 months' sales counts with month names
+        icon: getCategoryIcon(category)  // Assign the correct icon based on category
       };
     });
 
@@ -311,6 +347,9 @@ const getTopHighDemandCategories = async (req, res) => {
     res.status(500).json({ message: "Error fetching top high-demand categories", error: error.message });
   }
 };
+
+
+
 
 
 

@@ -7,7 +7,7 @@ import SingleProduct from '../../../components/thilan/demandAnalysis/singleProdu
 import Predictions from '../predictions/Predictions';
 import PriceUpdate from '../priceUpdate/PriceUpdate';
 
-function DemandAnalysis({currentProduct, setCurrentProduct, currentProductId, setCurrentProductId, topDemandProducts}) {
+function DemandAnalysis({currentProduct, setCurrentProduct, currentProductId, setCurrentProductId, topDemandProducts, topDemandCategories}) {
 
   const [highDemandData, setHighDemandData] = useState({ 
     highDemandProducts:[],  
@@ -17,6 +17,15 @@ function DemandAnalysis({currentProduct, setCurrentProduct, currentProductId, se
     highDemandCategory4:null
   });
   const [allProducts, setAllProducts] = useState({});
+
+  const [topCategory1, setTopCategory1] = useState({});
+  const [topCategory2, setTopCategory2] = useState({});
+  const [topCategory3, setTopCategory3] = useState({});
+  const [topCategory4, setTopCategory4] = useState({});
+
+  useEffect(() => {
+    saveTopCategories();
+  }, [topDemandCategories]);
 
   useEffect(() => {
     const fetchHighDemandData = async () => {
@@ -73,6 +82,22 @@ function DemandAnalysis({currentProduct, setCurrentProduct, currentProductId, se
   }, []);
 
 
+  const saveTopCategories = async () => {
+    try {
+      if (topDemandCategories && topDemandCategories.length >= 4) {
+        // Assign each top category with its respective color and dataKey
+        setTopCategory1({ ...topDemandCategories[0], color: "#872323", dataKey: "sales" });
+        setTopCategory2({ ...topDemandCategories[1], color: "#453AC8", dataKey: "sales" });
+        setTopCategory3({ ...topDemandCategories[2], color: "#1c2866", dataKey: "sales" });
+        setTopCategory4({ ...topDemandCategories[3], color: "#9fab2e", dataKey: "sales" });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
   const boxStyle = {
     padding: "20px",
     backgroundColor: "#fff",
@@ -83,6 +108,8 @@ function DemandAnalysis({currentProduct, setCurrentProduct, currentProductId, se
 
   console.log("high demand data: ", highDemandData);
   console.log("top demand products: ", topDemandProducts);
+  console.log("high demand categories: ", topDemandCategories);
+  console.log("high demand category 1 : ", topCategory1);
   
 
   return (
@@ -110,10 +137,10 @@ function DemandAnalysis({currentProduct, setCurrentProduct, currentProductId, se
           style={{ ...boxStyle, gridColumn: "span 3", gridRow: "span 3"}}
         >
           <HighDemandCategories 
-            highDemandCategory1={highDemandData.highDemandCategory1}
-            highDemandCategory2={highDemandData.highDemandCategory2}
-            highDemandCategory3={highDemandData.highDemandCategory3}
-            highDemandCategory4={highDemandData.highDemandCategory4}
+            highDemandCategory1={topCategory1}
+            highDemandCategory2={topCategory2}
+            highDemandCategory3={topCategory3}
+            highDemandCategory4={topCategory4}
           ></HighDemandCategories>
         </div>
 

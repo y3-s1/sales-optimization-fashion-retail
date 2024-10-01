@@ -16,6 +16,7 @@ function PriceOptimization() {
   const [currentProductId, setCurrentProductId] = useState("");
   const [predictedPrice, setPredictedPrice] = useState("5490");
   const [topDemandProducts, setTopDemandProducts] = useState([]);
+  const [topDemandCategories, setTopDemandCategories] = useState([]);
 
   const handleTabChange = () => {
     switch (activeButton) {
@@ -46,6 +47,23 @@ function PriceOptimization() {
 
     fetchTopDemandProducts();  // Call the function to fetch top demand products
   }, []);  // Empty dependency array ensures this runs once when the component mounts
+
+
+
+  // Fetch top high-demand products
+  useEffect(() => {
+    const fetchTopDemandCategories = async () => {
+      try {
+        const res = await demandAxios.get(`api/demandAnalysis/topHighDemandCategories`);
+        setTopDemandCategories(res.data);
+      } catch (error) {
+        console.log("Error fetching top demand categories:", error);
+      }
+    };
+
+    fetchTopDemandCategories();
+  }, []);  // Empty dependency array ensures this runs once when the component mounts
+
 
   useEffect(() => {
     fetchData();
@@ -124,6 +142,7 @@ function PriceOptimization() {
               currentProductId={currentProductId}
               setCurrentProductId={setCurrentProductId}
               topDemandProducts={topDemandProducts}
+              topDemandCategories={topDemandCategories}
             />
           </div>
 
