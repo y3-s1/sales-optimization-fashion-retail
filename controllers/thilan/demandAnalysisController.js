@@ -2,29 +2,29 @@ const FashionProduct = require("../../models/thilan/FashionProduct");
 const natural = require('natural');
 const sentimentAnalyzer = new natural.SentimentAnalyzer('English', natural.PorterStemmer, 'afinn');
 
-const {
-    highDemandProducts,
-    highDemandCategory1,
-    highDemandCategory2,
-    highDemandCategory3,
-    highDemandCategory4
-} = require("../../data/demandAnalysis/highDemandData");
+// const {
+//     highDemandProducts,
+//     highDemandCategory1,
+//     highDemandCategory2,
+//     highDemandCategory3,
+//     highDemandCategory4
+// } = require("../../data/demandAnalysis/highDemandData");
 
-const allProducts = require("../../data/demandAnalysis/products");
+// const allProducts = require("../../data/demandAnalysis/products");
 
 
 
 // Send high demand data
-const sendHighDemandData = (req, res) => {
-    const highDemandData = {
-        highDemandProducts, 
-        highDemandCategory1, 
-        highDemandCategory2, 
-        highDemandCategory3, 
-        highDemandCategory4
-    };
-    res.status(200).json(highDemandData); 
-};
+// const sendHighDemandData = (req, res) => {
+//     const highDemandData = {
+//         highDemandProducts, 
+//         highDemandCategory1, 
+//         highDemandCategory2, 
+//         highDemandCategory3, 
+//         highDemandCategory4
+//     };
+//     res.status(200).json(highDemandData); 
+// };
 
 
 // Send all products data
@@ -355,7 +355,6 @@ const getTopHighDemandCategories = async (req, res) => {
 
 
 module.exports = {
-    sendHighDemandData,
     sendAllProductsData,
     addProduct,
     getProductById,
