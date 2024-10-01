@@ -154,7 +154,9 @@ const calculateProductDemand = async (productId) => {
   
       return {
         productId: productId,
-        productName: product.name,
+        name: product.name,
+        category: product.category,
+        img: product.imageUrl,
         demand: finalDemand.toFixed(2),
         demandDetails: {
           averageProductDemand: averageDemand.toFixed(2),
@@ -187,6 +189,7 @@ const calculateProductDemand = async (productId) => {
         return {
           productId: product._id,
           name: product.name,
+          img: product.imageUrl,
           demand: parseFloat(demandData.demand),  // Convert demand to a number for sorting
           details: demandData.demandDetails
         };
