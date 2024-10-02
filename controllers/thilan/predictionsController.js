@@ -160,7 +160,90 @@ const predictSalesForPrice = async (req, res) => {
 
 
 
+// Helper function to calculate seasonal trends
+const calculateSeasonalStockTrends = (sales) => {
+  const monthlySales = Array(12).fill(0);  // Array to store total sales for each month (Jan-Dec)
+  const monthlyCounts = Array(12).fill(0); // Array to store the number of records per month
+
+  // Sum sales by month across all years in the historical data
+  sales.forEach(sale => {
+    const saleMonthIndex = new Date(sale.year, new Date(sale.month + " 1").getMonth()).getMonth();  // Get the month index
+    monthlySales[saleMonthIndex] += sale.count;
+    monthlyCounts[saleMonthIndex] += 1;
+  });
+
+  // Calculate the average sales for each month (Jan-Dec) and normalize them
+  const seasonalTrends = monthlySales.map((totalSales, index) => {
+    return monthlyCounts[index] > 0 ? totalSales / monthlyCounts[index] : 1;  // Avoid division by 0
+  });
+
+  // Normalize trends to center them around 1 (so months with no significant trends don't affect the predictions)
+  const maxSales = Math.max(...seasonalTrends);
+  return seasonalTrends.map(trend => trend / maxSales);  // Normalize trends
+};
+
+// Helper function to calculate average sales over the past months
+const calculateAverageSales = (sales, months = 6) => {
+  const recentSales = sales.slice(-months);  // Get sales data for the last 'months' months
+  const totalSales = recentSales.reduce((sum, sale) => sum + sale.count, 0);
+  return totalSales / months;  // Calculate the average sales per month
+};
+
+// Controller function to predict stock for the next month with seasonal trends
+const predictNextMonthStock = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    // Find the product by its ID
+    const product = await FashionProduct.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Get the product's current stock
+    const currentStock = product.currentStock;
+
+    // Calculate the average monthly sales based on the past sales data (e.g., last 6 months)
+    const averageSalesPerMonth = calculateAverageSales(product.sales, 6);
+
+    // Calculate seasonal trends based on the product's historical sales
+    const seasonalTrends = calculateSeasonalStockTrends(product.sales);
+
+    // Get the index of the next month
+    const nextMonthIndex = new Date().getMonth() + 1;  // Next month (0-based)
+
+    // Apply the seasonal trend for the next month
+    const seasonallyAdjustedSales = averageSalesPerMonth * (seasonalTrends[nextMonthIndex] || 1);  // Apply seasonal adjustment
+
+    // Predict stock for the next month: current stock - seasonally adjusted sales
+    //const predictedStock = Math.max(seasonallyAdjustedSales, currentStock - seasonallyAdjustedSales);   Ensure stock doesn't go negative
+
+    const predictedStock = seasonallyAdjustedSales;
+
+    // Return the predicted stock for the next month
+    res.status(200).json({
+      productId: productId,
+      currentStock: currentStock,
+      averageSalesPerMonth: averageSalesPerMonth.toFixed(2),
+      seasonallyAdjustedSales: seasonallyAdjustedSales.toFixed(2),
+      predictedStock: predictedStock.toFixed(2),
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error predicting next month's stock", error: error.message });
+  }
+};
+
+
+
+
+
+
+
+
+
 module.exports = {
   predictProductPrice,
   predictSalesForPrice,
+  predictNextMonthStock,
 };
