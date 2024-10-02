@@ -14,6 +14,8 @@ const PORT = process.env.PORT || 8070;
 
 // Import routes
 const demandAnalysisRoutes = require("./routes/thilan/demandAnalysis");
+const predictionsRoutes = require("./routes/thilan/predictions.js");
+const fashionProductsRoutes = require("./routes/thilan/fashionProduct.js");
 
 
 const corsOptions = {
@@ -76,6 +78,8 @@ connection.once("open", ()=> {
 
 // Use routes
 app.use("/api/demandAnalysis", demandAnalysisRoutes);
+app.use("/api/predictions", predictionsRoutes);
+app.use("/api/fashionProducts", fashionProductsRoutes);
 
 
 app.listen(PORT,() =>{
