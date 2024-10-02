@@ -13,6 +13,7 @@ function CustomerLoyaltyDHome({ customerPoints }) {
     async function fetchRewards() {
       try {
         const response = await demandAxios.get(`/loyalty/rewards/`); // Fetch available rewards
+        console.log(response.data)
         setRewards(response.data);
       } catch (error) {
         console.error('Error fetching rewards:', error);
@@ -22,6 +23,7 @@ function CustomerLoyaltyDHome({ customerPoints }) {
     async function fetchRedeemedRewards() {
       try {
         const response = await demandAxios.get(`/loyalty/redeemed-rewards/${user._id}`); // Fetch redeemed rewards for the user
+        console.log(response.data)
         setRedeemedRewards(response.data);
       } catch (error) {
         console.error('Error fetching redeemed rewards:', error);
@@ -95,7 +97,7 @@ function CustomerLoyaltyDHome({ customerPoints }) {
           {redeemedRewards.map((redeemedReward, index) => (
             <div key={index} className="loyaltyCHome-rewardCard">
               <img
-                src={`http://localhost:8070${redeemedReward.rewardId.imageUrl}`}
+                src={redeemedReward.rewardId.imageUrl?`http://localhost:8070${redeemedReward.rewardId.imageUrl}`: ''}
                 alt={redeemedReward.rewardId.name}
                 className="loyaltyCHome-rewardImage"
               />
