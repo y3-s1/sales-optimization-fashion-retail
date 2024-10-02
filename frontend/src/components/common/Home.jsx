@@ -18,7 +18,7 @@ function Home() {
     navigate('/admin/inventory')
   }
   const handleUserSearchButtonClick = () => {
-    navigate('/admin/User')
+    navigate('/customer/User')
   }
 
   return (

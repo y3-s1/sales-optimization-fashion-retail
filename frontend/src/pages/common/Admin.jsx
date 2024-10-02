@@ -24,7 +24,7 @@ function Admin() {
                 <Route path="/customerRelationship/*" element={<CrmHome />}></Route>
                 <Route path="/inventory/*" element={<InventoryDashboard />}></Route>
                 
-                <Route path="/User/*" element={<User_allItems />}></Route>
+                
             </Routes>
           </div>
         </div>
