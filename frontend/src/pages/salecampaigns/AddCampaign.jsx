@@ -48,6 +48,15 @@ const AddCampaign = () => {
       return;
     }
   
+    // Validate that the start date is before the end date
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+  
+    if (start >= end) {
+      alert('Start date must be before end date');
+      return;
+    }
+  
     try {
       await axios.post('http://localhost:8070/salescampaigns/addcampaign', {
         campaignName,
@@ -61,9 +70,10 @@ const AddCampaign = () => {
       window.location.reload(); // Refresh the page after adding a campaign
     } catch (err) {
       console.error(err);  // Log the detailed error
-      alert('Error adding campaign: ' + err.response?.data || err.message);
+      alert('Error adding campaign: ' + (err.response?.data || err.message));
     }
   };
+  
   
 
   if (loading) return <p>Loading items...</p>;
