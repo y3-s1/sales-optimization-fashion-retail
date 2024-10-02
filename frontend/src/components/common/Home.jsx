@@ -6,7 +6,7 @@ function Home() {
   const navigate = useNavigate()
 
   const handlePriceOptimizationButtonClick = () => {
-    navigate('/admin/priceOptimization/demandAnalysis')
+    navigate('/admin/priceOptimization')
   }
   const handleCustomerRelationshipButtonClick = () => {
     navigate('/admin/customerRelationship/admin/crmDashboard')
@@ -16,6 +16,9 @@ function Home() {
   }
   const handleInventoryButtonClick = () => {
     navigate('/admin/inventory')
+  }
+  const handleUserSearchButtonClick = () => {
+    navigate('/customer/User')
   }
 
   
@@ -30,6 +33,8 @@ function Home() {
       <button onClick={handleCustomerRelationshipReviewButtonClick}>Customer relationship (Reviews)</button>
       <br />
       <button onClick={handleInventoryButtonClick}>Inventory</button>
+      <br />
+      <button onClick={handleUserSearchButtonClick}>User Search</button>
       <br />
     </>
   )

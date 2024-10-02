@@ -5,6 +5,7 @@ import './customerRelationship.css'
 import { Route, Routes } from 'react-router-dom'
 import CrmDashboard from './dashboard/CrmDashboard'
 import LoyaltySetting from './loyalty/settings/LoyaltySetting'
+import Allreviews from '../../components/sandeep/feedback/admin/Allreviews'
 
 function CustomerRelationship() {
   return (
@@ -14,6 +15,7 @@ function CustomerRelationship() {
     <Routes>
         <Route path="/crmDashboard" element={<CrmDashboard />}></Route>
         <Route path="/crmSettings" element={<LoyaltySetting/>}></Route>
+        <Route path="/reviews" element={<Allreviews/>}></Route>
     </Routes>
     </div>
     </>

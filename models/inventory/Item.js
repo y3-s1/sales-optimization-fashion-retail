@@ -37,7 +37,8 @@ const itemSchema = new mongoose.Schema({
         min: 0
     },
     discountedPrice: {
-        type: Number,  // New discounted price attribute -- ishara
+        type: Number,
+        default: 0,
     },
     stock: {
         type: Number,
@@ -89,12 +90,9 @@ const itemSchema = new mongoose.Schema({
             rating: { type: Number, min: 0, max: 5 }
         }
     ],
-  
-
-    
     isOnSale: {
         type: Boolean,
-        default: false
+        default: null
     },
     createdAt: {
         type: Date,

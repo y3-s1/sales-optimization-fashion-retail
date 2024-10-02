@@ -30,10 +30,13 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 // Route to add a new item
 router.post('/add', upload.single('image'), async (req, res) => {
   try {
-    const { name, category, description, price, stock, size, color, material, careInstructions, availability, SKU } = req.body;
-    
+    const { 
+      name, category, description, price, stock, size, color, material, 
+      careInstructions, availability, SKU
+    } = req.body;
+
     // File path of the uploaded image
-    const image = req.file ? req.file.filename : null;
+    const image = req.file ? req.file.filename : null; // Check if image is uploaded
 
     // Create a new item instance with default values for isOnSale and discountedPrice
     const newItem = new Item({
@@ -60,10 +63,11 @@ router.post('/add', upload.single('image'), async (req, res) => {
     res.json({ message: 'Item added successfully' });
   } catch (error) {
     // Handle errors
-    console.error('Error adding item:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error adding item:', error.message || error); // Display full error message
+    res.status(500).json({ error: 'Internal server error', details: error.message || 'Error details not available' });
   }
 });
+
 
 // Route to update an existing item
 router.put('/update/:id', upload.single('image'), async (req, res) => {
@@ -77,8 +81,31 @@ router.put('/update/:id', upload.single('image'), async (req, res) => {
       updateData.image = image;
     }
 
+    // Handle discountedPrice: convert to number or set to null
+    if (updateData.discountedPrice !== undefined && updateData.discountedPrice !== '') {
+      if (updateData.discountedPrice === "null") {
+        updateData.discountedPrice = null;
+      } else {
+        const discountedPrice = parseFloat(updateData.discountedPrice);
+        if (!isNaN(discountedPrice)) {
+          updateData.discountedPrice = discountedPrice;
+        } else {
+          return res.status(400).json({ error: 'Invalid discounted price' });
+        }
+      }
+    } else {
+      updateData.discountedPrice = null; // Set to null if not provided
+    }
+
+    // Handle isOnSale: convert to boolean or set to null
+    if (updateData.isOnSale !== undefined && updateData.isOnSale !== '') {
+      updateData.isOnSale = updateData.isOnSale === 'true'; // Convert string to boolean
+    } else {
+      updateData.isOnSale = null; // Set to null if not provided
+    }
+
     // Update the item in the database
-    const updatedItem = await Item.findByIdAndUpdate(itemId, updateData, { new: true });
+    const updatedItem = await Item.findByIdAndUpdate(itemId, updateData, { new: true, runValidators: true });
 
     if (!updatedItem) {
       return res.status(404).json({ error: 'Item not found' });
@@ -91,7 +118,7 @@ router.put('/update/:id', upload.single('image'), async (req, res) => {
   }
 });
 
-// Route to fetch all items
+
 router.get('/', async (req, res) => {
   try {
     const items = await Item.find();
