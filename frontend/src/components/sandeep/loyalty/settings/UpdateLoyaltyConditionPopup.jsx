@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import demandAxios from '../../../../BaseURL';
 
@@ -16,11 +16,10 @@ function UpdateLoyaltyConditionPopup({ onClose, onSubmit, initialData }) {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle form submission
+  // Handle form submission (for updating condition)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Structure the form data for update
     let identifier = {};
     let update = {};
 
@@ -40,12 +39,36 @@ function UpdateLoyaltyConditionPopup({ onClose, onSubmit, initialData }) {
         update
       });
 
-      // Call onSubmit with updated config from the response
-      onSubmit(response.data.config);
-      onClose();
+      onSubmit(response.data.config); // Call onSubmit with updated config from response
+      onClose(); // Close the popup
     } catch (error) {
       console.error('Error updating condition:', error);
-      // Handle error (e.g., display error message)
+    }
+  };
+
+  // Handle delete condition
+  const handleDelete = async () => {
+    let identifier = {};
+
+    if (formData.type === 'purchasing') {
+      identifier = { amount: Number(formData.amount) };
+    } else if (formData.type === 'actions') {
+      identifier = { action: formData.action };
+    }
+
+    try {
+      // Send delete request to backend
+      const response = await demandAxios.delete('/loyalty/delete-condition', {
+        data: {
+          type: formData.type,
+          identifier
+        }
+      });
+
+      onSubmit(response.data.config); // Update the config after deletion
+      onClose(); // Close the popup after successful deletion
+    } catch (error) {
+      console.error('Error deleting condition:', error);
     }
   };
 
@@ -64,33 +87,29 @@ function UpdateLoyaltyConditionPopup({ onClose, onSubmit, initialData }) {
           </div>
 
           {formData.type === 'purchasing' && (
-            <>
-              <div className="loyalty-set-up-form-group">
-                <label><h6>Amount:</h6></label>
-                <input
-                  type="number"
-                  name="amount"
-                  value={formData.amount}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </>
+            <div className="loyalty-set-up-form-group">
+              <label><h6>Amount:</h6></label>
+              <input
+                type="number"
+                name="amount"
+                value={formData.amount}
+                onChange={handleChange}
+                required
+              />
+            </div>
           )}
 
           {formData.type === 'actions' && (
-            <>
-              <div className="loyalty-set-up-form-group">
-                <label><h6>Action:</h6></label>
-                <input
-                  type="text"
-                  name="action"
-                  value={formData.action}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </>
+            <div className="loyalty-set-up-form-group">
+              <label><h6>Action:</h6></label>
+              <input
+                type="text"
+                name="action"
+                value={formData.action}
+                onChange={handleChange}
+                required
+              />
+            </div>
           )}
 
           <div className="loyalty-set-up-form-group">
@@ -106,6 +125,7 @@ function UpdateLoyaltyConditionPopup({ onClose, onSubmit, initialData }) {
 
           <button type="submit" className="loyalty-set-up-btn btn-primary">Update</button>
           <button type="button" className="loyalty-set-up-btn btn-secondary" onClick={onClose}>Cancel</button>
+          <button type="button" className="loyalty-set-up-btn btn-danger" onClick={handleDelete}>Delete</button>
         </form>
       </div>
     </div>

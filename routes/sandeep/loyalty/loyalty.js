@@ -69,6 +69,57 @@ router.route('/set-conditions').post(async (req, res) => {
   });
 
 
+  router.route('/delete-condition').delete(async (req, res) => {
+    try {
+      const { type, identifier } = req.body; // Expecting { type: 'purchasing', identifier: { amount: 100 } }
+  
+      // Validate type field
+      if (!['purchasing', 'actions'].includes(type)) {
+        return res.status(400).json({ error: 'Invalid type. Must be "purchasing" or "actions".' });
+      }
+  
+      // Find the existing configuration for the specified type
+      const config = await LoyaltyConfig.findOne({ type });
+  
+      if (!config) {
+        return res.status(404).json({ error: 'Configuration not found for the specified type.' });
+      }
+  
+      // Find and delete the specific condition within the configuration
+      let conditionDeleted = false;
+  
+      if (type === 'purchasing') {
+        // Delete condition for purchasing type based on 'amount' identifier
+        const initialLength = config.conditions.length;
+        config.conditions = config.conditions.filter(cond => cond.amount !== identifier.amount);
+        if (config.conditions.length !== initialLength) {
+          conditionDeleted = true;
+        }
+      } else if (type === 'actions') {
+        // Delete condition for actions type based on 'action' identifier
+        const initialLength = config.conditions.length;
+        config.conditions = config.conditions.filter(cond => cond.action !== identifier.action);
+        if (config.conditions.length !== initialLength) {
+          conditionDeleted = true;
+        }
+      }
+  
+      if (!conditionDeleted) {
+        return res.status(404).json({ error: 'Condition not found for the given identifier.' });
+      }
+  
+      // Save the updated configuration after deletion
+      await config.save();
+      res.status(200).json({ message: 'Condition deleted successfully', config });
+  
+    } catch (error) {
+      console.error('Error deleting condition:', error);
+      res.status(400).json({ error: 'Error deleting condition', details: error.message });
+    }
+  });
+  
+
+
 
   router.route('/update-condition').put(async (req, res) => {
     try {
@@ -454,10 +505,10 @@ router.post('/add-reward', upload, async (req, res) => {
   
       // Calculate average visits and average spend
       const totalVisits = activities.reduce((sum, activity) => sum + activity.visitCount, 0);
-      const averageVisits = activities.length > 0 ? totalVisits / activities.length : 0;
+      const averageVisits = activities.length > 0 ? totalVisits / activities.length.toFixed(2) : '0.00';
   
       const totalSpend = activities.reduce((sum, activity) => sum + activity.totalSpent, 0);
-      const averageSpend = activities.length > 0 ? totalSpend / activities.length : 0;
+      const averageSpend = activities.length > 0 ? totalSpend / activities.length.toFixed(2) : '0.00';
   
       // Fetch all redeemed rewards from customers
       const customers = await Customer.find({}).populate('redeemedRewards.rewardId'); // Populating reward details
@@ -473,7 +524,8 @@ router.post('/add-reward', upload, async (req, res) => {
         
         return {
           reward: reward.name,
-          redemptions: redemptionsForReward
+          redemptions: redemptionsForReward,
+          image: reward.imageUrl
         };
       });
   
@@ -481,13 +533,17 @@ router.post('/add-reward', upload, async (req, res) => {
       const popularRewards = pointsRedemptionRates
         .sort((a, b) => b.redemptions - a.redemptions)
         .slice(0, 5)
-        .map(rate => rate.reward);
+        .map(rate => ({
+          reward: rate.reward,
+          image: rate.image // Assuming each rate object already contains an image field
+        }));
+
   
       // User engagement data from UserActivity logs
       const userEngagement = activities.map(activity => {
         const loginCount = activity.engagementLogs.filter(log => log.type === 'login').length;
-        const purchaseCount = activity.engagementLogs.filter(log => log.type === 'purchase').length;
-        const redemptionCount = activity.engagementLogs.filter(log => log.type === 'redemption').length;
+        const purchaseCount = activity.engagementLogs.filter(log => log.type === 'purchasing').length;
+        const redemptionCount = activity.engagementLogs.filter(log => log.type === 'review').length;
   
         return {
           id: activity.userId._id,
