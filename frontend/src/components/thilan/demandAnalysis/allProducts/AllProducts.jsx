@@ -99,7 +99,7 @@ function CustomPagination() {
 
 
 
-function AllProducts({allProducts, setCurrentProduct, currentProduct}) {
+function AllProducts({allProducts, setCurrentProductId, currentProductId}) {
 
   return (
     <div className='highDemandCategories-all font-tinos'>
@@ -130,10 +130,10 @@ function AllProducts({allProducts, setCurrentProduct, currentProduct}) {
                     getRowId={(row) => row._id}
                     onRowClick={(row) => {
                       console.log(row);
-                      setCurrentProduct(row.row._id);
+                      setCurrentProductId(row.row._id);
                     }}
                     getRowClassName={(params) => 
-                      params.id === currentProduct ? "demand-analysis-current-product-row" : ""
+                      params.id === currentProductId ? "demand-analysis-current-product-row" : ""
                     }
                     slots={{
                       toolbar: GridToolbar,

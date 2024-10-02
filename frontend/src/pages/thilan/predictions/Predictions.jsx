@@ -1,91 +1,99 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import demandAxios from '../../../BaseURL';
 import AllProducts from '../../../components/thilan/demandAnalysis/allProducts/AllProducts';
+import PriceEnterForm from '../../../components/thilan/demandAnalysis/predictions/PriceEnterForm';
+import AnalysisChartForPrices from '../../../components/thilan/demandAnalysis/predictions/AnalysisChartForPrices';
 
-function Predictions() {
+function Predictions({ currentProduct, predictedPrice }) {
+  const [analyzingPrice, setAnalyzingPrice] = useState(predictedPrice);
+  const [predictedStock, setPredictedStock] = useState(null); // State for predicted stock
 
-  const [allProducts, setAllProducts] = useState({});
-  const [currentProduct, setCurrentProduct] = useState("");
-
+  // Update the analyzing price whenever the predicted price changes
   useEffect(() => {
-    const fetchAllProductsData = async () => {
-      try {
-        const response = await demandAxios.get("api/demandAnalysis/allProducts");
-        const processedData = response.data.map(product => {
-          // Get the sales data
-          const sales = product.sales;
+    setAnalyzingPrice(predictedPrice);
+  }, [predictedPrice]);
 
-          // Get the last and current month sales
-          const now = new Date();
-          const currentMonth = now.toLocaleString('default', { month: 'long' });
-          const lastMonth = new Date(now.setMonth(now.getMonth() - 1)).toLocaleString('default', { month: 'long' });
-
-          // Find this month's sales
-          const thisMonthSalesData = sales.find(sale => sale.month === currentMonth && sale.year === String(now.getFullYear()));
-          const lastMonthSalesData = sales.find(sale => sale.month === lastMonth && sale.year === String(now.getFullYear()));
-
-          return {
-            ...product,
-            lastMonth: lastMonthSalesData ? lastMonthSalesData.count : 'N/A',
-            lastMonthAvgPrice: lastMonthSalesData ? lastMonthSalesData.avgPrice : 'N/A',
-            thisMonth: thisMonthSalesData ? thisMonthSalesData.count : 'N/A',
-            thisMonthAvgPrice: thisMonthSalesData ? thisMonthSalesData.avgPrice : 'N/A',
-          };
-        });
-
-        setAllProducts(processedData);
-      } catch (error) {
-        console.error("Error fetching all products", error);
+  // Fetch the predicted stock when the currentProduct changes
+  useEffect(() => {
+    const fetchPredictedStock = async () => {
+      if (currentProduct._id) {
+        try {
+          const response = await demandAxios.get(`/api/predictions/predictStock/${currentProduct._id}`);
+          setPredictedStock(response.data.predictedStock);
+        } catch (error) {
+          console.error('Error fetching predicted stock:', error);
+        }
       }
     };
-    fetchAllProductsData();
-  }, []);
+
+    fetchPredictedStock();
+  }, [currentProduct]); // Re-run when the currentProduct changes
 
   const boxStyle = {
-    padding: "20px",
-    backgroundColor: "#fff",
-    borderRadius: "6px",
-    boxShadow: "0px 2px 10px 0px rgba(0, 0, 0, 0.10)",
+    padding: '20px',
+    backgroundColor: '#fff',
+    borderRadius: '6px',
+    boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.10)',
+  };
+
+  const centeredTextStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    fontSize: '4rem',
+    fontWeight: 'bold',
   };
 
   return (
-    <div className='demandAnalysis-all-content'>
+    <div className='predictions-all-content'>
       <h2>Predictions</h2>
       <div
-        className="demandGrid"
+        className='demandGrid'
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gridAutoRows: "minmax(180px, auto)",
-          gap: "20px",
-          padding: "20px",
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridAutoRows: 'minmax(180px, auto)',
+          gap: '20px',
+          padding: '20px',
         }}
       >
-        <div
-          className="box1"
-          style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 3.5" }}
-        >
-          <AllProducts 
-            allProducts={allProducts} 
-            setCurrentProduct={setCurrentProduct}
-            currentProduct={currentProduct}
-          />
-        </div>
-        <div
-          className="box1"
-          style={{...boxStyle, gridColumn: "span 2", gridRow: "span 2" }}
-        >
+        {/* Stock Predictions Box */}
+        <div className='box1' style={{ ...boxStyle, gridColumn: 'span 2', gridRow: 'span 1' }}>
           <h4>Stock Predictions</h4>
+          <div className='m-10'>
+            <div className='m-10' style={centeredTextStyle}>
+              {/* Display the predicted stock */}
+              <span>{predictedStock !== null ? Math.floor(predictedStock) : 'Loading...'}</span>
+            </div>
+          </div>
         </div>
-        <div
-          className="box1"
-          style={{...boxStyle, gridColumn: "span 2", gridRow: "span 2" }}
-        >
+
+        {/* Price Predictions Box */}
+        <div className='box1' style={{ ...boxStyle, gridColumn: 'span 2', gridRow: 'span 1' }}>
           <h4>Price Predictions</h4>
+          <div className='m-10'>
+            <div className='m-10' style={centeredTextStyle}>
+              <span>Rs. </span>
+              <span>{predictedPrice}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className='box1' style={{ ...boxStyle, gridColumn: 'span 4', gridRow: 'span 2' }}>
+          <h4>Demand Analysis for predicted prices</h4>
+
+          <div className='box1' style={{ ...boxStyle, gridColumn: 'span 4', gridRow: 'span 1' }}>
+            <PriceEnterForm currentProduct={currentProduct} predictedPrice={predictedPrice} analyzingPrice={analyzingPrice} setAnalyzingPrice={setAnalyzingPrice} />
+          </div>
+
+          <div className='box1' style={{ ...boxStyle, gridColumn: 'span 4', gridRow: 'span 1' }}>
+            <AnalysisChartForPrices currentProduct={currentProduct} analyzingPrice={analyzingPrice} />
+          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Predictions
+export default Predictions;

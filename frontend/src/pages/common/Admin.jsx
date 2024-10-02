@@ -6,6 +6,7 @@ import AdminDashboard from './AdminDashboard'
 import InventoryDashboard from '../inventory/InventoryDashboard'
 import User_allItems from '../../components/inventory/User/User_allItems'
 import UpdateItem from '../../components/inventory/UpdateItem'
+import AdminTopNav from '../../components/common/AdminTopNav'
 
 function Admin() {
 
@@ -14,6 +15,7 @@ function Admin() {
     <>
         <div className="admin-allContent">
           <div className="admin-header">
+            <AdminTopNav></AdminTopNav>
           </div>
           <div className="admin-pages">
             <Routes>

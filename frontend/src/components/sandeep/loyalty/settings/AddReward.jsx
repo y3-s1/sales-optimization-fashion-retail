@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react';
 import demandAxios from '../../../../BaseURL';
 import AddRewardPopup from './AddRewardPopup';
 
@@ -7,18 +6,16 @@ function AddReward({ rewards = [] }) {
     const [showPopup, setShowPopup] = useState(false);
     const [allRewards, setAllRewards] = useState(rewards);
 
-
     const handleAddReward = async (newReward) => {
         try {
-          // Make a POST request to the backend API to create the reward
-          console.log(newReward);
-          const response = await demandAxios.post('/loyalty/add-reward', newReward); // Adjust the endpoint if necessary
+          const response = await demandAxios.post('/loyalty/add-reward', newReward, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          });
       
           if (response.status === 200 || response.status === 201) {
-            // Update local state with the new reward
             setAllRewards((prevRewards) => [
               ...prevRewards, 
-              response.data.reward // Assuming the API response contains the added reward in `response.data.reward`
+              response.data.reward
             ]);
           } else {
             console.error('Failed to add reward:', response.data.error);
@@ -28,7 +25,6 @@ function AddReward({ rewards = [] }) {
         }
       };
       
-
   return (
     <>
     <div className="container mt-5">
@@ -36,6 +32,7 @@ function AddReward({ rewards = [] }) {
       <table className="table table-bordered">
         <thead className="thead-light">
           <tr>
+            <th>Badge</th>
             <th>Reward Value</th>
             <th>Reward Description</th>
             <th>Reward Category</th>
@@ -45,36 +42,25 @@ function AddReward({ rewards = [] }) {
         <tbody>
             {allRewards.map((reward, index) => (
                 <tr key={index}>
+                    <td>
+                      {reward.imageUrl ? (
+                        <img src={`http://localhost:8070${reward.imageUrl}`} alt="Reward Badge" style={{ width: '50px', height: '50px' }} />
+                      ) : 'No Image'}
+                    </td>
                     <td>{reward.pointsRequired}</td>
                     <td>{reward.name}</td>
                     <td>{reward.category}</td>
                     <td className="text-center">...</td>
-                </tr>))}
-        {/* //   <tr>
-        //     <td>1 Point</td>
-        //     <td>$5.00 off entire sale</td>
-        //     <td className="text-center">...</td>
-        //   </tr>
-        //   <tr>
-        //     <td>50 Points</td>
-        //     <td>$10.00 off any T-shirt</td>
-        //     <td className="text-center">...</td>
-        //   </tr>
-        //   <tr>
-        //     <td>75 Points</td>
-        //     <td>Free T-shirt</td>
-        //     <td className="text-center">...</td>
-        //   </tr> */}
+                </tr>))} 
         </tbody>
       </table>
-      {/* Add a New Reward Link */}
+      
       <div className="loyal-popup-btn text-primary" onClick={() => setShowPopup(true)}>Add a New Reward</div>
 
-      {/* Show the popup if showPopup is true */}
       {showPopup && <AddRewardPopup onClose={() => setShowPopup(false)} onSubmit={handleAddReward} />}
     </div>
     </>
   );
 }
 
-export default AddReward
+export default AddReward;
