@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 function PriceEnterForm({currentProduct, predictedPrice, analyzingPrice, setAnalyzingPrice}) {
 
   const [priceInput, setPriceInput] = useState(predictedPrice);
+  const [validationError, setValidationError] = useState('');
 
   // Update the price input whenever the predicted price changes
   useEffect(() => {
@@ -11,13 +12,54 @@ function PriceEnterForm({currentProduct, predictedPrice, analyzingPrice, setAnal
 
   // Handle input change
   const handlePriceInputChange = (e) => {
-    setPriceInput(e.target.value);  // Store the value in local state
+    const inputValue = e.target.value;
+
+    // Allow only numeric values with optional decimal point
+    if (/^\d*\.?\d*$/.test(inputValue)) {
+      setPriceInput(inputValue);  // Update the local price input state
+    }
   };
 
   // Handle Analyze button click
   const handleAnalyzeClick = () => {
+
+    const numericPrice = parseFloat(priceInput);  // Ensure price is a number
+
+    // Validations
+    if (!priceInput) {
+      return setValidationError('Price cannot be empty.');
+    }
+
+    if (isNaN(numericPrice)) {
+      return setValidationError('Please enter a valid number for the price.');
+    }
+
+    if (numericPrice <= 0) {
+      return setValidationError('Price must be greater than zero.');
+    }
+
+    if (priceInput.split('.')[1]?.length > 2) {
+      return setValidationError('Price cannot have more than two decimal places.');
+    }
+
+    // Clear validation errors
+    setValidationError('');
+
     setAnalyzingPrice(priceInput);  // Only update the analyzing price when the button is clicked
   };
+
+
+  // Make the validationError message disappear after 3 seconds
+  useEffect(() => {
+    if (validationError) {
+      const timer = setTimeout(() => {
+        setValidationError('');
+      }, 3000);  // 3 seconds delay
+
+      // Cleanup the timer when the component unmounts or validationError changes
+      return () => clearTimeout(timer);
+    }
+  }, [validationError]);
 
 
   return (
@@ -40,6 +82,8 @@ function PriceEnterForm({currentProduct, predictedPrice, analyzingPrice, setAnal
               fontSize: "14px",
             }}
           />
+          {/* Display validation errors */}
+          {validationError && <div className="mt-3 text-red-500">{validationError}</div>}
         </div>
 
         <div className="flex flex-col items-center justify-end w-[10%]">

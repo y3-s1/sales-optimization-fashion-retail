@@ -178,7 +178,7 @@ function PriceOptimization() {
               className="box1"
               style={{ ...boxStyle, gridColumn: "span 4", gridRow: "span 2" }}
             >
-              <PriceUpdate currentProduct={currentProduct} predictedPrice={predictedPrice} />
+              <PriceUpdate currentProduct={currentProduct} predictedPrice={predictedPrice} currentProductId={currentProductId} setCurrentProduct={setCurrentProduct} />
             </div>
           </div>
         </div>

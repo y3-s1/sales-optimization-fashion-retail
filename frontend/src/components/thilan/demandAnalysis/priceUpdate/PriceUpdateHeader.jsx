@@ -1,6 +1,9 @@
 import React from 'react'
 
 function PriceUpdateHeader({currentProduct}) {
+
+  const productPrice = typeof currentProduct.price === 'number' ? currentProduct.price : parseFloat(currentProduct.price) || 0;
+
   return (
     <div>
       <div className="demandChartHeader flex justify-between gap-10 p-8 pb-0 font-tinos">

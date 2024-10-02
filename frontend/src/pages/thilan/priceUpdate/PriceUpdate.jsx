@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PriceUpdateHeader from '../../../components/thilan/demandAnalysis/priceUpdate/PriceUpdateHeader';
 import PriceUpdateForm from '../../../components/thilan/demandAnalysis/priceUpdate/PriceUpdateForm';
 
-function PriceUpdate({ predictedPrice, currentProduct}) {
+function PriceUpdate({ predictedPrice, currentProduct, currentProductId, setCurrentProduct }) {
 
+  const [newPriceInput, setNewPriceInput] = useState(predictedPrice);
+
+  // Update the price input whenever the predicted price changes
+  useEffect(() => {
+    setNewPriceInput(predictedPrice);
+  }, [predictedPrice]);
+
+  
   const boxStyle = {
     padding: "20px",
     backgroundColor: "#fff",
@@ -35,7 +43,15 @@ function PriceUpdate({ predictedPrice, currentProduct}) {
           className="box1"
           style={{...boxStyle, gridColumn: "span 1", gridRow: "span 1" }}
         >
-          <PriceUpdateForm predictedPrice={predictedPrice} currentProduct={currentProduct}></PriceUpdateForm>
+          <PriceUpdateForm 
+            predictedPrice={predictedPrice} 
+            currentProduct={currentProduct}
+            newPriceInput={newPriceInput}
+            setNewPriceInput={setNewPriceInput}
+            currentProductId={currentProductId} 
+            setCurrentProduct={setCurrentProduct}
+            >
+          </PriceUpdateForm>
         </div>
       </div>
 
