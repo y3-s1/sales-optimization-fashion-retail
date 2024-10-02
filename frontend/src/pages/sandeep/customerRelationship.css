@@ -847,13 +847,6 @@ h2, h3 {
   color: #333;
 }
 
-p {
-  font-size: 0.95rem;
-  color: #666;
-  line-height: 1.5;
-  margin-bottom: 20px;
-}
-
 /* Payment buttons styling */
 .payment-options {
   display: flex;

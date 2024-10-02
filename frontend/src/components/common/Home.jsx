@@ -18,12 +18,14 @@ function Home() {
     navigate('/admin/inventory')
   }
   const handleUserSearchButtonClick = () => {
-    navigate('/admin/User')
+    navigate('/customer/User')
   }
   const handleSingleItemButtonClick = () => {
     navigate('/SingleItem')
   }
 
+
+  
 
   return (
     <>
