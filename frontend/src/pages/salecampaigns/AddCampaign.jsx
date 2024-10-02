@@ -92,6 +92,7 @@ const AddCampaign = () => {
 
   return (
     <div className="flex justify-center items-center h-screen p-6">
+      <br></br>
       <div className="max-w-lg w-full bg-white bg-opacity-30 backdrop-blur-md p-6 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-center mb-6">Add New Sale Campaign</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
