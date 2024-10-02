@@ -9,15 +9,15 @@ const AddItem = () => {
     category: "",
     description: "",
     price: "",
-    discount: "",
     stock: "",
     size: "",
     color: "",
+    customColor: "",
     material: "",
     careInstructions: "",
-    availability: "In Stock",
+    // availability: "In Stock",
     SKU: "",
-    image: null
+    image: null,
   });
 
   // Handle form field changes
@@ -39,18 +39,45 @@ const AddItem = () => {
     setFormData({ ...formData, image: e.target.files[0] });
   };
 
+  // Handle color selection
+  const handleColorChange = (e) => {
+    const value = e.target.value;
+
+    // Update the color and handle custom color logic
+    if (value === "Other") {
+      setFormData({ ...formData, color: "", customColor: "" }); // Clear color on selecting "Other"
+      document.getElementById("customColor").style.display = "block"; // Show custom color input
+    } else {
+      setFormData({ ...formData, color: value, customColor: "" }); // Set selected color
+      document.getElementById("customColor").style.display = "none"; // Hide custom color input
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Set the color to custom color if "Other" was selected and a custom string is provided
+    const finalColor = formData.color === "Other" && formData.customColor.trim() !== "" 
+      ? formData.customColor 
+      : formData.color;
+
+    // Check for required fields
+    if (!finalColor) {
+      alert("Please select a color or enter a custom color.");
+      return;
+    }
+
     const formDataToSend = new FormData();
 
+    // Append the final color to the form data
     for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
+      formDataToSend.append(key, key === "color" ? finalColor : formData[key]);
     }
 
     try {
       // Send the POST request to add the item
-      const response = await axios.post("http://localhost:8091/Item/add", formDataToSend, {
+      const response = await axios.post("http://localhost:8070/Item/add", formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -66,16 +93,17 @@ const AddItem = () => {
         category: "",
         description: "",
         price: "",
-        discount: "",
         stock: "",
         size: "",
         color: "",
+        customColor: "",
         material: "",
         careInstructions: "",
         availability: "In Stock",
         SKU: "",
         image: null
       });
+      document.getElementById("customColor").style.display = "none"; // Hide custom color input after submission
     } catch (error) {
       console.error("Error adding item:", error);
       alert("Error adding item");
@@ -119,11 +147,6 @@ const AddItem = () => {
         </div>
 
         <div className="form-group">
-          <label className="form-label" htmlFor="discount">Discount:</label>
-          <input className="form-input" type="number" id="discount" name="discount" value={formData.discount} onChange={handleChange} />
-        </div>
-
-        <div className="form-group">
           <label className="form-label" htmlFor="stock">Stock:</label>
           <input className="form-input" type="number" id="stock" name="stock" value={formData.stock} onChange={handleChange} required />
         </div>
@@ -143,7 +166,35 @@ const AddItem = () => {
 
         <div className="form-group">
           <label className="form-label" htmlFor="color">Color:</label>
-          <input className="form-input" type="text" id="color" name="color" value={formData.color} onChange={handleChange} />
+          <select
+            className="form-select"
+            id="color"
+            name="color"
+            value={formData.color}
+            onChange={handleColorChange}
+            required
+          >
+            <option value="">Select Color</option>
+            <option value="Red">Red</option>
+            <option value="Green">Green</option>
+            <option value="Blue">Blue</option>
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Yellow">Yellow</option>
+            <option value="Purple">Purple</option>
+            <option value="Orange">Orange</option>
+            <option value="Pink">Pink</option>
+            <option value="Other">Other</option>
+          </select>
+          <input
+            type="text"
+            id="customColor"
+            name="customColor"
+            style={{ display: "none" }} // Initially hidden
+            placeholder="Enter custom color"
+            value={formData.customColor}
+            onChange={(e) => setFormData({ ...formData, customColor: e.target.value })}
+          />
         </div>
 
         <div className="form-group">
@@ -166,26 +217,34 @@ const AddItem = () => {
 
         <div className="form-group">
           <label className="form-label" htmlFor="careInstructions">Care Instructions:</label>
-          <input className="form-input" type="text" id="careInstructions" name="careInstructions" value={formData.careInstructions} onChange={handleChange} />
+          <textarea className="form-textarea" id="careInstructions" name="careInstructions" value={formData.careInstructions} onChange={handleChange} />
         </div>
 
         {/* <div className="form-group">
-          <label className="form-label" htmlFor="SKU">SKU:</label>
-          <input className="form-input" type="text" id="SKU" name="SKU" value={formData.SKU} onChange={handleChange} readOnly />
+          <label className="form-label" htmlFor="availability">Availability:</label>
+          <select className="form-select" id="availability" name="availability" value={formData.availability} onChange={handleChange}>
+            <option value="In Stock">In Stock</option>
+            <option value="Out of Stock">Out of Stock</option>
+          </select>
         </div> */}
 
         <div className="form-group">
-          <label className="form-label" htmlFor="image">Image:</label>
-          <input className="form-input" type="file" id="image" name="image" onChange={handleFileChange} />
+          <label className="form-label" htmlFor="image">Upload Image:</label>
+          <input
+            className="form-input"
+            type="file"
+            id="image"
+            name="image"
+            accept="image/*"
+            onChange={handleFileChange}
+            required
+          />
         </div>
 
         <button className="form-button" type="submit">Add Item</button>
       </form>
     </div>
   );
-
-
-  
 };
 
 export default AddItem;
