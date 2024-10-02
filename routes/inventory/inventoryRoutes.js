@@ -31,14 +31,30 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 // Route to add a new item
 router.post('/add', upload.single('image'), async (req, res) => {
   try {
-    const { name, category, description, price, discount, stock, size, color, material, careInstructions, availability,  SKU } = req.body;
-    
+    const { 
+      name, category, description, price, stock, size, color, material, 
+      careInstructions, availability, SKU, discountedPrice, isOnSale 
+    } = req.body;
+
     // File path of the uploaded image
-    const image = req.file.filename;
+    const image = req.file ? req.file.filename : null; // Check if image is uploaded
 
     // Create a new item instance
     const newItem = new Item({
-      name, category, description, price, discount, stock, size, color, material, careInstructions, availability,  SKU, image
+      name,
+      category,
+      description,
+      price,
+      discountedPrice:  null,  // Default to null if not provided
+      stock,
+      size,
+      color,
+      material,
+      careInstructions,
+      availability,
+      SKU,
+      image,
+      isOnSale:  null // Default to null if not provided
     });
 
     // Save the new item to the database
@@ -48,25 +64,54 @@ router.post('/add', upload.single('image'), async (req, res) => {
     res.json({ message: 'Item added successfully' });
   } catch (error) {
     // Handle errors
-    console.error('Error adding item:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error adding item:', error.message || error); // Display full error message
+    res.status(500).json({ error: 'Internal server error', details: error.message || 'Error details not available' });
   }
 });
+
+
+
+
+
+
 
 
 router.put('/update/:id', upload.single('image'), async (req, res) => {
   try {
     const itemId = req.params.id;
-    const updateData = req.body;
-    const image = req.file ? req.file.filename: undefined; // Update image if a new file is uploaded
+    const updateData = { ...req.body }; // Spread the incoming body
+    const image = req.file ? req.file.filename : undefined; // Update image if a new file is uploaded
 
     // Include image in updateData if it's provided
     if (image) {
       updateData.image = image;
     }
 
+    // Handle discountedPrice: convert to number or set to null
+    if (updateData.discountedPrice !== undefined && updateData.discountedPrice !== '') {
+      if (updateData.discountedPrice === "null") {
+        updateData.discountedPrice = null;
+      } else {
+        const discountedPrice = parseFloat(updateData.discountedPrice);
+        if (!isNaN(discountedPrice)) {
+          updateData.discountedPrice = discountedPrice;
+        } else {
+          return res.status(400).json({ error: 'Invalid discounted price' });
+        }
+      }
+    } else {
+      updateData.discountedPrice = null; // Set to null if not provided
+    }
+
+    // Handle isOnSale: convert to boolean or set to null
+    if (updateData.isOnSale !== undefined && updateData.isOnSale !== '') {
+      updateData.isOnSale = updateData.isOnSale === 'true'; // Convert string to boolean
+    } else {
+      updateData.isOnSale = null; // Set to null if not provided
+    }
+
     // Update the item in the database
-    const updatedItem = await Item.findByIdAndUpdate(itemId, updateData, { new: true });
+    const updatedItem = await Item.findByIdAndUpdate(itemId, updateData, { new: true, runValidators: true });
 
     if (!updatedItem) {
       return res.status(404).json({ error: 'Item not found' });
@@ -77,8 +122,9 @@ router.put('/update/:id', upload.single('image'), async (req, res) => {
     console.error('Error updating item:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-
 });
+
+
 
 
 

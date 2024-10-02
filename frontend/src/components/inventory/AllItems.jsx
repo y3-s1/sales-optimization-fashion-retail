@@ -212,7 +212,7 @@ export default function AllItems() {
                     <td className="item-table-data">{item.stock}</td>
                     <td className="item-table-data">{item.size}</td>
                     <td className="item-table-data">
-                    <Link to={`/InventoryDashboard/UpdateItem/${item._id}`}>
+                    <Link to={`/admin/inventory/${item._id}`}>
                         <button className="item-manager-update-btn">Update</button>
                     </Link>
                     </td>

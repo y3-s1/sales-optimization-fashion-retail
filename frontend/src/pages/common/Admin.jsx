@@ -4,6 +4,8 @@ import PriceOptimization from '../thilan/PriceOptimization'
 import CrmHome from '../sandeep/CrmHome'
 import AdminDashboard from './AdminDashboard'
 import InventoryDashboard from '../inventory/InventoryDashboard'
+import User_allItems from '../../components/inventory/User/User_allItems'
+import UpdateItem from '../../components/inventory/UpdateItem'
 import AdminTopNav from '../../components/common/AdminTopNav'
 
 function Admin() {
@@ -21,6 +23,8 @@ function Admin() {
                 <Route path="/priceOptimization/*" element={<PriceOptimization />}></Route>
                 <Route path="/customerRelationship/*" element={<CrmHome />}></Route>
                 <Route path="/inventory/*" element={<InventoryDashboard />}></Route>
+                
+                <Route path="/User/*" element={<User_allItems />}></Route>
             </Routes>
           </div>
         </div>
