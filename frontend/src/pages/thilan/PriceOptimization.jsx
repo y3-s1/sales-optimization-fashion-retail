@@ -134,6 +134,7 @@ function PriceOptimization() {
 
   return (
     <>
+    <br /><br />
       <div className="priceOptimization-allContent">
         <div className="priceOptimization-sideNavBar">
           <SideNavBar
