@@ -216,9 +216,9 @@ const predictNextMonthStock = async (req, res) => {
     const seasonallyAdjustedSales = averageSalesPerMonth * (seasonalTrends[nextMonthIndex] || 1);  // Apply seasonal adjustment
 
     // Predict stock for the next month: current stock - seasonally adjusted sales
-    //const predictedStock = Math.max(seasonallyAdjustedSales, currentStock - seasonallyAdjustedSales);   Ensure stock doesn't go negative
+    //const predictedStock = Math.max(50, currentStock - seasonallyAdjustedSales);   Ensure stock doesn't go negative
 
-    const predictedStock = seasonallyAdjustedSales;
+    const predictedStock = Math.max(25, seasonallyAdjustedSales);
 
     // Return the predicted stock for the next month
     res.status(200).json({
