@@ -1,18 +1,37 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'; // Import the Link component
 import '../../../../pages/sandeep/customerRelationship.css'; 
 import { AuthContext } from '../../../../context/AuthContext';
+import demandAxios from '../../../../BaseURL';
 
 function CusRewardSideBar() {
 
   const { user } = useContext(AuthContext);
+  const [points, setPoints] = useState(0); // State to store points
+
+  useEffect(() => {
+    // Function to fetch user points
+    const fetchUserPoints = async () => {
+      try {
+        if (user && user._id) { // Check if user and user._id exist
+          const response = await demandAxios.get(`/customer/getUserPoints/${user._id}`);
+          setPoints(response.data.points); // Update points from API response
+        }
+      } catch (error) {
+        console.error("Error fetching user points:", error);
+      }
+    };
+
+    fetchUserPoints(); // Fetch points when component mounts
+  }, [user]); // Rerun effect if the user changes
+
 
   return (
     <>
     {/* Sidebar section */}
     <div className="loyaltyCHome-sidebar">
     <div className="loyaltyCHome-pointsSection">
-        <h3 className="loyaltyCHome-points">{user.points}</h3>
+        <h3 className="loyaltyCHome-points">{points}</h3>
         <p className="loyaltyCHome-pointsName">POINTS</p>
         <p className="loyaltyCHome-tier">💎 Silver</p>
     </div>

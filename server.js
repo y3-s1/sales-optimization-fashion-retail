@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 dotenv.config();
 const app = express(); 
+const path = require('path');
 
 
 const PORT = process.env.PORT || 8070;
@@ -51,6 +52,8 @@ mongoose.connect(URL, {
 
 
 app.use(cookieParser());
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use("/customer", CustomerRouter);
 

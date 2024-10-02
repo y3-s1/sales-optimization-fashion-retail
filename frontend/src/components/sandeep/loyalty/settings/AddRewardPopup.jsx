@@ -4,9 +4,10 @@ function AddRewardPopup({ onClose, onSubmit }) {
   const [formData, setFormData] = useState({
     name: '',
     pointsRequired: '',
-    category: 'Discounts',
+    category: 'Percentage Discount',
     minPoints: 0,
     maxPoints: '',
+    discountValue: '',
     imageFile: null
   });
 
@@ -28,6 +29,17 @@ function AddRewardPopup({ onClose, onSubmit }) {
     rewardData.append('category', formData.category);
     rewardData.append('minPoints', formData.minPoints);
     rewardData.append('maxPoints', formData.maxPoints);
+
+    console.log(formData.category)
+    console.log(formData.pointsRequired)
+    console.log(formData.minPoints)
+    console.log(formData.maxPoints)
+    console.log(formData.name)
+    console.log(formData.discountValue)
+    console.log(formData.imageFile)
+    if (formData.discountValue) {
+      rewardData.append('discountValue', formData.discountValue);
+    }
     
     if (formData.imageFile) {
       rewardData.append('image', formData.imageFile);
@@ -55,9 +67,9 @@ function AddRewardPopup({ onClose, onSubmit }) {
           <div className="loyalty-add-c-form-group">
             <label>Category:</label>
             <select name="category" value={formData.category} onChange={handleChange} required>
-              <option value="Discounts">Discounts</option>
-              <option value="Free Shipping">Free Shipping</option>
-              <option value="Free Product">Free Product</option>
+            <option value="Percentage Discount">Percentage Discount</option> {/* Corrected */}
+            <option value="Flat Reduction">Flat Reduction</option> {/* Corrected */}
+            <option value="Free Shipping">Free Shipping</option>
             </select>
           </div>
 
@@ -71,6 +83,18 @@ function AddRewardPopup({ onClose, onSubmit }) {
               <label>Max Points:</label>
               <input type="number" name="maxPoints" value={formData.maxPoints} onChange={handleChange} required />
             </div>
+          </div>
+
+          <div className="loyalty-add-c-form-group">
+            <label>Discount Value:</label>
+            <input
+              type="number"
+              name="discountValue"
+              value={formData.discountValue}
+              onChange={handleChange}
+              placeholder="Enter discount value (e.g., percentage or flat amount)"
+              required
+            />
           </div>
 
           <div className="loyalty-add-c-form-group">

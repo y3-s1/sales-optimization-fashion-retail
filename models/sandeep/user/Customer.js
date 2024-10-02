@@ -32,6 +32,18 @@ const customerSchema = new mongoose.Schema(
       type: Number, 
       default: 0 
     },
+    redeemedRewards: [
+      {
+        rewardId: { 
+          type: mongoose.Types.ObjectId, 
+          ref: 'loyaltyRewards', // Assuming the rewards are stored in a 'Reward' model
+          required: true 
+        },
+        uniqueCode: { 
+          type: String, 
+          required: true 
+        }
+      }],
     isAdmin: {
       type: Boolean,
       default: false,

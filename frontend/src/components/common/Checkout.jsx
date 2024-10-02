@@ -16,6 +16,7 @@ function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState(''); // New state to track payment method
   const [address, setAddress] = useState(''); // New state for shipping address
   const [contactNumber, setContactNumber] = useState(''); // New state for contact number
+  const [promoCode, setPromoCode] = useState('')
   const { user } = useContext(AuthContext);
 
   const [cardNumber, setCardNumber] = useState('');
@@ -121,6 +122,34 @@ function Checkout() {
     // Proceed with placing the order for COD
     placeOrder();
   };
+
+  const applyPromoCode = async () => {
+    try {
+      const userId = user._id
+      const response = await demandAxios.post('/loyalty/apply-promo-code', { promoCode, userId });
+  
+      if (response.data.isValid) {
+        const { discountType, discountAmount } = response.data;
+        
+        // Apply the discount based on the discount type
+        if (discountType === 'percentage') {
+          // Calculate the percentage discount
+          const discountValue = (finalTotalPrice * discountAmount) / 100;
+          setFinalTotalPrice(finalTotalPrice - discountValue); // Apply percentage discount
+        } else if (discountType === 'flat') {
+          // Apply flat discount amount
+          setFinalTotalPrice(finalTotalPrice - discountAmount); // Apply flat discount
+        }
+  
+      } else {
+        alert('Invalid promo code');
+      }
+    } catch (error) {
+      console.error('Error applying promo code:', error);
+    }
+  };
+  
+  
 
   return (
     <div className="checkout-container">
@@ -289,8 +318,14 @@ function Checkout() {
         </div>
 
         <div className="discount-section">
-          <input type="text" placeholder="Discount code" className="discount-input" />
-          <button className="apply-btn">Apply</button>
+        <h4>Apply Promo Code</h4>
+          <input
+            type="text"
+            value={promoCode}
+            onChange={(e) => setPromoCode(e.target.value)}
+            placeholder="Enter promo code"
+          />
+          <button onClick={applyPromoCode} className="checkout-promo-btn">Apply Promo</button>
         </div>
 
         <div className="summary-totals">

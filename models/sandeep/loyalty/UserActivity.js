@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 // Schema for tracking user activity and engagement
 const UserActivitySchema = new mongoose.Schema({
   userId: { 
-    type: mongoose.Schema.Types.ObjectId, 
+    type: mongoose.Types.ObjectId, 
     required: true, 
-    ref: 'User' // assuming you have a User model
+    ref: 'customer' // assuming you have a User model
   },
   visitCount: { 
     type: Number, 

@@ -18,6 +18,7 @@ function AllfeedProducts() {
     const fetchProducts = async () => {
       try {
         const response = await demandAxios.get('/product/products');
+        console.log(response.data)
         setProducts(response.data);
         setLoading(false);
       } catch (err) {

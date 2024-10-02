@@ -4,6 +4,9 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { Box, Pagination, PaginationItem } from '@mui/material';
 import { useGridApiContext, useGridSelector, gridPageSelector, gridPageCountSelector } from '@mui/x-data-grid';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import demandAxios from '../../../BaseURL';
+import jsPDF from 'jspdf'; // Import jsPDF
+import 'jspdf-autotable'; // Import plugin for table formatting
 
 function CrmDashboard() {
   const [loyaltyCustomers, setLoyaltyCustomers] = useState(0);
@@ -12,45 +15,53 @@ function CrmDashboard() {
   const [pointsRedemptionRates, setPointsRedemptionRates] = useState([]);
   const [popularRewards, setPopularRewards] = useState([]);
   const [userEngagement, setUserEngagement] = useState([]);
+  const [topCustomers, setTopCustomers] = useState([]);
+  const [rewardsRedeemed, setRewardsRedeemed] = useState([]);
   const [pageSize, setPageSize] = useState(10);
 
   // Fetch dashboard analytics data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const response = await axios.get('/loyalty/analytics');
+        const response = await demandAxios.get('/loyalty/analytics');
 
-        const response = {
-          "loyaltyCustomers": 150,
-          "averageVisits": 6.2,
-          "averageSpend": 120.45,
-          "pointsRedemptionRates": [
-            { "reward": "$5.00 off entire sale", "redemptions": 80 },
-            { "reward": "$10.00 off any T-shirt", "redemptions": 60 },
-            { "reward": "$15.00 off any item in store", "redemptions": 45 },
-            { "reward": "Free shipping", "redemptions": 30 },
-            { "reward": "Buy 1 Get 1 Free", "redemptions": 20 }
-          ],
-          "popularRewards": [
-            "$5.00 off entire sale",
-            "$10.00 off any T-shirt",
-            "$15.00 off any item in store"
-          ],
-          "userEngagement": [
-            { "id": 1, "user": "John Doe", "logins": 10, "purchases": 4, "redemptions": 2 },
-            { "id": 2, "user": "Jane Smith", "logins": 8, "purchases": 3, "redemptions": 1 },
-            { "id": 3, "user": "Emily Davis", "logins": 6, "purchases": 2, "redemptions": 1 },
-            { "id": 4, "user": "Michael Lee", "logins": 12, "purchases": 5, "redemptions": 3 },
-            { "id": 5, "user": "Alice Johnson", "logins": 7, "purchases": 2, "redemptions": 1 }
-          ]
-        };
+        console.log(response.data)
+
+        // const response = {
+        //   "loyaltyCustomers": 150,
+        //   "averageVisits": 6.2,
+        //   "averageSpend": 120.45,
+        //   "pointsRedemptionRates": [
+        //     { "reward": "$5.00 off entire sale", "redemptions": 80 },
+        //     { "reward": "$10.00 off any T-shirt", "redemptions": 60 },
+        //     { "reward": "$15.00 off any item in store", "redemptions": 45 },
+        //     { "reward": "Free shipping", "redemptions": 30 },
+        //     { "reward": "Buy 1 Get 1 Free", "redemptions": 20 }
+        //   ],
+        //   "popularRewards": [
+        //     "$5.00 off entire sale",
+        //     "$10.00 off any T-shirt",
+        //     "$15.00 off any item in store"
+        //   ],
+        //   "userEngagement": [
+        //     { "id": 1, "user": "John Doe", "logins": 10, "purchases": 4, "redemptions": 2 },
+        //     { "id": 2, "user": "Jane Smith", "logins": 8, "purchases": 3, "redemptions": 1 },
+        //     { "id": 3, "user": "Emily Davis", "logins": 6, "purchases": 2, "redemptions": 1 },
+        //     { "id": 4, "user": "Michael Lee", "logins": 12, "purchases": 5, "redemptions": 3 },
+        //     { "id": 5, "user": "Alice Johnson", "logins": 7, "purchases": 2, "redemptions": 1 }
+        //   ]
+        // };
         
-        setLoyaltyCustomers(response.loyaltyCustomers);
-        setAverageVisits(response.averageVisits);
-        setAverageSpend(response.averageSpend);
-        setPointsRedemptionRates(response.pointsRedemptionRates);
-        setPopularRewards(response.popularRewards);
-        setUserEngagement(response.userEngagement);
+        setLoyaltyCustomers(response.data.loyaltyCustomers);
+        setAverageVisits(response.data.averageVisits);
+        setAverageSpend(response.data.averageSpend);
+        setPointsRedemptionRates(response.data.pointsRedemptionRates);
+        setPopularRewards(response.data.popularRewards);
+        setUserEngagement(response.data.userEngagement);
+        setTopCustomers(response.data.topCustomers);
+        setRewardsRedeemed(response.data.rewardsRedeemed);
+
+        console.log(pointsRedemptionRates)
       } catch (error) {
         console.error('Error fetching dashboard analytics:', error);
       }
@@ -58,6 +69,49 @@ function CrmDashboard() {
 
     fetchData();
   }, []);
+
+
+  // Function to generate PDF report
+  const generatePDFReport = () => {
+    const doc = new jsPDF();
+
+    // Add report title
+    doc.text('CRM Analytics Report', 14, 20);
+
+    // Loyalty Customers
+    doc.text(`Loyalty Customers: ${loyaltyCustomers}`, 14, 30);
+
+    // Average visits and spend
+    doc.text(`Average Visits: ${averageVisits}`, 14, 40);
+    doc.text(`Average Spend: ${averageSpend}`, 14, 50);
+
+    // Add table for top customers
+    doc.autoTable({
+      head: [['Customer Name', 'Total Spent', 'Visits']],
+      body: topCustomers.map(customer => [
+        customer.user, 
+        customer.totalSpent, 
+        customer.visits
+      ]),
+      startY: 60,
+      margin: { top: 50 }
+    });
+
+    // Add points redemption rates
+    doc.text('Points Redemption Rates', 14, doc.lastAutoTable.finalY + 20);
+    doc.autoTable({
+      head: [['Reward', 'Redemptions']],
+      body: pointsRedemptionRates.map(rate => [
+        rate.reward, 
+        rate.redemptions
+      ]),
+      startY: doc.lastAutoTable.finalY + 30
+    });
+
+    // Save the PDF
+    doc.save('CRM_Analytics_Report.pdf');
+  };
+
 
   const columns = [
     { field: 'user', headerName: 'User', flex: 1 },
@@ -92,6 +146,15 @@ function CrmDashboard() {
               <h1>{averageSpend}</h1>
             </div>
           </div>
+        </div>
+
+        {/* Generate Report Button */}
+        <div className="row mt-4">
+          <div className="col-md-12 text-center">
+            <button variant="contained" color="primary" onClick={generatePDFReport}>
+              Generate Report
+            </button>
+          </div> 
         </div>
 
         {/* Points Redemption Rates Bar Chart */}
@@ -157,42 +220,54 @@ function CrmDashboard() {
         </div>
         </div>
 
-         {/* Top Customers Section */}
         <div className="row mt-4">
-          <div className="col-md-6">
-            <h5>Top Customers</h5>
-            <div className="loyalty-card p-4">
-              <p className="text-muted">Not Available</p>
-              <a href="#" className="text-primary">All Loyalty Customers</a>
-            </div>
-          </div>
+      {/* Top Customers Section */}
+      <div className="col-md-6">
+        <h5>Top Customers</h5>
+        <div className="loyalty-card p-4">
+          {topCustomers.length > 0 ? (
+            <ul>
+              {topCustomers.map((customer, index) => (
+                <li key={index}>
+                  {customer.user} - Spent: {customer.totalSpent} - Visits: {customer.visits}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-muted">Not Available</p>
+          )}
+          <a href="#" className="text-primary">All Loyalty Customers</a>
+        </div>
+      </div>
 
-          {/* Rewards Redeemed Section */}
-          <div className="col-md-6">
-            <h5>Rewards Redeemed</h5>
-            <div className="loyalty-card p-4">
-              <table className="table">
-                <tbody>
-                  <tr>
-                    <td>$5.00 off entire sale</td>
-                    <td>0</td>
+      {/* Rewards Redeemed Section */}
+      <div className="col-md-6">
+        <h5>Rewards Redeemed</h5>
+        <div className="loyalty-card p-4">
+          <table className="table">
+            <tbody>
+              {rewardsRedeemed.length > 0 ? (
+                rewardsRedeemed.map((reward, index) => (
+                  <tr key={index}>
+                    <td>{reward.reward}</td>
+                    <td>{reward.redemptions}</td>
                   </tr>
-                  <tr>
-                    <td>$10.00 off any T-shirt</td>
-                    <td>0</td>
-                  </tr>
-                  <tr>
-                    <td>$15.00 off any item in store</td>
-                    <td>0</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Total</strong></td>
-                    <td>0</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2" className="text-muted">No Rewards Redeemed</td>
+                </tr>
+              )}
+              <tr>
+                <td><strong>Total</strong></td>
+                <td>
+                  {rewardsRedeemed.reduce((sum, reward) => sum + reward.redemptions, 0)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
         </div>
       </div>
     </>
