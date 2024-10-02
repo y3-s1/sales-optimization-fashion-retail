@@ -3,6 +3,7 @@ const bcrypt = require ('bcryptjs');
 const jwt  = require("jsonwebtoken");
 const Customer = require('../../../models/sandeep/user/Customer.js');
 const Manager = require('../../../models/sandeep/user/Manager.js');
+const { awardPoints } = require('../../../utils/loyalty.js');
 
 /*
 //Seller Login
@@ -87,7 +88,8 @@ router.route('/login').post(async (req, res) => {
           break;
       }
   
-  
+
+      await awardPoints(userDetails._id, 'login');
       res
         .cookie("access_token", token, {
             httpOnly: true,

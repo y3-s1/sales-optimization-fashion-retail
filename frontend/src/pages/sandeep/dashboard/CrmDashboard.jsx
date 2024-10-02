@@ -53,8 +53,8 @@ function CrmDashboard() {
         // };
         
         setLoyaltyCustomers(response.data.loyaltyCustomers);
-        setAverageVisits(response.data.averageVisits);
-        setAverageSpend(response.data.averageSpend);
+        setAverageVisits(response.data.averageVisits.toFixed(2));
+        setAverageSpend(response.data.averageSpend.toFixed(2));
         setPointsRedemptionRates(response.data.pointsRedemptionRates);
         setPopularRewards(response.data.popularRewards);
         setUserEngagement(response.data.userEngagement);
@@ -71,20 +71,30 @@ function CrmDashboard() {
   }, []);
 
 
-  // Function to generate PDF report
   const generatePDFReport = () => {
     const doc = new jsPDF();
-
-    // Add report title
-    doc.text('CRM Analytics Report', 14, 20);
-
+  
+    // Set font size for the title
+    doc.setFontSize(22); // Set the desired font size
+  
+    // Add report title centered
+    const title = 'CRM Analytics Report';
+    const titleWidth = doc.getTextWidth(title); // Get the width of the title text
+    const pageWidth = doc.internal.pageSize.getWidth(); // Get the page width
+    const x = (pageWidth - titleWidth) / 2; // Calculate the x coordinate for centering
+  
+    doc.text(title, x, 20); // Use the calculated x coordinate
+  
+    // Reset font size for the other texts
+    doc.setFontSize(12); // Set the font size back to default or desired size
+  
     // Loyalty Customers
     doc.text(`Loyalty Customers: ${loyaltyCustomers}`, 14, 30);
-
+  
     // Average visits and spend
     doc.text(`Average Visits: ${averageVisits}`, 14, 40);
     doc.text(`Average Spend: ${averageSpend}`, 14, 50);
-
+  
     // Add table for top customers
     doc.autoTable({
       head: [['Customer Name', 'Total Spent', 'Visits']],
@@ -96,7 +106,7 @@ function CrmDashboard() {
       startY: 60,
       margin: { top: 50 }
     });
-
+  
     // Add points redemption rates
     doc.text('Points Redemption Rates', 14, doc.lastAutoTable.finalY + 20);
     doc.autoTable({
@@ -107,10 +117,30 @@ function CrmDashboard() {
       ]),
       startY: doc.lastAutoTable.finalY + 30
     });
-
+  
     // Save the PDF
     doc.save('CRM_Analytics_Report.pdf');
   };
+  
+
+
+  const CustomXAxisTick = ({ x, y, payload }) => {
+    const  image  = payload.value;
+    console.log('Image',image)
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <foreignObject x={-15} y={0} width={50} height={50}>
+          <img
+            src={`http://localhost:8070${image}`}
+            alt="reward"
+            style={{ width: '40px', height: '40px' }}
+          />
+        </foreignObject>
+      </g>
+    );
+  };
+  
+  
 
 
   const columns = [
@@ -137,13 +167,13 @@ function CrmDashboard() {
           <div className="col-md-4">
             <div className="loyalty-card p-4 text-center">
               <h6>AVERAGE VISITS</h6>
-              <h1>{averageVisits}</h1>
+              <h1>{averageVisits?averageVisits:"0.00"}</h1>
             </div>
           </div>
           <div className="col-md-4">
             <div className="loyalty-card p-4 text-center">
               <h6>AVERAGE SPEND</h6>
-              <h1>{averageSpend}</h1>
+              <h1>{averageSpend?averageSpend:"0.00"}</h1>
             </div>
           </div>
         </div>
@@ -159,41 +189,56 @@ function CrmDashboard() {
 
         {/* Points Redemption Rates Bar Chart */}
         <div className="row mt-4">
-          <div className="col-md-6">
-            <h5>Points Redemption Rates</h5>
-            <div className="loyalty-card p-4">
-              {pointsRedemptionRates.length > 0 ? (
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={pointsRedemptionRates} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="reward" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="redemptions" fill="#8884d8" />
-                  </BarChart>
-                </ResponsiveContainer>
-              ) : (
-                <p>No data available</p>
-              )}
-            </div>
-          </div>
+        <div className="col-md-6">
+    <h5>Points Redemption Rates</h5>
+    <div className="loyalty-card p-4">
+      {pointsRedemptionRates.length > 0 ? (
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={pointsRedemptionRates} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis 
+              dataKey="image" 
+              tick={<CustomXAxisTick />} 
+              interval={0} // Ensure all ticks (images) are displayed
+            />
+            <YAxis />
+            <Tooltip />
+            <Legend 
+                verticalAlign="bottom"  // Move the legend to the bottom
+                align="center"          // Align the legend in the center
+                wrapperStyle={{ paddingTop: '25px' }} // Add padding between the chart and the legend
+              />
+            <Bar dataKey="redemptions" fill="#8884d8" />
+          </BarChart>
+        </ResponsiveContainer>
+      ) : (
+        <p>No data available</p>
+      )}
+    </div>
+  </div>
 
           {/* Most Popular Rewards Section */}
-          <div className="col-md-6">
-            <h5>Most Popular Rewards</h5>
-            <div className="loyalty-card p-4">
-              {popularRewards.length > 0 ? (
-                <ul>
-                  {popularRewards.map((reward, index) => (
-                    <li key={index}>{reward}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No data available</p>
-              )}
-            </div>
-          </div>
+<div className="col-md-6">
+  <h5>Most Popular Rewards</h5>
+  <div className="loyalty-card p-4">
+    {popularRewards.length > 0 ? (
+      <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
+        {popularRewards.map((reward, index) => (
+          <li key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+            <img 
+              src={`http://localhost:8070${reward.image}`} 
+              alt={reward.reward} 
+              style={{ width: '50px', height: '50px', marginRight: '10px' }}
+            />
+            <span>{reward.reward}</span>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>No data available</p>
+    )}
+  </div>
+</div>
 
           {/* User Engagement Section with MUI DataGrid */}
         <div className="row mt-4">

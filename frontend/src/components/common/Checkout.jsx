@@ -75,7 +75,7 @@ function Checkout() {
       // Navigate to success page or show success message
       if (response.status === 200) {
         alert('Order placed successfully!');
-        navigate('/order-success'); // Redirect to order success page (create this route)
+        navigate('/customer/AllFProducts'); // Redirect to order success page (create this route)
       }
     } catch (error) {
       console.error('Failed to place order', error);
