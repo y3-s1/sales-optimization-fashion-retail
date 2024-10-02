@@ -27,7 +27,6 @@ function Admin() {
             </Routes>
           </div>
         </div>
-      </div>
     </>
   )
 }
