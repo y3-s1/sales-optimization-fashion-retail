@@ -15,7 +15,7 @@ function AdminDashboard() {
         navigate('/admin/customerRelationship/customer/profile/addreview')
     }
     const handleHeaderButtonClick = () => {
-        navigate('../salescampaigns');  // Navigate to the route where Header component is rendered
+        navigate('../salescampaigns/allcampaigns');  // Navigate to the route where Header component is rendered
       };
       
 
