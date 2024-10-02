@@ -7,9 +7,7 @@ import Home from './pages/common/Home';
 import CrmHome from './pages/sandeep/CrmHome';
 import Customer from './pages/common/Customer';
 import Admin from './pages/common/Admin';
-
-
-//ishara
+import SingleItem from '././components/inventory/User/SingleItem';
 import Header from './pages/salecampaigns/Header';
 import AddCampaign from './pages/salecampaigns/AddCampaign';
 
@@ -26,6 +24,8 @@ function App() {
         <Route path="/customer/*" element={<Customer/>}></Route>
         <Route path="/admin/*" element={<Admin/>}></Route>
         <Route path="/InventoryDashboard/*" element={<InventoryDashboard />} />
+        
+        <Route path="/SingleItem/*" element={<SingleItem/>}></Route>
       </Routes>
     </BrowserRouter>
   );
