@@ -6,26 +6,10 @@ import SingleProductSalesChart from './singleProductSalesChart/SingleProductSale
 
 function SingleProduct({currentProduct}) {
 
-  const [product, setProduct] = useState({});
-
-  useEffect(() => {
-    fetchData();
-  }, [currentProduct]);
-
-  const fetchData = async () => {
-    try {
-      const res = await demandAxios.get(`api/demandAnalysis/product/${currentProduct}`);
-      setProduct(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-
   return (
     <div>
-      <SingleProductHeader currentProduct={product}></SingleProductHeader>
-      <SingleProductSalesChart currentProduct={product}></SingleProductSalesChart>
+      <SingleProductHeader currentProduct={currentProduct}></SingleProductHeader>
+      <SingleProductSalesChart currentProduct={currentProduct}></SingleProductSalesChart>
     </div>
   )
 }

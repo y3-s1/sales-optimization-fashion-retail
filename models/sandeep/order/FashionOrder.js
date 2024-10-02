@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 // const bcrypt = require('bcrypt');
 
 // Define the schema for Order
-const OrderSchema = new mongoose.Schema({
+const FashionOrderSchema = new mongoose.Schema({
     userId: {
         type: String,
         required: true
@@ -10,9 +10,9 @@ const OrderSchema = new mongoose.Schema({
     products: [
     {
         product: {
-        type: mongoose.Types.ObjectId,
-        ref: "Product",
-        required: true,
+            type: mongoose.Types.ObjectId,
+            ref: "Item",
+            required: true,
         },
         productName: String,
         quantity: Number,
@@ -27,7 +27,7 @@ const OrderSchema = new mongoose.Schema({
         type: String,
         required: true,
         enum: ["pending", "processing", "readyToDelivery" , "onDelivery" , "completed" , "cancelled"],
-        default: "pending",
+        default: "completed",
     },
     datePlaced: {
         type: Date,
@@ -55,6 +55,6 @@ const OrderSchema = new mongoose.Schema({
 //     next();
 // });
 // Create the Order model
-const OrderModel = mongoose.model('Order', OrderSchema);
+const FashionOrderModel = mongoose.model('FashionOrder', FashionOrderSchema);
 
-module.exports = OrderModel;
+module.exports = FashionOrderModel;

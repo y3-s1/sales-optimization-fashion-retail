@@ -6,7 +6,7 @@ function Home() {
   const navigate = useNavigate()
 
   const handlePriceOptimizationButtonClick = () => {
-    navigate('/admin/priceOptimization/demandAnalysis')
+    navigate('/admin/priceOptimization')
   }
   const handleCustomerRelationshipButtonClick = () => {
     navigate('/admin/customerRelationship/admin/crmDashboard')
