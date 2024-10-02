@@ -17,6 +17,9 @@ function Home() {
   const handleInventoryButtonClick = () => {
     navigate('/admin/inventory')
   }
+  const handleUserSearchButtonClick = () => {
+    navigate('/admin/User')
+  }
 
   return (
     <>
@@ -28,6 +31,8 @@ function Home() {
       <button onClick={handleCustomerRelationshipReviewButtonClick}>Customer relationship (Reviews)</button>
       <br />
       <button onClick={handleInventoryButtonClick}>Inventory</button>
+      <br />
+      <button onClick={handleUserSearchButtonClick}>User Search</button>
       <br />
     </>
   )
