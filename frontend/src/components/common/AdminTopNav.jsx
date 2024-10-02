@@ -26,7 +26,7 @@ const AdminTopNav = () => {
               <Typography
                 variant="h6"
                 component={Link}
-                to="/about"
+                to="/admin/inventory"
                 sx={{ textDecoration: 'none', color: 'black', mx: 2, fontSize: 16 }}
               >
                 Inventory
