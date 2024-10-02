@@ -133,8 +133,8 @@ const SaleItems = () => {
                         <h2 className="text-2xl font-semibold mb-2">{item.name}</h2>
                         <p className="text-gray-700 font-semibold">Category: {item.category}</p>
                         <p className="text-gray-900">Price:  Rs.{item.price.toFixed(2)}</p>
-                        {item.isOnSale && <p className="text-red-600 font-semibold">Discounted Price:  Rs.{item.discountedPrice.toFixed(2)}</p>}
-                        <p className="text-gray-600">Stock: {item.stock}</p>
+                        {item.isOnSale && <p className="text-red-800">Discounted Price:  Rs.{item.discountedPrice.toFixed(2)}</p>}
+                        <p className="text-gray-900">Stock: {item.stock}</p>
                     </div>
                 ))}
             </div>
