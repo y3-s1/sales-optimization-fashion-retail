@@ -131,9 +131,9 @@ const SaleItems = () => {
                 {filteredItems.map(item => (
                     <div key={item._id} className="bg-white shadow-md rounded-lg p-4 border border-gray-200 transition-transform transform hover:scale-105">
                         <h2 className="text-2xl font-semibold mb-2">{item.name}</h2>
-                        <p className="text-gray-700">Category: {item.category}</p>
-                        <p className="text-gray-900">Price: ${item.price.toFixed(2)}</p>
-                        {item.isOnSale && <p className="text-red-600 font-semibold">Discounted Price: ${item.discountedPrice.toFixed(2)}</p>}
+                        <p className="text-gray-700 font-semibold">Category: {item.category}</p>
+                        <p className="text-gray-900">Price:  Rs.{item.price.toFixed(2)}</p>
+                        {item.isOnSale && <p className="text-red-600 font-semibold">Discounted Price:  Rs.{item.discountedPrice.toFixed(2)}</p>}
                         <p className="text-gray-600">Stock: {item.stock}</p>
                     </div>
                 ))}
