@@ -1,5 +1,6 @@
 .fashion-retail-sidebar {
   position: fixed;
+  margin:50px auto;
   left: 0;
   top: 0;
   height: 100vh; /* Full height of the page */

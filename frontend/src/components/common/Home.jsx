@@ -20,6 +20,10 @@ function Home() {
   const handleUserSearchButtonClick = () => {
     navigate('/customer/User')
   }
+  const handleSingleItemButtonClick = () => {
+    navigate('/SingleItem')
+  }
+
 
   
 
@@ -35,6 +39,8 @@ function Home() {
       <button onClick={handleInventoryButtonClick}>Inventory</button>
       <br />
       <button onClick={handleUserSearchButtonClick}>User Search</button>
+      <br />
+      <button onClick={handleSingleItemButtonClick}>Single Item</button>
       <br />
     </>
   )
