@@ -24,21 +24,36 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-
 // Multer upload instance
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 // Route to add a new item
 router.post('/add', upload.single('image'), async (req, res) => {
   try {
-    const { name, category, description, price, discount, stock, size, color, material, careInstructions, availability,  SKU } = req.body;
-    
-    // File path of the uploaded image
-    const image = req.file.filename;
+    const { 
+      name, category, description, price, stock, size, color, material, 
+      careInstructions, availability, SKU
+    } = req.body;
 
-    // Create a new item instance
+    // File path of the uploaded image
+    const image = req.file ? req.file.filename : null; // Check if image is uploaded
+
+    // Create a new item instance with default values for isOnSale and discountedPrice
     const newItem = new Item({
-      name, category, description, price, discount, stock, size, color, material, careInstructions, availability,  SKU, image
+      name, 
+      category, 
+      description, 
+      price, 
+      stock, 
+      size, 
+      color, 
+      material, 
+      careInstructions, 
+      availability, 
+      SKU, 
+      image, 
+      isOnSale: false,  // Default isOnSale to false
+      discountedPrice: null  // Default discountedPrice to null
     });
 
     // Save the new item to the database
@@ -48,25 +63,49 @@ router.post('/add', upload.single('image'), async (req, res) => {
     res.json({ message: 'Item added successfully' });
   } catch (error) {
     // Handle errors
-    console.error('Error adding item:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error adding item:', error.message || error); // Display full error message
+    res.status(500).json({ error: 'Internal server error', details: error.message || 'Error details not available' });
   }
 });
 
 
+// Route to update an existing item
 router.put('/update/:id', upload.single('image'), async (req, res) => {
   try {
     const itemId = req.params.id;
     const updateData = req.body;
-    const image = req.file ? req.file.filename: undefined; // Update image if a new file is uploaded
+    const image = req.file ? req.file.filename : undefined; // Update image if a new file is uploaded
 
     // Include image in updateData if it's provided
     if (image) {
       updateData.image = image;
     }
 
+    // Handle discountedPrice: convert to number or set to null
+    if (updateData.discountedPrice !== undefined && updateData.discountedPrice !== '') {
+      if (updateData.discountedPrice === "null") {
+        updateData.discountedPrice = null;
+      } else {
+        const discountedPrice = parseFloat(updateData.discountedPrice);
+        if (!isNaN(discountedPrice)) {
+          updateData.discountedPrice = discountedPrice;
+        } else {
+          return res.status(400).json({ error: 'Invalid discounted price' });
+        }
+      }
+    } else {
+      updateData.discountedPrice = null; // Set to null if not provided
+    }
+
+    // Handle isOnSale: convert to boolean or set to null
+    if (updateData.isOnSale !== undefined && updateData.isOnSale !== '') {
+      updateData.isOnSale = updateData.isOnSale === 'true'; // Convert string to boolean
+    } else {
+      updateData.isOnSale = null; // Set to null if not provided
+    }
+
     // Update the item in the database
-    const updatedItem = await Item.findByIdAndUpdate(itemId, updateData, { new: true });
+    const updatedItem = await Item.findByIdAndUpdate(itemId, updateData, { new: true, runValidators: true });
 
     if (!updatedItem) {
       return res.status(404).json({ error: 'Item not found' });
@@ -77,10 +116,7 @@ router.put('/update/:id', upload.single('image'), async (req, res) => {
     console.error('Error updating item:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-
 });
-
-
 
 
 router.get('/', async (req, res) => {
@@ -93,8 +129,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-
-
+// Route to fetch a specific item by ID
 router.get('/:id', async (req, res) => {
   try {
     const itemId = req.params.id;
@@ -111,7 +146,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-
+// Route to delete an item by ID
 router.delete('/delete/:id', async (req, res) => {
   try {
     const itemId = req.params.id;
@@ -132,6 +167,18 @@ router.delete('/delete/:id', async (req, res) => {
 
 
 
+
+//for salecampaign use
+router.post("/getitemsbyids", async (req, res) => {
+  const { itemIds } = req.body;
+  try {
+    const items = await Item.find({ _id: { $in: itemIds } });
+    res.json(items);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json("Error fetching items by IDs");
+  }
+});
+
+
 module.exports = router;
-
-

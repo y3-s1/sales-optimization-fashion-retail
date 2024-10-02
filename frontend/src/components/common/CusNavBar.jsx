@@ -25,8 +25,18 @@ function CusNavBar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/about" activeClassName="cusNav-active">
+            <NavLink exact to="/customer/rewards" activeClassName="cusNav-active">
+              Rewards
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/customer/about" activeClassName="cusNav-active">
               About
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/customer/cart" activeClassName="cusNav-active">
+              Cart
             </NavLink>
           </li>
           {user ? (

@@ -36,11 +36,9 @@ const itemSchema = new mongoose.Schema({
         required: true,
         min: 0
     },
-    discount: {
+    discountedPrice: {
         type: Number,
         default: 0,
-        min: 0,
-        max: 100 // Discount is in percentage
     },
     stock: {
         type: Number,
@@ -92,12 +90,9 @@ const itemSchema = new mongoose.Schema({
             rating: { type: Number, min: 0, max: 5 }
         }
     ],
-  
-
-    
     isOnSale: {
         type: Boolean,
-        default: false
+        default: null
     },
     createdAt: {
         type: Date,

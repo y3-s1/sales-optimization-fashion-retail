@@ -8,6 +8,12 @@ import CrmHome from './pages/sandeep/CrmHome';
 import Customer from './pages/common/Customer';
 import Admin from './pages/common/Admin';
 
+
+//ishara
+import Header from './pages/salecampaigns/Header';
+import AddCampaign from './pages/salecampaigns/AddCampaign';
+
+
 import InventoryDashboard from "./pages/inventory/InventoryDashboard";
 
 function App() {

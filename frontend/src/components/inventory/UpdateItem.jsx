@@ -4,7 +4,7 @@ import axios from 'axios';
 import './updateItem.css'; // Add your CSS styling here
 
 const config = {
-  BASE_URL: 'http://localhost:8091',
+  BASE_URL: 'http://localhost:8070',
 };
 
 export default function UpdateItem() {
@@ -14,18 +14,13 @@ export default function UpdateItem() {
     name: '',
     description: '',
     category: '',
-    brand: '',
     size: '',
-    color: '',
+    color: '', // Initialize color
     price: 0,
-    discount: 0,
     stock: 0,
-    SKU: '',
     material: '',
     careInstructions: '',
-    availability: 'In Stock',
-    isOnSale: false,
-    image: null
+    image: '',
   });
   const [imagePreview, setImagePreview] = useState(''); // For image preview
   const [imageFile, setImageFile] = useState(null); // For the new image file
@@ -34,7 +29,18 @@ export default function UpdateItem() {
     axios.get(`${config.BASE_URL}/Item/${id}`)
       .then((res) => {
         const data = res.data;
-        setItemData(data);
+        setItemData({
+          name: data.name || '',  
+          description: data.description || '',
+          category: data.category || '',
+          size: data.size || '',
+          color: data.color || '', // Set the fetched color
+          price: data.price || 0,
+          stock: data.stock || 0,
+          material: data.material || '',
+          careInstructions: data.careInstructions || '',
+          image: data.image || '',
+        });
         if (data.image) {
           setImagePreview(`${config.BASE_URL}/uploads/${data.image}`); // Set image preview URL
         }
@@ -61,6 +67,15 @@ export default function UpdateItem() {
       setImagePreview(itemData.image ? `${config.BASE_URL}/uploads/${itemData.image}` : ''); // Reset to previous image if no file is selected
       setImageFile(null); // Reset image file
     }
+  };
+
+  const handleColorChange = (e) => {
+    const { value } = e.target;
+    setItemData((prevData) => ({
+      ...prevData,
+      color: value,
+      customColor: value === 'Other' ? prevData.customColor : '', // Reset custom color if not 'Other'
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -159,17 +174,6 @@ export default function UpdateItem() {
         </div>
 
         <div className="update-item-form-group">
-          <label className="form-label">Brand:</label>
-          <input
-            type="text"
-            name="brand"
-            value={itemData.brand}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </div>
-
-        <div className="update-item-form-group">
           <label className="form-label">Size:</label>
           <select
             name="size"
@@ -188,15 +192,38 @@ export default function UpdateItem() {
         </div>
 
         <div className="update-item-form-group">
-          <label className="form-label">Color:</label>
-          <input
-            type="text"
+          <label className="form-label" htmlFor="color">Color:</label>
+          <select
+            className="form-select"
+            id="color"
             name="color"
             value={itemData.color}
-            onChange={handleChange}
-            className="form-input"
+            onChange={handleColorChange}
             required
-          />
+          >
+            <option value="">Select Color</option>
+            <option value="Red">Red</option>
+            <option value="Green">Green</option>
+            <option value="Blue">Blue</option>
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Yellow">Yellow</option>
+            <option value="Purple">Purple</option>
+            <option value="Orange">Orange</option>
+            <option value="Pink">Pink</option>
+            <option value="Other">Other</option>
+          </select>
+          {itemData.color === 'Other' && (
+            <input
+              type="text"
+              id="customColor"
+              name="customColor"
+              placeholder="Enter custom color"
+              value={itemData.customColor}
+              onChange={(e) => setItemData({ ...itemData, customColor: e.target.value })}
+              className="form-input"
+            />
+          )}
         </div>
 
         <div className="update-item-form-group">
@@ -212,19 +239,6 @@ export default function UpdateItem() {
         </div>
 
         <div className="update-item-form-group">
-          <label className="form-label">Discount:</label>
-          <input
-            type="number"
-            name="discount"
-            value={itemData.discount}
-            onChange={handleChange}
-            className="form-input"
-            min="0"
-            max="100"
-          />
-        </div>
-
-        <div className="update-item-form-group">
           <label className="form-label">Stock:</label>
           <input
             type="number"
@@ -233,17 +247,6 @@ export default function UpdateItem() {
             onChange={handleChange}
             className="form-input"
             required
-          />
-        </div>
-
-        <div className="update-item-form-group">
-          <label className="form-label">SKU:</label>
-          <input
-            type="text"
-            name="SKU"
-            value={itemData.SKU}
-            onChange={handleChange}
-            className="form-input"
           />
         </div>
 
@@ -265,7 +268,6 @@ export default function UpdateItem() {
             <option value="Nylon">Nylon</option>
             <option value="Acrylic">Acrylic</option>
             <option value="Rayon">Rayon</option>
-            <option value="Spandex">Spandex</option>
             <option value="Other">Other</option>
           </select>
         </div>
@@ -277,31 +279,6 @@ export default function UpdateItem() {
             value={itemData.careInstructions}
             onChange={handleChange}
             className="form-textarea"
-          />
-        </div>
-
-        <div className="update-item-form-group">
-          <label className="form-label">Availability:</label>
-          <select
-            name="availability"
-            value={itemData.availability}
-            onChange={handleChange}
-            className="form-select"
-          >
-            <option value="In Stock">In Stock</option>
-            <option value="Out of Stock">Out of Stock</option>
-            <option value="Preorder">Preorder</option>
-          </select>
-        </div>
-
-        <div className="update-item-form-group">
-          <label className="form-label">On Sale:</label>
-          <input
-            type="checkbox"
-            name="isOnSale"
-            checked={itemData.isOnSale}
-            onChange={handleChange}
-            className="form-checkbox"
           />
         </div>
 
