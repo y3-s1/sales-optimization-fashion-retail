@@ -94,7 +94,9 @@ function Items({ searchQuery = '' }) {
 
   return (
     <div className="items-container">
-      <Sidebar onFilterChange={setFilters} />
+      <div className="Sidebar-holder">
+        <Sidebar onFilterChange={setFilters} />
+      </div>
       <div className="item-card-container">
         {currentItems.map((item, index) => (
           <div className="item-list-card" key={index}>
@@ -118,11 +120,12 @@ function Items({ searchQuery = '' }) {
                 <Link to={`/Item/${item._id}`}>
                   <button className="item-list-view-button">View Item</button>
                 </Link>
-                {/* Removed Add to Cart button */}
               </div>
             </div>
           </div>
         ))}
+        
+
       </div>
 
       <div className="pagination2">
