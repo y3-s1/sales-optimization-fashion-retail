@@ -1152,3 +1152,38 @@ p {
   font-size: 16px;
   margin-bottom: 10px;
 }
+
+
+/*admin All reviews*/
+
+
+.allreviews-container {
+  padding: 20px;
+}
+
+.allreviews-container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.allreviews-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.allreviews-container th, .allreviews-container td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.allreviews-container th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.allreviews-container img {
+  max-width: 100px;
+  max-height: 100px;
+  margin-right: 10px;
+}

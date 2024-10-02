@@ -5,6 +5,7 @@ const {
   getReviewsByProduct,
   getReviewsByUser,
   updateReview,
+  getAllReviews,
   deleteReview
 } = require('../../../controllers/sandeep/feedback/reviewsController');
 
@@ -13,6 +14,9 @@ router.post('/add', createReview);
 
 // GET: Fetch all reviews for a specific product
 router.get('/:productId', getReviewsByProduct);
+
+// GET: Fetch all reviews (Admin Route)
+router.get('/', getAllReviews); // New route for fetching all reviews
 
 // GET: Fetch all reviews for a specific user
 router.get('/user/:userId', getReviewsByUser);

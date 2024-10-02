@@ -74,6 +74,19 @@ exports.getReviewsByProduct = async (req, res) => {
   }
 };
 
+// Get all reviews for admin
+exports.getAllReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find().populate('productId', 'name').populate('userId', 'customer_name');
+    res.status(200).json(reviews);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching reviews', error });
+  }
+};
+
+
+
+
 // Get reviews by user ID
 exports.getReviewsByUser = async (req, res) => {
   const { userId } = req.params;
