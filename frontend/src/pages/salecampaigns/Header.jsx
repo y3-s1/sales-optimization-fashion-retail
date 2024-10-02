@@ -11,7 +11,7 @@ function Header() {
         <div>
         <nav className="bg-black p-4">
             <div className="container mx-auto flex justify-between items-center">
-                <a className="text-white text-xl font-bold" href="#">Your Logo</a>
+                <a className="text-white text-xl font-bold" href="#"></a>
                 <button className="text-white lg:hidden" type="button" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="material-icons">menu</span>
                 </button>

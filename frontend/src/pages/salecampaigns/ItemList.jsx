@@ -71,8 +71,8 @@ const ItemList = () => {
           {campaignItems.map(item => (
             <div key={item._id} className="bg-white p-4 rounded-lg shadow-md mb-4">
               <h4 className="text-lg font-semibold">{item.name}</h4>
-              <p>Original Price: ${item.price.toFixed(2)}</p>
-              <p>Discounted Price: ${item.discountedPrice.toFixed(2)}</p>
+              <p>Original Price: Rs.{item.price.toFixed(2)}</p>
+              <p>Discounted Price: Rs.{item.discountedPrice.toFixed(2)}</p>
               <button
                 onClick={() => handleRemoveItem(item._id)}
                 className="bg-red-500 text-white px-4 py-2 rounded mt-2"
