@@ -1,20 +1,12 @@
-// src/components/CampaignList.tsx
+// src/components/CampaignList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-interface Campaign {
-  _id: string;
-  campaignName: string;
-  discountPercentage: number;
-  startDate: string;
-  endDate: string;
-}
-
-const CampaignList: React.FC = () => {
-  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+const CampaignList = () => {
+  const [campaigns, setCampaigns] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchCampaigns();
@@ -24,21 +16,21 @@ const CampaignList: React.FC = () => {
     try {
       const response = await axios.get('http://localhost:8070/salescampaigns/allcampaigns');
       setCampaigns(response.data);
-    } catch (err: any) {
+    } catch (err) {
       setError(err?.response?.data?.message || err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDelete = async (campaignId: string) => {
+  const handleDelete = async (campaignId) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this campaign?');
     if (confirmDelete) {
       try {
         await axios.delete(`http://localhost:8070/salescampaigns/deletecampaign/${campaignId}`);
         alert('Campaign deleted successfully');
         fetchCampaigns(); // Refresh the campaign list after deletion
-      } catch (err: any) {
+      } catch (err) {
         setError(err?.response?.data?.message || 'Error deleting campaign');
       }
     }

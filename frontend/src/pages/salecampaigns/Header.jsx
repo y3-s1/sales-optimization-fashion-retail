@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import AddCampaign from "./AddCampaign";
+import CampaignList from "./CampaignList";
 
 function Header() {
     const navigate = useNavigate();
@@ -35,6 +36,7 @@ function Header() {
         
         <Routes>
             <Route path="/addcampaign/*" element={<AddCampaign />} />
+            <Route path="/allcampaigns/*" element={<CampaignList />} />
           </Routes>
 
         </div>
