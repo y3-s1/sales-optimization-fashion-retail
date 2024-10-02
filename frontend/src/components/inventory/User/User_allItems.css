@@ -1,11 +1,9 @@
-/* Container for the sidebar and items */
 .items-container {
     display: flex;
     position: relative; /* Position relative for absolute elements inside */
     padding-left: 250px; /* Leave space for the fixed sidebar */
     height: 100vh; /* Full height of the viewport */
 }
-/* 
 
 /* Items Container */
 .item-card-container {
@@ -19,6 +17,20 @@
     flex: 1; /* Allow this to take the remaining space */
     overflow-y: auto; /* Enable scrolling if necessary */
     margin-left: 10px; /* Optional: slight spacing from the sidebar */
+    position: relative; /* Position relative for child elements */
+}
+
+/* Search Bar */
+.search-bar {
+    position: absolute; /* Position absolute for placement */
+    top: 1rem; /* Adjust as necessary */
+    right: 1rem; /* Adjust as necessary */
+    
+    padding: 0.5rem 1rem; /* Padding for aesthetics */
+    border: 1px solid #ccc; /* Border for input */
+    border-radius: 5px; /* Rounded corners */
+    width: 200px; /* Width of the search bar */
+    font-size: 14px; /* Font size */
 }
 
 /* Item List Card */
@@ -124,18 +136,9 @@
     padding: 10px;
     margin: 0 5px;
     cursor: pointer;
-    font-size: 14px;
-    border-radius: 5px;
-}
-
-.pagination2 button:hover {
-    background-color: #007bff;
-    color: white;
 }
 
 .pagination2 button.active {
-    background-color: #285b1f;
+    background-color: #007bff;
     color: white;
-    border: none;
 }
-

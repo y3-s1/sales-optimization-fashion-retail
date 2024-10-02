@@ -10,10 +10,11 @@ const config = {
 
 const ITEMS_PER_PAGE = 9;
 
-function Items({ searchQuery = '' }) {
+function Items() {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchQuery, setSearchQuery] = useState('');
     const [filters, setFilters] = useState({
         priceRange: '',
         size: '',
@@ -83,6 +84,14 @@ function Items({ searchQuery = '' }) {
                 <Sidebar onFilterChange={setFilters} />
             </div>
             <div className="item-card-container">
+                {/* Search Bar */}
+                <input
+                    type="text"
+                    placeholder="Search by Name..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="search-bar"
+                />
                 {currentItems.map((item, index) => (
                     <div className="item-list-card" key={index}>
                         <div className="item-list-image">
@@ -102,7 +111,7 @@ function Items({ searchQuery = '' }) {
                             <div className="item-list-name">{item.name}</div>
                             <div className="item-list-price">Price: Rs. {item.price ? item.price.toFixed(2) : 'N/A'}</div>
                             <div className="item-list-add-to-cart-button-container">
-                                <Link to={`/admin/User/ItemDetails/${item._id}`}>
+                                <Link to={`/customer/User/${item._id}`}>
                                     <button className="item-list-view-button">View Item</button>
                                 </Link>
                             </div>
@@ -127,4 +136,4 @@ function Items({ searchQuery = '' }) {
     );
 }
 
-export default Items;
+export default Items; // Container for the sidebar and items

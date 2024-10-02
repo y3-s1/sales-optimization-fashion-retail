@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { FaPlus, FaMinus } from 'react-icons/fa';
-import { AuthContext } from '../../../context/AuthContext'; // Uncomment this line
+import { AuthContext } from '../../../context/AuthContext';
 import axios from 'axios';
-import './SingleItem.css'; // You may want to rename this file to reflect the new component name
-
+import './SingleItem.css';
 
 const config = {
     BASE_URL: 'http://localhost:8070'
 };
 
 function SingleItem() {
-    const { id } = useParams(); // Get the item id from the URL parameter
+    const { id } = useParams();
     const [loading, setLoading] = useState(true);
     const [item, setItem] = useState(null);
     const [quantity, setQuantity] = useState(1);
@@ -24,7 +23,8 @@ function SingleItem() {
         const fetchItemDetails = async () => {
             try {
                 const res = await axios.get(`${config.BASE_URL}/Item/${id}`);
-                setItem(res.data.item);
+                console.log('Fetched item:', res.data);
+                setItem(res.data);
             } catch (err) {
                 alert(err.message);
             } finally {
@@ -36,7 +36,6 @@ function SingleItem() {
     }, [id]);
 
     const incrementQuantity = () => setQuantity((prev) => prev + 1);
-
     const decrementQuantity = () => {
         if (quantity > 1) setQuantity((prev) => prev - 1);
     };
@@ -59,7 +58,11 @@ function SingleItem() {
         }
     };
 
-    if (loading) return <div className="loading-container">Loading...</div>;
+    if (loading) return <div className="loading-message">Loading...</div>;
+
+    if (!item) {
+        return <div className="error-message">Item not found.</div>;
+    }
 
     const handleQuantityChange = (event) => {
         const newQuantity = parseInt(event.target.value);
@@ -75,48 +78,52 @@ function SingleItem() {
 
     return (
         <>
-            
-            <div className="item-details-container">
-                <div className="item-image-container">
+            <div className="single-item-container">
+                <div className="single-item-image-container">
                     {item.image ? (
                         <img
                             src={item.image.startsWith('http') ? item.image : require(`../../../../../uploads/${item.image}`)}
                             alt={item.name}
-                            className="item-image"
+                            className="single-item-image"
                         />
                     ) : (
-                        <div className="no-image-available">No Image Available</div>
+                        <div className="no-image-message">No Image Available</div>
                     )}
                 </div>
-                <div className="item-details">
-                    <h2>{item.name}</h2>
-                    <p><strong>Category:</strong> {item.category}</p>
-                    <p><strong>Description:</strong> {item.description}</p>
-                    <p><strong>Price:</strong> Rs.{item.price}</p>
-                    <p><strong>Stock:</strong> {item.stock}</p>
-                    <p><strong>Size:</strong> {item.size}</p>
+                <div className="single-item-details">
+                    <h2 className="single-item-name">{item.name}</h2>
+                    <p className="single-item-category"><strong>Category:</strong> {item.category}</p>
+                    <p className="single-item-description"><strong>Description:</strong> {item.description}</p>
+                    <p className="single-item-price"><strong>Price:</strong> Rs.{item.price}</p>
+                    <p className="single-item-stock"><strong>Stock:</strong> {item.stock}</p>
+                    <p className="single-item-size"><strong>Size:</strong> {item.size}</p>
 
                     <div className="color-selection">
-                        <label>Select Color:</label>
-                        <select value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)}>
-                            {item.colors.map((color, index) => (
-                                <option key={index} value={color}>{color}</option>
-                            ))}
+                        <label htmlFor="color-select">Select Color:</label>
+                        <select id="color-select" value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)}>
+                            {item.colors && item.colors.length > 0 ? (
+                                item.colors.map((color, index) => (
+                                    <option key={index} value={color}>{color}</option>
+                                ))
+                            ) : (
+                                <option disabled>No colors available</option>
+                            )}
                         </select>
                     </div>
 
-                    <p><strong>Material:</strong> {item.material}</p>
-                    <p><strong>Care Instructions:</strong> {item.careInstructions}</p>
+                    <p className="single-item-material"><strong>Material:</strong> {item.material}</p>
+                    <p className="single-item-care-instructions"><strong>Care Instructions:</strong> {item.careInstructions}</p>
 
                     <div className="quantity-container">
-                        <button onClick={decrementQuantity} disabled={quantity === 1}><FaMinus /></button>
+                        <button className="quantity-button" onClick={decrementQuantity} disabled={quantity === 1}><FaMinus /></button>
                         <input
                             type="number"
                             value={quantity}
                             onChange={handleQuantityChange}
                             min="1"
+                            className="quantity-input"
                         />
-                        <button onClick={incrementQuantity}><FaPlus /></button>
+                        <button className="quantity-button" onClick={incrementQuantity}><FaPlus /></button>
                         {error && <span className="error-message">{error}</span>}
                     </div>
                     <button className="add-to-cart-button" onClick={addToCart}>
@@ -126,7 +133,7 @@ function SingleItem() {
             </div>
 
             <div className="item-detail-tabs">
-                <button onClick={() => handleTabChange("description")} className={activeTab === "description" ? "active" : ""}>
+                <button onClick={() => handleTabChange("description")} className={`tab-button ${activeTab === "description" ? "active-tab" : ""}`}>
                     Description
                 </button>
             </div>

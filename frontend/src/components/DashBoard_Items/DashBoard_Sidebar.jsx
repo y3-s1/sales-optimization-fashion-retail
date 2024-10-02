@@ -11,7 +11,7 @@ const FashionRetailDashboardSidebar = () => {
           <NavLink
             className="fashion-retail-sidebar-link"
             activeClassName="active1"
-            to={"/InventoryDashboard/"}
+            to={"/admin/inventory"}
             exact
           >
             <BsFillGridFill className="sidebar-icon1" /> All Items
@@ -21,12 +21,12 @@ const FashionRetailDashboardSidebar = () => {
           <NavLink
             className="fashion-retail-sidebar-link"
             activeClassName="active1"
-            to={"/InventoryDashboard/AddItem"}
+            to={"/admin/inventory/AddItem"}
           >
             <BsPlusCircleFill className="sidebar-icon1" /> Add Item
           </NavLink>
         </li>
-        <li className="fashion-retail-sidebar-item">
+        {/* <li className="fashion-retail-sidebar-item">
           <NavLink
             className="fashion-retail-sidebar-link"
             activeClassName="active1"
@@ -34,7 +34,7 @@ const FashionRetailDashboardSidebar = () => {
           >
             <BsListUl className="sidebar-icon1" /> Notifications
           </NavLink>
-        </li>
+        </li> */}
       </ul>
     </div>
   );
