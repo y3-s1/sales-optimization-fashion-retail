@@ -21,6 +21,8 @@ function Home() {
     navigate('/customer/User')
   }
 
+  
+
   return (
     <>
       <div>Home Component</div>

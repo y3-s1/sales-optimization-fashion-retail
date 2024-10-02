@@ -14,6 +14,10 @@ function AdminDashboard() {
     const handleCustomerRelationshipReviewButtonClick = () => {
         navigate('/admin/customerRelationship/customer/profile/addreview')
     }
+    const handleHeaderButtonClick = () => {
+        navigate('../salescampaigns');  // Navigate to the route where Header component is rendered
+      };
+      
 
   return (
     <div>
@@ -25,6 +29,8 @@ function AdminDashboard() {
         <button onClick={handleCustomerRelationshipButtonClick}>Customer relationship</button>
         <br />
         <button onClick={handleCustomerRelationshipReviewButtonClick}>Customer relationship (Reviews)</button>
+        <br />
+        <button onClick={handleHeaderButtonClick}>Sales Campaigns</button>
 
     </div>
   )

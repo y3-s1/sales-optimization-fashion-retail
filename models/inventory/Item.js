@@ -39,7 +39,6 @@ const itemSchema = new mongoose.Schema({
     discountedPrice: {
         type: Number,
         default: 0,
-       
     },
     stock: {
         type: Number,
