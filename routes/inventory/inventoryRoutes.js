@@ -119,6 +119,19 @@ router.put('/update/:id', upload.single('image'), async (req, res) => {
 });
 
 
+//ishara
+// Route to get sale items
+router.route("/getsaleitems").get((req, res) => {
+  Item.find({ isOnSale: true })  // Query to get only items where isOnSale is true
+      .then((items) => {
+          res.json(items);
+      })
+      .catch((err) => {
+          console.error("Error fetching sale items:", err);
+          res.status(500).json({ message: "Error fetching sale items", error: err.message });
+      });
+});
+
 router.get('/', async (req, res) => {
   try {
     const items = await Item.find();
@@ -179,6 +192,25 @@ router.post("/getitemsbyids", async (req, res) => {
     res.status(500).json("Error fetching items by IDs");
   }
 });
+
+
+
+
+// Route to get sale items
+router.route("/getsaleitems").get((req, res) => {
+  Item.find({ isOnSale: true })  // Query to get only items where isOnSale is true
+      .then((items) => {
+          res.json(items);
+      })
+      .catch((err) => {
+          console.error("Error fetching sale items:", err);
+          res.status(500).json({ message: "Error fetching sale items", error: err.message });
+      });
+});
+
+
+
+
 
 
 module.exports = router;

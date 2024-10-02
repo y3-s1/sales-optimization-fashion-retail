@@ -3,6 +3,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import AddCampaign from "./AddCampaign";
 import CampaignList from "./CampaignList";
 import ItemList from "./ItemList";
+import SaleItems from "./SaleItems";
 
 function Header() {
     const navigate = useNavigate();
@@ -28,8 +29,8 @@ function Header() {
                         </button>
                         <button 
                             className="text-white hover:text-blue-500 text-left" 
-                            onClick={() => navigate("/admin/salescampaigns/allitems")}>
-                            
+                            onClick={() => navigate("/admin/salescampaigns/saleitems")}>
+                            Sale Items
                         </button>
                     </div>
                 </div>
@@ -41,6 +42,7 @@ function Header() {
                     <Route path="/addcampaign/*" element={<AddCampaign />} />
                     <Route path="/allcampaigns/*" element={<CampaignList />} />
                     <Route path="/campaigns/:campaignId/items" element={<ItemList />} />
+                    <Route path="/saleitems/*" element={<SaleItems />} />
                 </Routes>
             </div>
         </div>
