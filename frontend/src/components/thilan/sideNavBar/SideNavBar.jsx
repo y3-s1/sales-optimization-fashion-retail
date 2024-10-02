@@ -14,9 +14,9 @@ function SideNavBar({ activeButton, setActiveButton }) {
 
   return (
     <div>
-      <div className="priceOptimization-sideNavBar-logo" onClick={handleLogoButtonClick}>
+      {/* <div className="priceOptimization-sideNavBar-logo" onClick={handleLogoButtonClick}>
         <img src={require("../../../image/logo.png")} alt="Logo" />
-      </div>
+      </div> */}
       <ul className="priceOptimization-sideNavBar-nav-list">
         <li>
           <button

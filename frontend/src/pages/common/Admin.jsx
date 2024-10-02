@@ -4,6 +4,7 @@ import PriceOptimization from '../thilan/PriceOptimization'
 import CrmHome from '../sandeep/CrmHome'
 import AdminDashboard from './AdminDashboard'
 import InventoryDashboard from '../inventory/InventoryDashboard'
+import AdminTopNav from '../../components/common/AdminTopNav'
 
 function Admin() {
 
@@ -12,6 +13,7 @@ function Admin() {
     <>
         <div className="admin-allContent">
           <div className="admin-header">
+            <AdminTopNav></AdminTopNav>
           </div>
           <div className="admin-pages">
             <Routes>
