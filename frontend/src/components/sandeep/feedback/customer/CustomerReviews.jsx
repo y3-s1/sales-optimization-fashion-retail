@@ -1,5 +1,4 @@
-import React, { useState,  useContext, useEffect } from 'react';
-import axios from 'axios'; // Import Axios
+import React, { useState, useContext, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './customerReviews.css'; // External CSS for styling
 import { AuthContext } from '../../../../context/AuthContext';
@@ -8,7 +7,7 @@ import demandAxios from '../../../../BaseURL';
 function CustomerReviews() {
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState('');
-  
+
   // Getting the user from the AuthContext
   const { user } = useContext(AuthContext);
 
@@ -21,10 +20,9 @@ function CustomerReviews() {
     const fetchCustomerReviews = async () => {
       try {
         // Make an API call to fetch reviews by user ID
-        console.log(user._id)
         const response = await demandAxios.get(`/reviews/user/` + user._id);
-        setReviews(response.data); // Set the fetched reviews in state
         console.log(response.data)
+        setReviews(response.data); // Set the fetched reviews in state
       } catch (err) {
         console.error('Error fetching reviews:', err);
         setError('Failed to fetch reviews. Please try again later.');
@@ -35,16 +33,12 @@ function CustomerReviews() {
   }, [user]);
 
   const handleEdit = (reviewId) => {
-    // Handle edit review logic here
     console.log(`Editing review with ID: ${reviewId}`);
-    // Redirect to edit form or show modal
   };
 
   const handleDelete = async (reviewId) => {
     try {
-      // Call the delete API to remove the review from the database
       await demandAxios.delete(`/reviews/delete/${reviewId}`);
-      // Remove the review from state after successful deletion
       setReviews(reviews.filter((review) => review._id !== reviewId));
     } catch (err) {
       console.error('Error deleting review:', err);
@@ -65,13 +59,27 @@ function CustomerReviews() {
           {reviews.map((review, index) => (
             <div key={index} className="customer-review-card">
               <h5 className="customer-review-product">
-                {review.productName} (Product ID: {review.productId})
+                {review.productId.name} (Product ID: {review.productId._id})
               </h5>
               <p className="customer-review-rating">Rating: {review.rating} / 5</p>
               <p className="customer-review-comment">"{review.comment}"</p>
               <p className="customer-review-date">
-                Reviewed on: {new Date(review.date).toLocaleDateString()}
+                Reviewed on: {new Date(review.createdAt).toLocaleDateString()}
               </p>
+
+              {/* Display images if available */}
+              {review.images && review.images.length > 0 && (
+                <div className="customer-review-images">
+                  {review.images.map((image, i) => (
+                    <img
+                      key={i}
+                      src={`http://localhost:8070${image}`} // Assuming the image is a URL
+                      alt={`Review Image ${i + 1}`}
+                      className="customer-review-image"
+                    />
+                  ))}
+                </div>
+              )}
 
               {/* Edit and Delete buttons */}
               <div className="customer-review-actions">

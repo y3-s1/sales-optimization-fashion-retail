@@ -65,11 +65,11 @@ function CrmNavBar() {
             </li>
             <li className="nav-item">
               <NavLink
-                to="/admin/content"
+                to="/admin/customerRelationship/admin/reviews"
                 className="nav-link crm-sidebar-link"
                 activeClassName="active"
               >
-                Content
+                Reviews
               </NavLink>
             </li>
             <li className="nav-item">

@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 dotenv.config();
 const app = express(); 
+const path = require('path');
 
 
 const PORT = process.env.PORT || 8070;
@@ -30,7 +31,10 @@ const CustomerRouter = require("./routes/sandeep/user/customer.js");
 const LoyaltyRouter = require("./routes/sandeep/loyalty/loyalty.js");
 const ReviewsRouter = require("./routes/sandeep/feedback/reviews.js");
 const OrderRouter = require("./routes/sandeep/order/orders.js");
-const authRouter = require('./routes/sandeep/user/auth.js')
+const authRouter = require('./routes/sandeep/user/auth.js');
+
+const ProductRouter = require('./routes/sandeep/products/products.js')
+const CartRouter = require('./routes/sandeep/order/cart.js')
 
 
 // Import and use routes
@@ -51,6 +55,8 @@ mongoose.connect(URL, {
 
 app.use(cookieParser());
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 app.use("/customer", CustomerRouter);
 
 app.use("/loyalty", LoyaltyRouter);
@@ -59,6 +65,9 @@ app.use("/order", OrderRouter);
 app.use("/authenti", authRouter);
 
 app.use("/Item", inventoryRouter);
+
+app.use("/product", ProductRouter);
+app.use("/cart", CartRouter);
 
 const connection = mongoose.connection;
 connection.once("open", ()=> {
