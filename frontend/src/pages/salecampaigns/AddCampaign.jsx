@@ -37,11 +37,17 @@ const AddCampaign = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     if (!selectedItems.length) {
       alert('Please select at least one item for the campaign');
       return;
     }
-
+  
+    if (!campaignName || !discountPercentage || !startDate || !endDate) {
+      alert('All fields are required');
+      return;
+    }
+  
     try {
       await axios.post('http://localhost:8070/salescampaigns/addcampaign', {
         campaignName,
@@ -50,13 +56,15 @@ const AddCampaign = () => {
         startDate,
         endDate
       });
-
+  
       alert('Campaign added successfully');
       window.location.reload(); // Refresh the page after adding a campaign
     } catch (err) {
-      setError(err.message);
+      console.error(err);  // Log the detailed error
+      alert('Error adding campaign: ' + err.response?.data || err.message);
     }
   };
+  
 
   if (loading) return <p>Loading items...</p>;
   if (error) return <p>Error: {error}</p>;

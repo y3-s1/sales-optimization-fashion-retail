@@ -50,7 +50,7 @@ const AddItem = () => {
 
     try {
       // Send the POST request to add the item
-      const response = await axios.post("http://localhost:8091/Item/add", formDataToSend, {
+      const response = await axios.post("http://localhost:8070/Item/add", formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

@@ -1,38 +1,59 @@
 const router = require("express").Router();
+const mongoose = require('mongoose');
 let Salecampaign = require("../../models/Salescampaign/Salecampaign"); //updated - ishara
 let Item = require("../../models/inventory/Item"); //updated - ishara
 
 // Insert new sale campaign
 router.route("/addcampaign").post(async (req, res) => {
     const { campaignName, items, discountPercentage, startDate, endDate } = req.body;
-  
+    
+    console.log(req.body);  // Log the request body to check the data
+    
     try {
-      const newSaleCampaign = new Salecampaign({
-        campaignName,
-        items,
-        discountPercentage: Number(discountPercentage),
-        startDate: new Date(startDate),
-        endDate: new Date(endDate),
-      });
-  
-      await newSaleCampaign.save();
-  
-      // Update the items: set isOnSale to true and set discounted price
-      for (let itemId of items) {
-        let item = await Item.findById(itemId);
-        if (item) {
-          item.discountedPrice = item.price * (1 - discountPercentage / 100);
-          item.isOnSale = true;
-          await item.save();
+        // Check if required fields are present
+        if (!campaignName || !items || !discountPercentage || !startDate || !endDate) {
+            return res.status(400).json("All fields are required");
         }
-      }
-  
-      res.json("Sale Campaign Added and items updated");
+
+        const newSaleCampaign = new Salecampaign({
+            campaignName,
+            items,
+            discountPercentage: Number(discountPercentage),
+            startDate: new Date(startDate),
+            endDate: new Date(endDate),
+        });
+
+        await newSaleCampaign.save();
+
+        // Update the items: set isOnSale to true and set discounted price
+        for (let itemId of items) {
+            // Validate each item ID before proceeding
+            if (!mongoose.Types.ObjectId.isValid(itemId)) {
+                console.log(`Invalid item ID: ${itemId}`);
+                return res.status(400).json(`Invalid item ID: ${itemId}`);
+            }
+        
+            try {
+                let item = await Item.findById(itemId);
+                if (item) {
+                    item.discountedPrice = item.price * (1 - discountPercentage / 100);
+                    item.isOnSale = true;
+                    await item.save();
+                }
+            } catch (itemErr) {
+                console.log(`Error updating item with ID ${itemId}:`, itemErr);
+                return res.status(500).json(`Error updating item with ID ${itemId}`);
+            }
+        }
+        
+
+        res.json("Sale Campaign Added and items updated");
     } catch (err) {
-      console.log(err);
-      res.status(500).json("Error adding sale campaign");
+        console.log(err);  // Log detailed error
+        res.status(500).json("Error adding sale campaign");
     }
-  });
+});
+
 
 
 
