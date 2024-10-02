@@ -96,7 +96,7 @@ export default function UpdateItem() {
         },
       });
       alert('Item updated successfully');
-      navigate('/InventoryDashboard');
+      navigate('/admin/inventory');
     } catch (err) {
       console.error('Error updating item:', err);
       alert('Failed to update item');

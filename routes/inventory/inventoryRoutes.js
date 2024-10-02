@@ -81,28 +81,28 @@ router.put('/update/:id', upload.single('image'), async (req, res) => {
       updateData.image = image;
     }
 
-    // Handle discountedPrice: convert to number or set to null
-    if (updateData.discountedPrice !== undefined && updateData.discountedPrice !== '') {
-      if (updateData.discountedPrice === "null") {
-        updateData.discountedPrice = null;
-      } else {
-        const discountedPrice = parseFloat(updateData.discountedPrice);
-        if (!isNaN(discountedPrice)) {
-          updateData.discountedPrice = discountedPrice;
-        } else {
-          return res.status(400).json({ error: 'Invalid discounted price' });
-        }
-      }
-    } else {
-      updateData.discountedPrice = null; // Set to null if not provided
-    }
+    // // Handle discountedPrice: convert to number or set to null
+    // if (updateData.discountedPrice !== undefined && updateData.discountedPrice !== '') {
+    //   if (updateData.discountedPrice === "null") {
+    //     updateData.discountedPrice = null;
+    //   } else {
+    //     const discountedPrice = parseFloat(updateData.discountedPrice);
+    //     if (!isNaN(discountedPrice)) {
+    //       updateData.discountedPrice = discountedPrice;
+    //     } else {
+    //       return res.status(400).json({ error: 'Invalid discounted price' });
+    //     }
+    //   }
+    // } else {
+    //   updateData.discountedPrice = null; // Set to null if not provided
+    // }
 
-    // Handle isOnSale: convert to boolean or set to null
-    if (updateData.isOnSale !== undefined && updateData.isOnSale !== '') {
-      updateData.isOnSale = updateData.isOnSale === 'true'; // Convert string to boolean
-    } else {
-      updateData.isOnSale = null; // Set to null if not provided
-    }
+    // // Handle isOnSale: convert to boolean or set to null
+    // if (updateData.isOnSale !== undefined && updateData.isOnSale !== '') {
+    //   updateData.isOnSale = updateData.isOnSale === 'true'; // Convert string to boolean
+    // } else {
+    //   updateData.isOnSale = null; // Set to null if not provided
+    // }
 
     // Update the item in the database
     const updatedItem = await Item.findByIdAndUpdate(itemId, updateData, { new: true, runValidators: true });

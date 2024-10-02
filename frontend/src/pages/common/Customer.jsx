@@ -10,6 +10,7 @@ import CustomerLoyaltyHomePage from '../sandeep/loyalty/rewards/CustomerLoyaltyH
 import User_allItems from '../../components/inventory/User/User_allItems'
 import CartPage from './CartPage'
 import CheckoutPage from './CheckoutPage'
+import SingleItem from '../../components/inventory/User/SingleItem'
 
 function Customer() {
   return (
@@ -25,7 +26,8 @@ function Customer() {
         <Route path="/AllFProducts/*" element={<AllProductsForFeed />}></Route>
         <Route path="/product/:id" element={<SingleFashionProduct />}></Route>
         <Route path="/User/*" element={<User_allItems />}></Route>
-    </Routes>
+        <Route path="/User/:id" element={<SingleItem />}></Route>
+      </Routes>
     </div>
     </>
   )
