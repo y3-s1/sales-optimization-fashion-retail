@@ -49,6 +49,8 @@
 .priceOptimization-sideNavBar-nav-item.active{
     background-color: #E0B50F;
     border-radius: 10px;
+    color: white;
+    font-weight: bold;
 }
 
 .demand-analysis-current-product-row {
