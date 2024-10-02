@@ -1,12 +1,13 @@
-// src/components/CampaignList.js
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate  } from 'react-router-dom';
 
 const CampaignList = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCampaigns();
@@ -50,11 +51,12 @@ const CampaignList = () => {
             <p><strong>Start Date:</strong> {new Date(campaign.startDate).toLocaleDateString()}</p>
             <p><strong>End Date:</strong> {new Date(campaign.endDate).toLocaleDateString()}</p>
             <div className="flex justify-between">
-              <Link to={`/campaigns/${campaign._id}/items`}>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded mt-4">
-                  View Items
-                </button>
-              </Link>
+            <button
+                className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+                onClick={() => navigate(`/admin/salescampaigns/campaigns/${campaign._id}/items`)}
+              >
+                View Items
+              </button>
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded mt-4"
                 onClick={() => handleDelete(campaign._id)}

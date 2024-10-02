@@ -105,6 +105,24 @@ router.route("/allcampaigns").get(async (req, res) => {
 
 
 
+
+// Fetch details of a specific sale campaign by ID, including items
+router.route("/campaigndetails/:id").get(async (req, res) => {
+    try {
+        const campaignId = req.params.id;
+        const campaign = await Salecampaign.findById(campaignId).populate('items'); // Populate items
+        if (!campaign) {
+            return res.status(404).json("Sale campaign not found");
+        }
+
+        res.json(campaign);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json("Error fetching sale campaign details");
+    }
+});
+
+
 // Add an item to a sale campaign
 router.put("/additem/:campaignId", async (req, res) => {
     try {
@@ -117,11 +135,15 @@ router.put("/additem/:campaignId", async (req, res) => {
             return res.status(400).json("Item already in the campaign");
         }
 
-        // Add item to campaign and update isOnSale to true
+        // Add item to campaign
         campaign.items.push(itemId);
         await campaign.save();
 
-        await Item.findByIdAndUpdate(itemId, { isOnSale: true });
+        // Update item: set isOnSale to true and calculate discounted price
+        const item = await Item.findById(itemId);
+        item.isOnSale = true;
+        item.discountedPrice = item.price * (1 - campaign.discountPercentage / 100);
+        await item.save();
 
         res.json("Item added to campaign and updated");
     } catch (err) {
@@ -141,31 +163,16 @@ router.put("/removeitem/:campaignId", async (req, res) => {
         campaign.items = campaign.items.filter(id => id.toString() !== itemId);
         await campaign.save();
 
-        // Update the item's isOnSale field to false
-        await Item.findByIdAndUpdate(itemId, { isOnSale: false });
+        // Update the item: set isOnSale to false and reset discounted price
+        const item = await Item.findById(itemId);
+        item.isOnSale = false;
+        item.discountedPrice = null;
+        await item.save();
 
         res.json("Item removed from campaign and updated");
     } catch (err) {
         console.log(err);
         res.status(500).json("Error removing item from campaign");
-    }
-});
-
-
-
-// Fetch details of a specific sale campaign by ID, including items
-router.route("/campaigndetails/:id").get(async (req, res) => {
-    try {
-        const campaignId = req.params.id;
-        const campaign = await Salecampaign.findById(campaignId).populate('items'); // Populate items
-        if (!campaign) {
-            return res.status(404).json("Sale campaign not found");
-        }
-
-        res.json(campaign);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json("Error fetching sale campaign details");
     }
 });
 
