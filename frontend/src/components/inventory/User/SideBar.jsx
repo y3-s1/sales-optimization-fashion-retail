@@ -13,7 +13,7 @@ const Sidebar = ({ onFilterChange }) => {
   };
 
   return (
-    <div className="sidebar">
+    <div className="sidebar3">
       <h2>Filters</h2>
       
       <div className="filter-section">

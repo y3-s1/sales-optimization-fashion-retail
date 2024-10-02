@@ -125,13 +125,13 @@
 }
 
 /* Pagination */
-.pagination {
+.pagination2 {
     display: flex;
     justify-content: center;
     margin-top: 20px;
 }
 
-.pagination button {
+.pagination2 button {
     background-color: #ddd;
     border: none;
     padding: 10px;
@@ -139,7 +139,7 @@
     cursor: pointer;
 }
 
-.pagination button.active {
+.pagination2 button.active {
     background-color: #285b1f;
     color: white;
 }

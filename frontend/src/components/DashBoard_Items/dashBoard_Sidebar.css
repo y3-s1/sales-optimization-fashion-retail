@@ -33,12 +33,12 @@
   color: #ffffff; /* Change text color on hover */
 }
 
-.sidebar-icon {
+.sidebar-icon1 {
   margin-right: 10px; /* Space between icon and text */
   font-size: 20px; /* Adjust icon size if needed */
 }
 
-.active {
+.active1 {
   background-color: #2980b9; /* Active state background */
   color: #ffffff; /* Active text color */
   font-weight: bold;

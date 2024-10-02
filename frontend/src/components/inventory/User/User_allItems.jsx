@@ -125,7 +125,7 @@ function Items({ searchQuery = '' }) {
         ))}
       </div>
 
-      <div className="pagination">
+      <div className="pagination2">
         {Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index}
