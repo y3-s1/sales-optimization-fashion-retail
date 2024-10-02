@@ -18,8 +18,14 @@ function Home() {
     navigate('/admin/inventory')
   }
   const handleUserSearchButtonClick = () => {
-    navigate('/admin/User')
+    navigate('/customer/User')
   }
+  const handleSingleItemButtonClick = () => {
+    navigate('/SingleItem')
+  }
+
+
+  
 
   return (
     <>
@@ -33,6 +39,8 @@ function Home() {
       <button onClick={handleInventoryButtonClick}>Inventory</button>
       <br />
       <button onClick={handleUserSearchButtonClick}>User Search</button>
+      <br />
+      <button onClick={handleSingleItemButtonClick}>Single Item</button>
       <br />
     </>
   )

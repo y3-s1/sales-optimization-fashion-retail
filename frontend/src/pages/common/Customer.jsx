@@ -7,8 +7,10 @@ import AllProductsForFeed from './AllProductsForFeed'
 import '../../pages/sandeep/customerRelationship.css'
 import SingleFashionProduct from './SingleFashionProduct'
 import CustomerLoyaltyHomePage from '../sandeep/loyalty/rewards/CustomerLoyaltyHomePage'
+import User_allItems from '../../components/inventory/User/User_allItems'
 import CartPage from './CartPage'
 import CheckoutPage from './CheckoutPage'
+import SingleItem from '../../components/inventory/User/SingleItem'
 
 function Customer() {
   return (
@@ -23,7 +25,9 @@ function Customer() {
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/AllFProducts/*" element={<AllProductsForFeed />}></Route>
         <Route path="/product/:id" element={<SingleFashionProduct />}></Route>
-    </Routes>
+        <Route path="/User/*" element={<User_allItems />}></Route>
+        <Route path="/User/:id" element={<SingleItem />}></Route>
+      </Routes>
     </div>
     </>
   )

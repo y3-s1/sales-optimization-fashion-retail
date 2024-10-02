@@ -15,6 +15,7 @@ function InventoryDashboard() {
         </div>
 
         <div className="dashboard-pages">
+          <br /><br />
           <Routes>
             <Route path="/" element={<AllItems />} />
             <Route path="/AddItem" element={<AddItem />} />
