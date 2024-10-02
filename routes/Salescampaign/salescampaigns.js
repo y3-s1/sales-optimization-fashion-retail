@@ -5,34 +5,34 @@ let Item = require("../../models/inventory/Item"); //updated - ishara
 // Insert new sale campaign
 router.route("/addcampaign").post(async (req, res) => {
     const { campaignName, items, discountPercentage, startDate, endDate } = req.body;
-
+  
     try {
-        const newSaleCampaign = new Salecampaign({
-            campaignName,
-            items,
-            discountPercentage: Number(discountPercentage),
-            startDate: new Date(startDate),
-            endDate: new Date(endDate),
-        });
-
-        await newSaleCampaign.save();
-
-        // Update the items: set isOnSale to true and set discounted price
-        for (let itemId of items) {
-            let item = await Item.findById(itemId);
-            if (item) {
-                item.discountedPrice = item.price * (1 - discountPercentage / 100); // Calculate discount
-                item.isOnSale = true;
-                await item.save();
-            }
+      const newSaleCampaign = new Salecampaign({
+        campaignName,
+        items,
+        discountPercentage: Number(discountPercentage),
+        startDate: new Date(startDate),
+        endDate: new Date(endDate),
+      });
+  
+      await newSaleCampaign.save();
+  
+      // Update the items: set isOnSale to true and set discounted price
+      for (let itemId of items) {
+        let item = await Item.findById(itemId);
+        if (item) {
+          item.discountedPrice = item.price * (1 - discountPercentage / 100);
+          item.isOnSale = true;
+          await item.save();
         }
-
-        res.json("Sale Campaign Added and items updated");
+      }
+  
+      res.json("Sale Campaign Added and items updated");
     } catch (err) {
-        console.log(err);
-        res.status(500).json("Error adding sale campaign");
+      console.log(err);
+      res.status(500).json("Error adding sale campaign");
     }
-});
+  });
 
 
 

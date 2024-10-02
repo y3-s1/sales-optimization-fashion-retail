@@ -18,6 +18,8 @@ function Home() {
     navigate('/admin/inventory')
   }
 
+  
+
   return (
     <>
       <div>Home Component</div>

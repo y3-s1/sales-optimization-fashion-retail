@@ -142,32 +142,15 @@ router.delete('/delete/:id', async (req, res) => {
 
 
 //for salecampaign use
-// Route to get items by an array of ObjectIds
-router.route("/getitemsbyids").post(async (req, res) => {
-  const { itemIds } = req.body; // Expect an array of item ObjectIds
-
+router.post("/getitemsbyids", async (req, res) => {
+  const { itemIds } = req.body;
   try {
-    const items = await Item.find({ _id: { $in: itemIds } }); // Fetch the items
+    const items = await Item.find({ _id: { $in: itemIds } });
     res.json(items);
   } catch (err) {
     console.log(err);
     res.status(500).json("Error fetching items by IDs");
   }
-});
-
-
-
-
-// Route to get all items
-router.route("/getitems").get((req, res) => {
-  Item.find()
-      .then((items) => {
-          res.json(items);  // Return all items in JSON format
-      })
-      .catch((err) => {
-          console.log(err);
-          res.status(500).json("Error fetching items");
-      });
 });
 
 
