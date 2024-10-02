@@ -8,6 +8,8 @@ function Header() {
     const navigate = useNavigate();
 
     return (
+        <div>
+            <br />
         <div className="flex">
             {/* Sidebar navigation */}
             <nav className="bg-black p-4 w-64 h-screen">
@@ -41,6 +43,7 @@ function Header() {
                     <Route path="/campaigns/:campaignId/items" element={<ItemList />} />
                 </Routes>
             </div>
+        </div>
         </div>
     );
 }
