@@ -6,42 +6,12 @@ import AnalysisChartForPrices from '../../../components/thilan/demandAnalysis/pr
 
 function Predictions({currentProduct, predictedPrice}) {
 
+  const [analyzingPrice, setAnalyzingPrice] = useState(predictedPrice);
 
-  // const [allProducts, setAllProducts] = useState({});
-
-  // useEffect(() => {
-  //   const fetchAllProductsData = async () => {
-  //     try {
-  //       const response = await demandAxios.get("api/demandAnalysis/allProducts");
-  //       const processedData = response.data.map(product => {
-  //         // Get the sales data
-  //         const sales = product.sales;
-
-  //         // Get the last and current month sales
-  //         const now = new Date();
-  //         const currentMonth = now.toLocaleString('default', { month: 'long' });
-  //         const lastMonth = new Date(now.setMonth(now.getMonth() - 1)).toLocaleString('default', { month: 'long' });
-
-  //         // Find this month's sales
-  //         const thisMonthSalesData = sales.find(sale => sale.month === currentMonth && sale.year === String(now.getFullYear()));
-  //         const lastMonthSalesData = sales.find(sale => sale.month === lastMonth && sale.year === String(now.getFullYear()));
-
-  //         return {
-  //           ...product,
-  //           lastMonth: lastMonthSalesData ? lastMonthSalesData.count : 'N/A',
-  //           lastMonthAvgPrice: lastMonthSalesData ? lastMonthSalesData.avgPrice : 'N/A',
-  //           thisMonth: thisMonthSalesData ? thisMonthSalesData.count : 'N/A',
-  //           thisMonthAvgPrice: thisMonthSalesData ? thisMonthSalesData.avgPrice : 'N/A',
-  //         };
-  //       });
-
-  //       setAllProducts(processedData);
-  //     } catch (error) {
-  //       console.error("Error fetching all products", error);
-  //     }
-  //   };
-  //   fetchAllProductsData();
-  // }, []);
+  // Update the analyzing price whenever the predicted price changes
+  useEffect(() => {
+    setAnalyzingPrice(predictedPrice);
+  }, [predictedPrice]);
 
   const boxStyle = {
     padding: "20px",
@@ -54,7 +24,7 @@ function Predictions({currentProduct, predictedPrice}) {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "100%",  // Make the div take up the full height of the box
+    height: "100%",
     fontSize: "4rem",
     fontWeight: "bold"
   };
@@ -107,13 +77,13 @@ function Predictions({currentProduct, predictedPrice}) {
             className="box1"
             style={{...boxStyle, gridColumn: "span 4", gridRow: "span 1" }}
           >
-            <PriceEnterForm currentProduct={currentProduct} predictedPrice={predictedPrice}></PriceEnterForm>
+            <PriceEnterForm currentProduct={currentProduct} predictedPrice={predictedPrice} analyzingPrice={analyzingPrice} setAnalyzingPrice={setAnalyzingPrice}></PriceEnterForm>
           </div>
           <div
             className="box1"
             style={{...boxStyle, gridColumn: "span 4", gridRow: "span 1" }}
           >
-            <AnalysisChartForPrices currentProduct={currentProduct}></AnalysisChartForPrices>
+            <AnalysisChartForPrices currentProduct={currentProduct} analyzingPrice={analyzingPrice}></AnalysisChartForPrices>
           </div>
         </div>
       </div>

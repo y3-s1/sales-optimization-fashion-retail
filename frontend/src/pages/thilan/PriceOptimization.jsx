@@ -7,14 +7,13 @@ import PriceUpdate from './priceUpdate/PriceUpdate';
 import demandAxios from '../../BaseURL';
 
 function PriceOptimization() {
-
   const page1 = useRef(null);
   const page2 = useRef(null);
   const page3 = useRef(null);
   const [activeButton, setActiveButton] = useState(1);
   const [currentProduct, setCurrentProduct] = useState({});
   const [currentProductId, setCurrentProductId] = useState("");
-  const [predictedPrice, setPredictedPrice] = useState("5490");
+  const [predictedPrice, setPredictedPrice] = useState("");  // State to store predicted price
   const [topDemandProducts, setTopDemandProducts] = useState([]);
   const [topDemandCategories, setTopDemandCategories] = useState([]);
 
@@ -48,9 +47,7 @@ function PriceOptimization() {
     fetchTopDemandProducts();  // Call the function to fetch top demand products
   }, []);  // Empty dependency array ensures this runs once when the component mounts
 
-
-
-  // Fetch top high-demand products
+  // Fetch top high-demand categories
   useEffect(() => {
     const fetchTopDemandCategories = async () => {
       try {
@@ -64,17 +61,29 @@ function PriceOptimization() {
     fetchTopDemandCategories();
   }, []);  // Empty dependency array ensures this runs once when the component mounts
 
-
+  // Fetch product data and predicted price when the currentProductId changes
   useEffect(() => {
-    fetchData();
+    if (currentProductId) {
+      fetchProductData();
+      fetchPredictedPrice();
+    }
   }, [currentProductId]);
 
-  const fetchData = async () => {
+  const fetchProductData = async () => {
     try {
       const res = await demandAxios.get(`api/demandAnalysis/product/${currentProductId}`);
       setCurrentProduct(res.data);
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching product data:", error);
+    }
+  };
+
+  const fetchPredictedPrice = async () => {
+    try {
+      const res = await demandAxios.get(`api/predictions/predictPrice/${currentProductId}`);
+      setPredictedPrice(res.data.predictedPrice);  // Save the predicted price in state
+    } catch (error) {
+      console.log("Error fetching predicted price:", error);
     }
   };
 
@@ -123,7 +132,6 @@ function PriceOptimization() {
     boxShadow: "0px 2px 10px 0px rgba(0, 0, 0, 0.10)",
   };
 
-
   return (
     <>
       <div className="priceOptimization-allContent">
@@ -134,7 +142,6 @@ function PriceOptimization() {
           />
         </div>
         <div className="priceOptimization-pages">
-
           <div ref={page1} id="demandAnalysis">
             <DemandAnalysis
               currentProduct={currentProduct}

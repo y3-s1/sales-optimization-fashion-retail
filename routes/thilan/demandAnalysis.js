@@ -36,6 +36,14 @@ router.get("/topHighDemandProducts", getTopHighDemandProducts);
 
 
 // Get top 4 high-demand categories
-router.get("/topHighDemandCategories", getTopHighDemandCategories);
+// router.get("/topHighDemandCategories", getTopHighDemandCategories);
+router.get("/topHighDemandCategories", async (req, res) => {
+    try {
+        const topCategories = await getTopHighDemandCategories();
+        res.status(200).json(topCategories);
+    } catch (error) {
+        res.status(500).json({ message: "Error calculating top categories", error: error.message });
+    }
+});
 
 module.exports = router;

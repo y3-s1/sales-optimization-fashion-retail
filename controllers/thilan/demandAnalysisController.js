@@ -340,7 +340,7 @@ const getTopHighDemandCategories = async (req, res) => {
       .sort((a, b) => b.demand - a.demand)
       .slice(0, 4);  // Get top 4 categories
 
-    res.status(200).json(top4Categories);
+    return top4Categories;
 
   } catch (error) {
     console.error(error);
