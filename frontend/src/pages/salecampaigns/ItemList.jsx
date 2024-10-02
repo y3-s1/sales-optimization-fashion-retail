@@ -68,22 +68,22 @@ const ItemList = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <h3 className="text-xl font-semibold mb-4">Campaign Items</h3>
-          {campaignItems.map(item => (
-            <div key={item._id} className="bg-white p-4 rounded-lg shadow-md mb-4">
-              <h4 className="text-lg font-semibold">{item.name}</h4>
-              <p>Original Price: Rs.{item.price.toFixed(2)}</p>
-              <p>Discounted Price: Rs.{item.discountedPrice.toFixed(2)}</p>
-              <button
-                onClick={() => handleRemoveItem(item._id)}
-                className="bg-red-500 text-white px-4 py-2 rounded mt-2"
-              >
-                Remove from Campaign
-              </button>
-            </div>
-          ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {campaignItems.map(item => (
+              <div key={item._id} className="bg-white p-4 rounded-lg shadow-md">
+                <h4 className="text-lg font-semibold">{item.name}</h4>
+                <p>Original Price: Rs.{item.price.toFixed(2)}</p>
+                <p>Discounted Price: Rs.{item.discountedPrice.toFixed(2)}</p>
+                <button
+                  onClick={() => handleRemoveItem(item._id)}
+                  className="bg-red-500 text-white px-4 py-2 rounded mt-2"
+                >
+                  Remove from Campaign
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
-        
-        
       </div>
     </div>
   );
