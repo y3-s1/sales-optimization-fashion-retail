@@ -20,7 +20,7 @@ function CusNavBar() {
             </NavLink>
           </li>
           <li>
-            <NavLink exact to="/customer/AllFProducts" activeClassName="cusNav-active">
+            <NavLink exact to="/customer/user" activeClassName="cusNav-active">
               Fashion
             </NavLink>
           </li>
