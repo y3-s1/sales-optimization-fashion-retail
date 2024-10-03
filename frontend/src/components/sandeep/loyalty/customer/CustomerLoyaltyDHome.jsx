@@ -6,6 +6,7 @@ import { AuthContext } from '../../../../context/AuthContext';
 function CustomerLoyaltyDHome({ customerPoints }) {
   const [rewards, setRewards] = useState([]); // Available rewards
   const [redeemedRewards, setRedeemedRewards] = useState([]); // Redeemed rewards
+  const [points, setPoints] = useState(0);
   const { user } = useContext(AuthContext); // Access user context and function to update user points
 
   // Fetch the rewards from the backend
@@ -13,28 +14,43 @@ function CustomerLoyaltyDHome({ customerPoints }) {
     async function fetchRewards() {
       try {
         const response = await demandAxios.get(`/loyalty/rewards/`); // Fetch available rewards
+        console.log(response.data)
         setRewards(response.data);
       } catch (error) {
         console.error('Error fetching rewards:', error);
       }
     }
-
     async function fetchRedeemedRewards() {
       try {
         const response = await demandAxios.get(`/loyalty/redeemed-rewards/${user._id}`); // Fetch redeemed rewards for the user
+        console.log(response.data)
         setRedeemedRewards(response.data);
       } catch (error) {
         console.error('Error fetching redeemed rewards:', error);
       }
     }
 
+    
+    async function fetchUserPoints() {
+      try {
+        if (user && user._id) { // Check if user and user._id exist
+          const response = await demandAxios.get(`/customer/getUserPoints/${user._id}`);
+          setPoints(response.data.points); // Update points from API response
+        }
+      } catch (error) {
+        console.error("Error fetching user points:", error);
+      }
+    }
+
+    
+    fetchUserPoints(); // Fetch points when component mounts
     fetchRewards();
     fetchRedeemedRewards(); // Fetch redeemed rewards when the component loads
   }, [user._id]);
 
   // Redeem reward and update user's points
   const redeemReward = async (reward) => {
-    if (reward.pointsRequired > user.points) return;
+    if (reward.pointsRequired > points) return;
 
     try {
       // Backend call to redeem the reward
@@ -76,14 +92,14 @@ function CustomerLoyaltyDHome({ customerPoints }) {
               {/* Display the redeem button */}
               <button
                 className={
-                  reward.pointsRequired > user.points
+                  reward.pointsRequired > points
                     ? 'loyaltyCHome-buttonDisabled'
                     : 'loyaltyCHome-buttonEnabled'
                 }
-                disabled={reward.pointsRequired > user.points}
+                disabled={reward.pointsRequired > points}
                 onClick={() => redeemReward(reward)}
               >
-                {reward.pointsRequired > user.points ? 'MORE POINTS NEEDED' : 'GET REWARD'}
+                {reward.pointsRequired > points ? 'MORE POINTS NEEDED' : 'GET REWARD'}
               </button>
             </div>
           ))}
@@ -95,7 +111,7 @@ function CustomerLoyaltyDHome({ customerPoints }) {
           {redeemedRewards.map((redeemedReward, index) => (
             <div key={index} className="loyaltyCHome-rewardCard">
               <img
-                src={`http://localhost:8070${redeemedReward.rewardId.imageUrl}`}
+                src={redeemedReward.rewardId.imageUrl?`http://localhost:8070${redeemedReward.rewardId.imageUrl}`: ''}
                 alt={redeemedReward.rewardId.name}
                 className="loyaltyCHome-rewardImage"
               />

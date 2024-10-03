@@ -56,38 +56,11 @@ function CrmNavBar() {
             </li>
             <li className="nav-item">
               <NavLink
-                to="/admin/dashboard"
-                className="nav-link crm-sidebar-link"
-                activeClassName="active"
-              >
-                Dashboard
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
                 to="/admin/customerRelationship/admin/reviews"
                 className="nav-link crm-sidebar-link"
                 activeClassName="active"
               >
                 Reviews
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/admin/analytics"
-                className="nav-link crm-sidebar-link"
-                activeClassName="active"
-              >
-                Analytics
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/admin/settings"
-                className="nav-link crm-sidebar-link"
-                activeClassName="active"
-              >
-                Settings
               </NavLink>
             </li>
           </ul>

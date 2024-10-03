@@ -6,33 +6,59 @@ import demandAxios from '../../../../BaseURL';
 import { AuthContext } from '../../../../context/AuthContext';
 
 function AddReviewForm() {
-  const [searchParams] = useSearchParams(); // Get the query params
-  const productId = searchParams.get('productId'); // Extract productId from the URL
+  const [searchParams] = useSearchParams();
+  const productId = searchParams.get('productId');
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
-  const [title, setTitle] = useState(''); // New state for the title
-  const [images, setImages] = useState([]); // State to store uploaded images
+  const [title, setTitle] = useState('');
+  const [images, setImages] = useState([]);
 
+  // State for validation
+  const [error, setError] = useState('');
   const { user } = useContext(AuthContext);
 
   const handleImageChange = (e) => {
-    setImages(e.target.files); // Store the selected files
+    setImages(e.target.files);
+  };
+
+  const validateForm = () => {
+    if (!title.trim()) {
+      setError('Title is required.');
+      return false;
+    }
+    if (!comment.trim()) {
+      setError('Comment is required.');
+      return false;
+    }
+    if (rating < 1 || rating > 5) {
+      setError('Rating must be between 1 and 5.');
+      return false;
+    }
+    if (images.length === 0) {
+      setError('At least one image is required.');
+      return false;
+    }
+    setError(''); // Clear error if all validations pass
+    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(); // Create a FormData object
-    formData.append('userId', user._id); // Replace with actual logged-in user ID
-    formData.append('productId', productId); // Use the productId from query params
+    if (!validateForm()) {
+      return; // Prevent form submission if validation fails
+    }
+
+    const formData = new FormData();
+    formData.append('userId', user._id);
+    formData.append('productId', productId);
     formData.append('rating', rating);
-    formData.append('title', title); // Include the title in the form data
+    formData.append('title', title);
     formData.append('comment', comment);
 
-    // Append each image to the FormData object
     if (images.length > 0) {
-      Array.from(images).forEach((image, index) => {
-        formData.append('images', image); // 'images' should match the field name expected by the backend
+      Array.from(images).forEach((image) => {
+        formData.append('images', image);
       });
     }
 
@@ -45,8 +71,8 @@ function AddReviewForm() {
       alert('Review submitted successfully!');
       setRating(5);
       setComment('');
-      setTitle(''); // Reset the title after submission
-      setImages([]); // Reset images after submission
+      setTitle('');
+      setImages([]);
     } catch (error) {
       console.error('Error submitting review', error);
     }
@@ -54,7 +80,7 @@ function AddReviewForm() {
 
   return (
     <form className="review-create-form p-4" onSubmit={handleSubmit} encType="multipart/form-data">
-      <h3 className="review-create-title mb-4">Write a Review for Product ID: {productId}</h3>
+      <h3 className="review-create-title mb-4">Write a Review</h3>
 
       {/* Rating Section */}
       <div className="form-group review-create-rating mb-3">
@@ -83,6 +109,7 @@ function AddReviewForm() {
           placeholder="Enter a title for your review"
           required
         />
+        {error && !title && <span className="text-danger">{error}</span>}
       </div>
 
       {/* Comment Section */}
@@ -95,6 +122,7 @@ function AddReviewForm() {
           onChange={(e) => setComment(e.target.value)}
           placeholder="Write your review here..."
         />
+        {error && !comment && <span className="text-danger">{error}</span>}
       </div>
 
       {/* Image Upload Section */}
@@ -105,8 +133,9 @@ function AddReviewForm() {
           className="form-control review-create-file-input"
           onChange={handleImageChange}
           multiple
-          accept="image/*" // Allow only image file types
+          accept="image/*"
         />
+        {error && images.length === 0 && <span className="text-danger">{error}</span>}
       </div>
 
       {/* Submit Button */}
