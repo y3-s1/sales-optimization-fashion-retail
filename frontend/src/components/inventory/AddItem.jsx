@@ -15,7 +15,6 @@ const AddItem = () => {
     customColor: "",
     material: "",
     careInstructions: "",
-    // availability: "In Stock",
     SKU: "",
     image: null,
   });
@@ -53,9 +52,32 @@ const AddItem = () => {
     }
   };
 
+  // Validate price and stock fields
+  const validateFields = () => {
+    const price = parseFloat(formData.price);
+    const stock = parseInt(formData.stock, 10);
+
+    if (isNaN(price) || price < 0) {
+      alert("Please enter a valid positive number for price.");
+      return false;
+    }
+
+    if (isNaN(stock) || stock < 0) {
+      alert("Please enter a valid positive integer for stock.");
+      return false;
+    }
+
+    return true;
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate price and stock
+    if (!validateFields()) {
+      return;
+    }
 
     // Set the color to custom color if "Other" was selected and a custom string is provided
     const finalColor = formData.color === "Other" && formData.customColor.trim() !== "" 
@@ -99,7 +121,6 @@ const AddItem = () => {
         customColor: "",
         material: "",
         careInstructions: "",
-        availability: "In Stock",
         SKU: "",
         image: null
       });
@@ -208,9 +229,6 @@ const AddItem = () => {
             <option value="Linen">Linen</option>
             <option value="Leather">Leather</option>
             <option value="Nylon">Nylon</option>
-            <option value="Acrylic">Acrylic</option>
-            <option value="Rayon">Rayon</option>
-            <option value="Spandex">Spandex</option>
             <option value="Other">Other</option>
           </select>
         </div>
@@ -220,25 +238,9 @@ const AddItem = () => {
           <textarea className="form-textarea" id="careInstructions" name="careInstructions" value={formData.careInstructions} onChange={handleChange} />
         </div>
 
-        {/* <div className="form-group">
-          <label className="form-label" htmlFor="availability">Availability:</label>
-          <select className="form-select" id="availability" name="availability" value={formData.availability} onChange={handleChange}>
-            <option value="In Stock">In Stock</option>
-            <option value="Out of Stock">Out of Stock</option>
-          </select>
-        </div> */}
-
         <div className="form-group">
-          <label className="form-label" htmlFor="image">Upload Image:</label>
-          <input
-            className="form-input"
-            type="file"
-            id="image"
-            name="image"
-            accept="image/*"
-            onChange={handleFileChange}
-            required
-          />
+          <label className="form-label" htmlFor="image">Image:</label>
+          <input className="form-input" type="file" id="image" name="image" onChange={handleFileChange} />
         </div>
 
         <button className="form-button" type="submit">Add Item</button>
