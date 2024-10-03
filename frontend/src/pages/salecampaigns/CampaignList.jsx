@@ -55,7 +55,7 @@ const CampaignList = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h2 className="text-3xl font-bold text-center mb-6 bg-opacity-30 backdrop-blur-md p-6 rounded-lg shadow-lg">Sale Campaigns</h2>
+      <h2 className="text-3xl font-bold text-center mb-6 bg-opacity-30 backdrop-blur-md p-6 rounded-lg shadow-md">Sale Campaigns</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {campaigns.map((campaign) => (
           <div

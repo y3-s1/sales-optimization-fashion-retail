@@ -63,17 +63,16 @@ const ItemList = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6">Items in {campaign?.campaignName}</h2>
+      <h2 className="text-3xl font-bold text-center mb-6 bg-opacity-30 backdrop-blur-md p-6 rounded-lg shadow-md">Items in {campaign?.campaignName}</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h3 className="text-xl font-semibold mb-4">Campaign Items</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {campaignItems.map(item => (
               <div key={item._id} className="bg-white p-4 rounded-lg shadow-md">
                 <h4 className="text-lg font-semibold">{item.name}</h4>
                 <p>Original Price: Rs.{item.price.toFixed(2)}</p>
-                <p>Discounted Price: Rs.{item.discountedPrice.toFixed(2)}</p>
+                <p className="text-red-800">Discounted Price: Rs.{item.discountedPrice.toFixed(2)}</p>
                 <button
                   onClick={() => handleRemoveItem(item._id)}
                   className="bg-red-500 text-white px-4 py-2 rounded mt-2"
