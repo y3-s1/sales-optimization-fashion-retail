@@ -57,14 +57,13 @@ const AdminTopNav = () => {
               </Typography>
             </Box>
             <Box display="flex" alignItems="center">
-              <Button
-                component={Link}
-                to="/"
-                variant="contained"
-                sx={{ bgcolor: '#283646', color: 'white', ml: 2, fontSize: 14}}
-              >
-                Logout
-              </Button>
+            <Button
+              variant="contained"
+              sx={{ bgcolor: '#283646', color: 'white', ml: 2, fontSize: 14 }}
+              onClick={() => window.location.href = '/'}
+            >
+              Logout
+            </Button>
             </Box>
           </Box>
         </Container>
