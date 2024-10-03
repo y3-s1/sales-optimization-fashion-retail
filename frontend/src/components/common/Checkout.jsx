@@ -16,7 +16,8 @@ function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState(''); // New state to track payment method
   const [address, setAddress] = useState(''); // New state for shipping address
   const [contactNumber, setContactNumber] = useState(''); // New state for contact number
-  const [promoCode, setPromoCode] = useState('')
+  const [promoCode, setPromoCode] = useState('');
+  const [redeemError, setRedeemError] = useState('');
   const { user } = useContext(AuthContext);
 
   const [cardNumber, setCardNumber] = useState('');
@@ -35,10 +36,18 @@ function Checkout() {
 
   // Apply redeem amount to reduce the total price
   const applyRedeem = () => {
+    const usedPoints = redeemAmount * pointsToLKR; // Calculate how many points would be used
+  
+    if (usedPoints > availablePoints) {
+      setRedeemError("You cannot redeem more points than you have available.");
+      return; // Exit the function early
+    }
+  
+    setRedeemError(''); // Clear any previous error
     setFinalTotalPrice(totalPrice - redeemAmount); // Update final total price after redeem
-    const usedPoints = redeemAmount * pointsToLKR; // Calculate how many points were used
     setAvailablePoints(availablePoints - usedPoints); // Deduct the points from user's balance
   };
+  
 
   useEffect(() => {
     // Update the available points when redeemAmount changes while sliding
@@ -300,22 +309,31 @@ function Checkout() {
         </div>
 
         <div className="redeem-section">
-          <p>Redeem Loyalty Credit</p>
-          <p>Use the slider to apply your available credit towards this purchase.</p>
-          <div className="redeem-display">
-            <span>{availablePoints.toFixed(0)} Points Available</span> {/* Display updated points dynamically */}
-            <span>Redeem for: <strong>{redeemAmount} LKR</strong></span>
-          </div>
-          <input
-            type="range"
-            min="0"
-            max={maxRedeemableAmount}
-            value={redeemAmount}
-            onChange={handleRedeemChange}
-            className="slider"
-          />
-          <button className="redeem-btn" onClick={applyRedeem}>Apply Redeem</button>
-        </div>
+  <p>Redeem Loyalty Credit</p>
+  <p>Use the slider to apply your available credit towards this purchase.</p>
+  <div className="redeem-display">
+    <span>{availablePoints.toFixed(0)} Points</span>
+    <span>Redeem for: <strong>{redeemAmount} LKR</strong></span>
+  </div>
+  <input
+    type="range"
+    min="0"
+    max={maxRedeemableAmount}
+    value={redeemAmount}
+    onChange={handleRedeemChange}
+    className="slider"
+  />
+  <button
+    className="redeem-btn"
+    onClick={applyRedeem}
+    disabled={redeemAmount > availablePoints * pointsToLKR} // Disable button conditionally
+  >
+    Apply Redeem
+  </button>
+  <br />
+  {redeemError && <span className="error-message">{redeemError}</span>} {/* Display error message */}
+</div>
+
 
         <div className="discount-section">
         <h4>Apply Promo Code</h4>

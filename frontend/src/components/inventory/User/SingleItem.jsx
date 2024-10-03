@@ -4,6 +4,8 @@ import { FaPlus, FaMinus } from 'react-icons/fa';
 import { AuthContext } from '../../../context/AuthContext';
 import axios from 'axios';
 import './SingleItem.css';
+import demandAxios from '../../../BaseURL';
+import ProductBaseReview from '../../sandeep/feedback/customer/product/ProductBaseReview';
 
 const config = {
     BASE_URL: 'http://localhost:8070'
@@ -17,6 +19,7 @@ function SingleItem() {
     const [selectedColor, setSelectedColor] = useState("");
     const [activeTab, setActiveTab] = useState("description");
     const [error, setError] = useState("");
+  const [cartMessage, setCartMessage] = useState(''); // State to hold success/error messages
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
@@ -40,23 +43,20 @@ function SingleItem() {
         if (quantity > 1) setQuantity((prev) => prev - 1);
     };
 
-    const addToCart = async () => {
-        if (!user) {
-            alert("Please login to add to cart");
-            return;
-        }
+    const addToCart = async (product) => {
         try {
-            await axios.post(`${config.BASE_URL}/Cart/add/${id}`, {
-                userId: user._id,
-                quantity,
-                price: item.price,
-                totalPrice: (quantity * item.price).toFixed(2),
+            console.log("product",user._id)
+            const response = await demandAxios.post(`/cart/add/${product._id}`, {
+              userId: user._id,
+              quantity: 1, // Default to 1 for now
+              price: product.price,
             });
-            alert("Added to Cart");
-        } catch (err) {
-            console.log(err);
-        }
-    };
+            console.log(response)
+            setCartMessage(`Added ${product.name} to cart!`);
+          } catch (err) {
+            setCartMessage(`Failed to add ${product.name} to cart`);
+          }
+        };
 
     if (loading) return <div className="loading-message">Loading...</div>;
 
@@ -79,6 +79,7 @@ function SingleItem() {
     return (
         <>
             <div className="single-item-container">
+            {cartMessage && <div className="cart-message">{cartMessage}</div>} {/* Display success/error messages */}
                 <div className="single-item-image-container">
                     {item.image ? (
                         <img
@@ -126,7 +127,7 @@ function SingleItem() {
                         <button className="quantity-button" onClick={incrementQuantity}><FaPlus /></button>
                         {error && <span className="error-message">{error}</span>}
                     </div>
-                    <button className="add-to-cart-button" onClick={addToCart}>
+                    <button className="add-to-cart-button"  onClick={() => addToCart(item)}>
                         Add to Cart
                     </button>
                 </div>
@@ -140,6 +141,8 @@ function SingleItem() {
             <div className="tab-content">
                 {activeTab === "description" && <p>{item.description}</p>}
             </div>
+
+            <ProductBaseReview productId={id}/>
         </>
     );
 }
