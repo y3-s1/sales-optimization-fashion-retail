@@ -1,0 +1,127 @@
+.all-items-container {
+    margin: 60px auto;
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    position: relative; /* Add relative positioning */
+  }
+  
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow cards to wrap to the next line */
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .card {
+    width: calc(20% - 5px); /* Adjust card width and spacing */
+    height: 120px; /* Adjusted height for the cards */
+    background-color: #375e96;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px; /* Add margin between cards */
+    position: relative;
+    color: #f2f2f2; /* White text color */
+  }
+  
+  .card.out-of-stock-card {
+    background-color: #e62f13; /* Red for out-of-stock card */
+  }
+  
+  .icon {
+    font-size: 24px;
+    color: #f2f2f2;
+  }
+  
+  .title {
+    margin-top: 20px;
+    color: #f2f2f2;
+  }
+  
+  .count {
+    margin-top: 5px;
+    color: #f2f2f2;
+  }
+  
+  /* .search-input {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  } */
+
+  .search-input {
+    margin-bottom: 10px;
+    padding: 8px;
+    width:300px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    float: right; /* Aligns the input to the right */
+  }
+  
+  
+  .item-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .item-table-header {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    background-color: #f2f2f2;
+  }
+  
+  .item-table-data {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .item-manager-update-btn {
+    padding: 0.5rem 1rem;
+    background-color: #375e96;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .item-manager-delete-btn {
+    padding: 0.5rem 1rem;
+    background-color: #e62f13;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .item-manager-update-btn:hover {
+    background-color: #254066;
+  }
+  
+  .item-manager-delete-btn:hover {
+    background-color: #4b110a;
+  }
+  
+  .report-generate-button {
+    background-color: #375e96; /* Dark color for button */
+    color: white;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px; /* Suitable border radius */
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .report-generate-button:hover {
+    background-color: #254066; /* Darker color on hover */
+  }
+  

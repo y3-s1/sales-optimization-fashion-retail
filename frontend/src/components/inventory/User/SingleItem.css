@@ -1,0 +1,137 @@
+.single-item-container {
+    display: flex; 
+    max-width: 1200px; 
+    margin: 20px auto; 
+    padding: 20px; 
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.single-item-image-container {
+    flex: 1; 
+    padding: 10px; 
+}
+
+.single-item-image {
+    max-width: 100%; 
+    border-radius: 8px; 
+}
+
+.no-image-message {
+    text-align: center; 
+    font-size: 1.2em; 
+    color: #777; 
+    padding: 50px; 
+    border: 1px dashed #ddd; 
+    border-radius: 8px; 
+}
+
+.single-item-details {
+    flex: 2; 
+    padding: 20px; 
+}
+
+.single-item-name {
+    font-size: 1.5em; 
+    color: #333; 
+}
+
+.single-item-category,
+.single-item-description,
+.single-item-price,
+.single-item-stock,
+.single-item-size,
+.single-item-material,
+.single-item-care-instructions {
+    margin: 10px 0; 
+}
+
+.color-selection {
+    margin: 15px 0; 
+}
+
+.quantity-container {
+    display: flex; 
+    align-items: center; 
+    margin: 15px 0; 
+}
+
+.quantity-button {
+    background-color: #f5f5f5; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    padding: 10px; 
+    cursor: pointer; 
+    transition: background-color 0.2s ease; 
+}
+
+.quantity-button:hover {
+    background-color: #eaeaea; 
+}
+
+.quantity-input {
+    width: 50px; 
+    text-align: center; 
+    margin: 0 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+}
+
+.add-to-cart-button {
+    background-color: #28a745; 
+    color: white; 
+    padding: 10px 15px; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    transition: background-color 0.2s ease; 
+}
+
+.add-to-cart-button:hover {
+    background-color: #218838; 
+}
+
+.item-detail-tabs {
+    margin-top: 20px; 
+    display: flex; 
+    justify-content: center; 
+}
+
+.tab-button {
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    padding: 10px 15px; 
+    margin: 0 5px; 
+    border-radius: 4px; 
+    transition: background-color 0.2s; 
+}
+
+.tab-button:hover {
+    background-color: #f0f0f0; 
+}
+
+.active-tab {
+    background-color: #ddd; 
+    font-weight: bold; 
+}
+
+.tab-content {
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    margin-top: 10px; 
+}
+
+.loading-message {
+    text-align: center; 
+    font-size: 1.5em; 
+    margin-top: 20px; 
+}
+
+.error-message {
+    color: red; 
+    font-weight: bold; 
+    text-align: center; 
+}

@@ -1,0 +1,53 @@
+.sidebar3 {
+    position: fixed; /* Fixed position to keep it at the left side */
+    top: 0;          /* Align the sidebar to the top of the page */
+    left: 0;   
+    margin:50px auto;      /* Stick the sidebar to the left corner */
+    width: 250px;    /* Define width for the sidebar */
+    height: 100%;    /* Make it span the full height of the screen */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-right: 1px solid #ddd;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Slight shadow for aesthetics */
+    z-index: 1000;   /* Ensure it's on top of other elements */
+    overflow-y: auto; /* Allow scrolling if the content overflows */
+}
+
+.filter-section {
+    margin-bottom: 10px;
+}
+
+.filter-section h3 {
+    margin-bottom: 5px;
+}
+
+.filter-section select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.sidebar3 h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.sidebar3 label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.sidebar3 select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+} 

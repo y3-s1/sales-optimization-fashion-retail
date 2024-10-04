@@ -1,0 +1,70 @@
+.review-create-form {
+  background-color: #fff; /* White background for a cleaner look */
+  border: 1px solid #ddd; /* Lighter border for a softer look */
+  border-radius: 10px; /* Slightly more rounded corners */
+  padding: 20px; /* Add more padding for breathing space */
+  max-width: 450px; /* Slightly smaller max-width for compact appearance */
+  margin: 30px auto; /* Add margin-top for space above the form */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.review-create-title {
+  font-size: 1.5rem; /* Slightly larger title for emphasis */
+  color: #333; /* Darker text for better readability */
+  margin-bottom: 20px; /* Add space below the title */
+  text-transform: uppercase; /* Make title uppercase for a stronger presence */
+}
+
+.review-create-label {
+  font-weight: 600; /* Slightly bolder label */
+  color: #555; /* Darker color for label text */
+  margin-bottom: 8px; /* Spacing below label for separation */
+  display: block; /* Ensure label occupies full width */
+}
+
+.review-create-select,
+.review-create-textarea {
+  border-radius: 5px; /* Add subtle rounding to inputs */
+  border-color: #ced4da; /* Use lighter border for a more cohesive look */
+  padding: 10px; /* Padding inside the inputs for better usability */
+  margin-bottom: 15px; /* Space between form elements */
+  transition: border-color 0.3s ease-in-out; /* Smooth border transition */
+}
+
+.review-create-select:hover,
+.review-create-textarea:focus {
+  border-color: #6d6d6d; /* Highlight inputs on focus or hover */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2); /* Slight shadow on focus */
+}
+
+.review-create-btn {
+  background-color: #ffffff; /* Darken button on hover */
+  color: #4a4a4a;
+  border: 2px solid #545454;
+  cursor: pointer;  /* Keep Bootstrap primary button color */
+  padding: 12px 20px; /* More padding for a larger button */
+  font-size: 1rem; /* Slightly larger font for readability */
+  text-transform: uppercase; /* Capitalized text for button */
+  letter-spacing: 0.05rem; /* Space out letters slightly */
+  transition: background-color 0.3s ease-in-out; /* Smooth hover transition */
+}
+
+.review-create-btn:hover {
+  background-color: #828282;
+  border: none;
+}
+
+
+.review-create-title-input {
+  margin-bottom: 15px;
+}
+
+.review-create-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+
